@@ -228,14 +228,14 @@ const SubjectForm = () => {
                                 <div className="space-y-2">
                                     <Label htmlFor="board">Board (Optional)</Label>
                                     <Select
-                                        value={formData.board}
-                                        onValueChange={(val) => handleSelectChange('board', val)}
+                                        value={formData.board || '__NONE__'}
+                                        onValueChange={(val) => handleSelectChange('board', val === '__NONE__' ? '' : val)}
                                     >
                                         <SelectTrigger>
                                             <SelectValue placeholder="All Boards (Common)" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="">All Boards (Common)</SelectItem>
+                                            <SelectItem value="__NONE__">All Boards (Common)</SelectItem>
                                             {(Array.isArray(boards) ? boards : []).map((b) => (
                                                 <SelectItem key={b.id} value={b.id.toString()}>{b.name || b.board_name}</SelectItem>
                                             ))}

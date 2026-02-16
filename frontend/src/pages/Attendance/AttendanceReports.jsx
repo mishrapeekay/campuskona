@@ -191,12 +191,12 @@ const AttendanceReports = () => {
 
                             <div className="space-y-2">
                                 <Label>Select Class</Label>
-                                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                                <Select value={selectedClass || '__ALL__'} onValueChange={(v) => setSelectedClass(v === '__ALL__' ? '' : v)}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="All Classes" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="">All Classes</SelectItem>
+                                        <SelectItem value="__ALL__">All Classes</SelectItem>
                                         {(Array.isArray(classes) ? classes : []).map(c => (
                                             <SelectItem key={c.id} value={c.id.toString()}>{c.name}</SelectItem>
                                         ))}
@@ -207,15 +207,15 @@ const AttendanceReports = () => {
                             <div className="space-y-2">
                                 <Label>Select Section</Label>
                                 <Select
-                                    value={selectedSection}
-                                    onValueChange={setSelectedSection}
+                                    value={selectedSection || '__ALL__'}
+                                    onValueChange={(v) => setSelectedSection(v === '__ALL__' ? '' : v)}
                                     disabled={!selectedClass}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="All Sections" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="">All Sections</SelectItem>
+                                        <SelectItem value="__ALL__">All Sections</SelectItem>
                                         {(Array.isArray(sections) ? sections : []).map(s => (
                                             <SelectItem key={s.id} value={s.id.toString()}>{s.name}</SelectItem>
                                         ))}

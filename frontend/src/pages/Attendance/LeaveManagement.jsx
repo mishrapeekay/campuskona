@@ -45,7 +45,9 @@ const STATUS_BADGES = {
 
 const LeaveManagement = () => {
     const dispatch = useDispatch();
-    const { leaves, loading } = useSelector((state) => state.attendance);
+    const { leaves: leavesState } = useSelector((state) => state.attendance);
+    const leaves = leavesState?.data ?? [];
+    const loading = leavesState?.loading ?? false;
     const [showApprovalModal, setShowApprovalModal] = useState(false);
     const [selectedLeave, setSelectedLeave] = useState(null);
     const [approvalAction, setApprovalAction] = useState(null);
