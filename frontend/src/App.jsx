@@ -29,7 +29,7 @@ import AchievementsLocker from './pages/Student/AchievementsLocker';
 import { MarkAttendance, LeaveManagement, AttendanceReports } from './pages/Attendance';
 
 // Staff Pages
-import { StaffList, StaffDetail, StaffForm } from './pages/Staff';
+import { StaffList, StaffDetail, StaffForm, StaffBulkUpload } from './pages/Staff';
 
 // Academics Pages
 import { AcademicsOverview, AcademicYearsList, AcademicYearForm, ClassesList, ClassForm, SubjectsList, SubjectForm } from './pages/Academics';
@@ -160,6 +160,8 @@ function App() {
           {/* Staff Routes */}
           <Route path="/staff" element={<ProtectedRoute><StaffList /></ProtectedRoute>} />
           <Route path="/staff/new" element={<ProtectedRoute><StaffForm /></ProtectedRoute>} />
+          <Route path="/staff/bulk-upload" element={<ProtectedRoute><StaffBulkUpload /></ProtectedRoute>} />
+          <Route path="/staff/departments" element={<ProtectedRoute><DepartmentList /></ProtectedRoute>} />
           <Route path="/staff/:id" element={<ProtectedRoute><StaffDetail /></ProtectedRoute>} />
           <Route path="/staff/:id/edit" element={<ProtectedRoute><StaffForm /></ProtectedRoute>} />
 
