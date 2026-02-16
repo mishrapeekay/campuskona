@@ -17,7 +17,8 @@ import { fetchNotices } from '../../store/slices/communicationSlice';
 const FrontDeskDashboard = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
-    const { notices, loading: noticesLoading } = useSelector((state) => state.communication);
+    const { notices } = useSelector((state) => state.communication);
+    const noticesLoading = notices?.loading ?? false;
 
     const [stats, setStats] = useState(null);
     const [statsLoading, setStatsLoading] = useState(true);
