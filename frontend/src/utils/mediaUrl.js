@@ -32,8 +32,10 @@ const getApiOrigin = () => {
 
 export const getMediaUrl = (path) => {
   if (!path) return null;
-  // Already a full URL (http/https/blob)
-  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('blob:')) {
+  // Only process string paths — ignore File objects or anything non-string
+  if (typeof path !== 'string') return null;
+  // Already a full URL (http/https/blob/data)
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('blob:') || path.startsWith('data:')) {
     return path;
   }
   const origin = getApiOrigin();
