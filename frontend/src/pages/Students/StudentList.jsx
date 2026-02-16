@@ -51,6 +51,7 @@ import {
 } from 'lucide-react';
 import { exportStudents } from '../../utils/export';
 import showToast from '../../utils/toast';
+import { getMediaUrl } from '@/utils/mediaUrl';
 
 /**
  * Student List Page - Main student management interface
@@ -261,7 +262,7 @@ const StudentList = () => {
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center">
                                                         {student.photo ? (
-                                                            <img src={student.photo} alt="" className="h-8 w-8 rounded-full mr-3 object-cover border border-border" />
+                                                            <img src={getMediaUrl(student.photo)} alt="" className="h-8 w-8 rounded-full mr-3 object-cover border border-border" />
                                                         ) : (
                                                             <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 border border-primary/20">
                                                                 <span className="text-primary font-medium text-xs">

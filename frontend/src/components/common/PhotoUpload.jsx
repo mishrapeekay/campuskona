@@ -2,13 +2,14 @@ import React, { useState, useRef } from 'react';
 import { Upload, X, User, Camera } from 'lucide-react';
 import Button from './Button';
 import showToast from '../../utils/toast';
+import { getMediaUrl } from '../../utils/mediaUrl';
 
 /**
  * PhotoUpload Component
  * Handles photo upload with preview
  */
 const PhotoUpload = ({ value, onChange, name, label = 'Photo', error }) => {
-    const [preview, setPreview] = useState(value || null);
+    const [preview, setPreview] = useState(value ? getMediaUrl(value) : null);
     const fileInputRef = useRef(null);
 
     const handleFileSelect = (e) => {

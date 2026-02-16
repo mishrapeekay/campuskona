@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/ui/
 import { Button } from '@/ui/primitives/button';
 import { Badge } from '@/ui/primitives/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/primitives/avatar';
+import { getMediaUrl } from '@/utils/mediaUrl';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/ui/primitives/tabs';
 import { Separator } from '@/ui/primitives/separator';
 import {
@@ -128,7 +129,7 @@ const StaffDetail = () => {
                         <Card>
                             <CardContent className="pt-6 flex flex-col items-center text-center">
                                 <Avatar className="h-32 w-32 border-4 border-background shadow-xl mb-4">
-                                    <AvatarImage src={staff.photo} alt={staff.full_name} />
+                                    <AvatarImage src={getMediaUrl(staff.photo)} alt={staff.full_name} />
                                     <AvatarFallback className="text-4xl bg-primary/10 text-primary">
                                         {staff.first_name?.charAt(0)}
                                     </AvatarFallback>

@@ -36,6 +36,7 @@ import DocumentManager from '../../components/Students/DocumentManager';
 import HealthRecordsManager from '../../components/Students/HealthRecordsManager';
 import NotesManager from '../../components/Students/NotesManager';
 import { printPage } from '../../utils/export';
+import { getMediaUrl } from '@/utils/mediaUrl';
 
 /**
  * Student Detail Page - View complete student information
@@ -203,7 +204,7 @@ const StudentDetail = () => {
                                     <div className="w-32 h-32 rounded-full border-4 border-background shadow-lg overflow-hidden bg-muted mb-4 relative">
                                         {student.photo ? (
                                             <img
-                                                src={student.photo}
+                                                src={getMediaUrl(student.photo)}
                                                 alt={student.full_name}
                                                 className="w-full h-full object-cover"
                                             />

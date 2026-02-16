@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/ui/
 import { Button } from '@/ui/primitives/button';
 import { Badge } from '@/ui/primitives/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/primitives/avatar';
+import { getMediaUrl } from '@/utils/mediaUrl';
 import {
     Dialog,
     DialogContent,
@@ -196,7 +197,7 @@ const LeaveManagement = () => {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
                                                         <Avatar className="h-9 w-9 border border-border">
-                                                            <AvatarImage src={leave.student?.photo} />
+                                                            <AvatarImage src={getMediaUrl(leave.student?.photo)} />
                                                             <AvatarFallback className="text-xs bg-primary/10 text-primary font-medium">
                                                                 {leave.student_name?.charAt(0)}
                                                             </AvatarFallback>

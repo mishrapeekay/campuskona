@@ -30,6 +30,7 @@ import {
 import AnimatedPage from '@/ui/motion/AnimatedPage';
 import { Skeleton } from '@/ui/primitives/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/primitives/avatar';
+import { getMediaUrl } from '@/utils/mediaUrl';
 import { Input } from '@/ui/primitives/input';
 import { Label } from '@/ui/primitives/label';
 import {
@@ -321,7 +322,7 @@ const StaffList = () => {
                                                 <td className="px-4 py-4">
                                                     <div className="flex items-center gap-3">
                                                         <Avatar>
-                                                            <AvatarImage src={member.photo} alt={member.full_name} />
+                                                            <AvatarImage src={getMediaUrl(member.photo)} alt={member.full_name} />
                                                             <AvatarFallback className="bg-primary/10 text-primary">
                                                                 {member.full_name?.charAt(0)}
                                                             </AvatarFallback>
