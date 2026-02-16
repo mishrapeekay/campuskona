@@ -64,7 +64,9 @@ export default function StatsCard({
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
           {icon && (
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              {icon}
+              {typeof icon === 'function' || (typeof icon === 'object' && icon?.$$typeof)
+                ? (() => { const Icon = icon; return <Icon className="h-5 w-5" />; })()
+                : icon}
             </div>
           )}
         </div>
