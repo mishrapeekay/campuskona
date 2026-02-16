@@ -254,8 +254,14 @@ const StaffForm = () => {
             // Create FormData for file upload — include all payload fields + the new photo
             const formDataObj = new FormData();
             Object.keys(payload).forEach(key => {
-                if (payload[key] !== null && payload[key] !== undefined) {
-                    formDataObj.append(key, payload[key]);
+                const val = payload[key];
+                if (val !== null && val !== undefined) {
+                    // JSON-stringify arrays/objects so DRF JSONField can parse them correctly
+                    if (Array.isArray(val) || (typeof val === 'object' && !(val instanceof File))) {
+                        formDataObj.append(key, JSON.stringify(val));
+                    } else {
+                        formDataObj.append(key, val);
+                    }
                 }
             });
             formDataObj.append('photo', formData.photo);
