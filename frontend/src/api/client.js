@@ -26,6 +26,12 @@ apiClient.interceptors.request.use(
       config.headers['X-Tenant-Subdomain'] = selectedTenant;
     }
 
+    // For FormData requests, remove the default JSON Content-Type so the browser
+    // can set multipart/form-data with the correct boundary automatically
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
+    }
+
     return config;
   },
   (error) => {

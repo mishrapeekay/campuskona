@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Upload, X, User, Camera } from 'lucide-react';
 import Button from './Button';
 import showToast from '../../utils/toast';
@@ -9,8 +9,26 @@ import { getMediaUrl } from '../../utils/mediaUrl';
  * Handles photo upload with preview
  */
 const PhotoUpload = ({ value, onChange, name, label = 'Photo', error }) => {
-    const [preview, setPreview] = useState(value ? getMediaUrl(value) : null);
+    // value can be: null, a URL string (existing photo), or a File object (newly selected)
+    const getInitialPreview = (v) => {
+        if (!v) return null;
+        if (v instanceof File) return null; // File object — preview will be set on selection
+        if (typeof v === 'string') return getMediaUrl(v);
+        return null; // Unexpected type — ignore safely
+    };
+    const [preview, setPreview] = useState(() => getInitialPreview(value));
     const fileInputRef = useRef(null);
+
+    // Update preview when value prop changes from outside (e.g. async data load in edit mode)
+    useEffect(() => {
+        // Only update preview from prop if we don't already have a user-selected preview
+        // (i.e., if current preview is not a blob/data URL from a fresh selection)
+        if (value && typeof value === 'string' && !preview?.startsWith('blob:') && !preview?.startsWith('data:')) {
+            setPreview(getMediaUrl(value));
+        } else if (!value) {
+            setPreview(null);
+        }
+    }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleFileSelect = (e) => {
         const file = e.target.files[0];

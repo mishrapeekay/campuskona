@@ -365,7 +365,7 @@ const StaffForm = () => {
                                         <PhotoUpload
                                             name="photo"
                                             value={formData.photo}
-                                            onChange={(file) => setFormData({ ...formData, photo: file })}
+                                            onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
                                             error={errors.photo}
                                             className="w-48 h-48 rounded-full"
                                         />
