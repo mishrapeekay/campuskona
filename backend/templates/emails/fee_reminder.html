@@ -1,0 +1,55 @@
+{% extends "emails/base.html" %}
+
+{% block title %}Fee Payment Reminder{% endblock %}
+
+{% block header %}Fee Payment Reminder{% endblock %}
+
+{% block content %}
+<h2>Fee Payment Due</h2>
+
+<p>Dear {{ student.first_name }},</p>
+
+<p>This is a friendly reminder that you have pending fee payments.</p>
+
+<div class="info-box">
+    <p><strong>Student Details:</strong></p>
+    <p><strong>Name:</strong> {{ student.get_full_name }}<br>
+    <strong>Admission Number:</strong> {{ student.admission_number }}</p>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Fee Type</th>
+            <th>Amount Due</th>
+            <th>Due Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fee in fee_details.fees %}
+        <tr>
+            <td>{{ fee.fee_type }}</td>
+            <td>${{ fee.amount }}</td>
+            <td>{{ fee.due_date|date:"M d, Y" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Total Due</th>
+            <th colspan="2">${{ fee_details.total_amount }}</th>
+        </tr>
+    </tfoot>
+</table>
+
+<p>Please make the payment before the due date to avoid late fees.</p>
+
+<p style="text-align: center;">
+    <a href="{{ payment_url }}" class="button">Pay Now</a>
+</p>
+
+<p>If you have already made the payment, please disregard this message.</p>
+
+<p>Thank you,<br>
+{{ school_name }} Accounts Department</p>
+{% endblock %}

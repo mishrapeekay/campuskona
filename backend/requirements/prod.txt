@@ -1,0 +1,19 @@
+-r base.txt
+
+# Production Server
+gunicorn==21.2.0
+gevent==23.9.1
+
+# Monitoring & Logging
+sentry-sdk==1.38.0
+django-prometheus==2.3.1
+prometheus-client==0.19.0
+django-log-request-id==2.1.0
+
+# Performance
+django-redis==5.4.0
+hiredis==2.2.3
+
+# Security
+django-ratelimit==4.1.0
+django-csp==3.7

@@ -1,0 +1,178 @@
+.tenant-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    margin: 10px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.tenant-selector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.tenant-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+}
+
+.tenant-label {
+    font-weight: 600;
+    color: white;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tenant-dropdown {
+    padding: 10px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.95);
+    color: #667eea;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 220px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tenant-dropdown:hover:not(:disabled) {
+    background: white;
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tenant-dropdown:focus {
+    outline: none;
+    border-color: white;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.tenant-dropdown:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.tenant-dropdown option {
+    padding: 10px;
+    background: white;
+    color: #333;
+}
+
+.tenant-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    z-index: 1;
+}
+
+.tenant-code {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+}
+
+.tenant-location {
+    font-size: 13px;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tenant-location::before {
+    content: '📍';
+    font-size: 14px;
+}
+
+.tenant-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(102, 126, 234, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+.tenant-loading span {
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tenant-selector {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .tenant-info {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tenant-dropdown {
+        width: 100%;
+    }
+
+    .tenant-details {
+        justify-content: space-between;
+    }
+
+    .tenant-location {
+        font-size: 12px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .tenant-dropdown {
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    .tenant-dropdown:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.95);
+    }
+}

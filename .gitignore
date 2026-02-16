@@ -1,0 +1,119 @@
+
+# =============================================================================
+# Python / Django
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django runtime artifacts
+*.log
+local_settings.py
+db.sqlite3
+test_db.sqlite3
+media/
+staticfiles/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env_dir/
+
+# =============================================================================
+# Environment / Secrets — NEVER commit these
+# =============================================================================
+.env
+.env.prod
+.env.local
+backend/.env
+frontend/.env
+mobile-app/.env
+mobile-app/.env.development
+mobile-app/.env.staging
+mobile-app/.env.production
+
+# Keep example/template files
+!.env.prod.template
+!backend/.env.example
+!backend/.env.production.template
+!frontend/.env.example
+!frontend/.env.production
+!mobile-app/.env.example
+
+# =============================================================================
+# SQL dumps — may contain real user data
+# =============================================================================
+*.sql
+*.dump
+*.bak
+
+# =============================================================================
+# Node / React / React Native
+# =============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# Build output
+frontend/dist/
+frontend/build/
+mobile-app/android/app/build/
+mobile-app/ios/build/
+mobile-app/.expo/
+
+# React Native
+mobile-app/android/.gradle/
+mobile-app/android/local.properties
+mobile-app/ios/Pods/
+mobile-app/*.hprof
+
+# =============================================================================
+# IDE / OS
+# =============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# =============================================================================
+# Terraform
+# =============================================================================
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
+# =============================================================================
+# Misc temp files
+# =============================================================================
+TempSchoolApp/
+nul
+*.zip
+deploy.zip
+frontend_v2/
+.claude/

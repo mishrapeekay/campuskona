@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>School Management</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<!-- Privacy usage descriptions — required by App Store review for any API access -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>School Management uses your location to track school transport routes and provide real-time bus location updates.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>School Management uses your location in the background to continue tracking transport routes when the app is not in the foreground.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>School Management uses the camera to capture profile photos, document scans, and attendance verification images.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>School Management accesses your photo library to upload profile pictures and supporting documents.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>School Management saves captured photos to your photo library.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>School Management uses Face ID to provide fast and secure login to your account.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>School Management uses the microphone for voice-based features and audio recording in communication tools.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>School Management accesses contacts to help you quickly add parent and guardian contact information.</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+</dict>
+</plist>

@@ -1,0 +1,28 @@
+{% extends "emails/base.html" %}
+
+{% block title %}Welcome to {{ school_name }}{% endblock %}
+
+{% block header %}Welcome to {{ school_name }}!{% endblock %}
+
+{% block content %}
+<h2>Welcome, {{ user.first_name }}!</h2>
+
+<p>We're excited to have you join {{ school_name }}. Your account has been successfully created.</p>
+
+<div class="info-box">
+    <p><strong>Your Account Details:</strong></p>
+    <p><strong>Email:</strong> {{ user.email }}<br>
+    <strong>User Type:</strong> {{ user.get_user_type_display }}</p>
+</div>
+
+<p>You can now log in to access the school management system and explore all the features available to you.</p>
+
+<p style="text-align: center;">
+    <a href="{{ login_url }}" class="button">Log In Now</a>
+</p>
+
+<p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+
+<p>Best regards,<br>
+{{ school_name }} Team</p>
+{% endblock %}

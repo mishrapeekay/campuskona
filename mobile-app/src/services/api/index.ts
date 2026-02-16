@@ -1,0 +1,27 @@
+// Export all API services
+export { default as apiClient } from './client';
+export { default as authService } from './auth.service';
+export { default as studentService } from './student.service';
+export { default as attendanceService } from './attendance.service';
+export { default as examService } from './exam.service';
+export { default as feeService } from './fee.service';
+export { default as libraryService } from './library.service';
+export { default as transportService } from './transport.service';
+export { default as communicationService } from './communication.service';
+export { default as staffService } from './staff.service';
+export { default as academicService } from './academic.service';
+export { default as admissionsService } from './admissions.service';
+export { default as hostelService } from './hostel.service';
+export { default as hrPayrollService } from './hrPayroll.service';
+export { default as reportsService } from './reports.service';
+export { tenantService } from './tenant.service';
+export { auditService } from './audit.service';
+export { default as timetableService } from './timetable.service';
+export { default as parentService } from './parent.service';
+export { default as privacyService } from './privacy.service';
+export { default as assignmentService } from './assignment.service';
+export { default as bffService } from './bff.service';
+export { adminService } from './admin.service';
+export { default as todayViewService } from './todayView.service';
+export { partnerService } from './partner.service';
+export { investorService } from './investor.service';

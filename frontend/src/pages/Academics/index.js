@@ -1,0 +1,10 @@
+export { default as AcademicsOverview } from './AcademicsOverview';
+export { default as AcademicYearsList } from './AcademicYearsList';
+export { default as AcademicYearForm } from './AcademicYearForm';
+export { default as ClassesList } from './ClassesList';
+export { default as ClassForm } from './ClassForm';
+export { default as SubjectsList } from './SubjectsList';
+export { default as SubjectForm } from './SubjectForm';
+export { default as LessonPlans } from './LessonPlans';
+export { default as LessonPlanForm } from './LessonPlanForm';
+export { default as SyllabusCoverage } from './SyllabusCoverage';

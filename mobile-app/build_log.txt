@@ -1,0 +1,1364 @@
+Initialized native services in: C:\Users\DigitalEFX\.gradle\native
+Initialized jansi services in: C:\Users\DigitalEFX\.gradle\native
+Received JVM installation metadata from 'C:\Program Files\ojdkbuild\java-17-openjdk-17.0.3.0.6-1': {JAVA_HOME=C:\Program Files\ojdkbuild\java-17-openjdk-17.0.3.0.6-1, JAVA_VERSION=17.0.3, JAVA_VENDOR=ojdkbuild, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.3+6-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.3+6-LTS, VM_VENDOR=ojdkbuild, OS_ARCH=amd64}
+Found daemon DaemonInfo{pid=12908, address=[85243182-f975-48aa-8475-1efc4fd4a09f port:50467, addresses:[/127.0.0.1]], state=Idle, lastBusy=1768031989372, context=DefaultDaemonContext[uid=ad3cdd20-cd07-4279-aa49-cbc76a27cf65,javaHome=C:\Program Files\Android\Android Studio\jbr,daemonRegistryDir=C:\Users\DigitalEFX\.gradle\daemon,pid=12908,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,daemonOpts=-XX:MaxMetaspaceSize=512m,--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx2048m,-Dfile.encoding=utf8,-Duser.country=US,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+Java home is different.
+Wanted: DefaultDaemonContext[uid=null,javaHome=C:\Program Files\ojdkbuild\java-17-openjdk-17.0.3.0.6-1,daemonRegistryDir=C:\Users\DigitalEFX\.gradle\daemon,pid=14008,idleTimeout=null,priority=NORMAL,applyInstrumentationAgent=true,daemonOpts=-XX:MaxMetaspaceSize=512m,--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx2048m,-Dfile.encoding=windows-1252,-Duser.country=US,-Duser.language=en,-Duser.variant]
+Actual: DefaultDaemonContext[uid=ad3cdd20-cd07-4279-aa49-cbc76a27cf65,javaHome=C:\Program Files\Android\Android Studio\jbr,daemonRegistryDir=C:\Users\DigitalEFX\.gradle\daemon,pid=12908,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,daemonOpts=-XX:MaxMetaspaceSize=512m,--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx2048m,-Dfile.encoding=utf8,-Duser.country=US,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+Found daemon DaemonInfo{pid=19312, address=[6fd9bb83-ed55-45b5-bf7e-599cbc4abd4b port:51016, addresses:[/127.0.0.1]], state=Idle, lastBusy=1768035261650, context=DefaultDaemonContext[uid=30292ede-54b3-408f-b86d-ee8fe365dc85,javaHome=C:\Program Files\Microsoft\jdk-25.0.1.8-hotspot,daemonRegistryDir=C:\Users\DigitalEFX\.gradle\daemon,pid=19312,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,daemonOpts=-XX:MaxMetaspaceSize=512m,--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx2048m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+Java home is different.
+Wanted: DefaultDaemonContext[uid=null,javaHome=C:\Program Files\ojdkbuild\java-17-openjdk-17.0.3.0.6-1,daemonRegistryDir=C:\Users\DigitalEFX\.gradle\daemon,pid=14008,idleTimeout=null,priority=NORMAL,applyInstrumentationAgent=true,daemonOpts=-XX:MaxMetaspaceSize=512m,--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx2048m,-Dfile.encoding=windows-1252,-Duser.country=US,-Duser.language=en,-Duser.variant]
+Actual: DefaultDaemonContext[uid=30292ede-54b3-408f-b86d-ee8fe365dc85,javaHome=C:\Program Files\Microsoft\jdk-25.0.1.8-hotspot,daemonRegistryDir=C:\Users\DigitalEFX\.gradle\daemon,pid=19312,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,daemonOpts=-XX:MaxMetaspaceSize=512m,--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx2048m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+The client will now receive all logging from the daemon (pid: 11452). The daemon log file: C:\Users\DigitalEFX\.gradle\daemon\8.3\daemon-11452.out.log
+Starting 12th build in daemon [uptime: 10 mins 32.445 secs, performance: 100%, GC rate: 0.00/s, heap usage: 0% of 2 GiB, non-heap usage: 50% of 512 MiB]
+Using 12 worker leases.
+Now considering [G:\School Mgmt System\mobile-app\android, G:\School Mgmt System\mobile-app\node_modules\@react-native\gradle-plugin] as hierarchies to watch
+Watching 2 directory hierarchies to track changes
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+:ReactNative:Automatically adding native module '@react-native-async-storage/async-storage'
+:ReactNative:Automatically adding native module '@react-native-community/netinfo'
+:ReactNative:Automatically adding native module '@react-native-firebase/app'
+:ReactNative:Automatically adding native module '@react-native-firebase/messaging'
+:ReactNative:Automatically adding native module '@shopify/flash-list'
+:ReactNative:Automatically adding native module 'react-native-document-picker'
+:ReactNative:Automatically adding native module 'react-native-fast-image'
+:ReactNative:Automatically adding native module 'react-native-gesture-handler'
+:ReactNative:Automatically adding native module 'react-native-image-picker'
+:ReactNative:Automatically adding native module 'react-native-mmkv'
+:ReactNative:Automatically adding native module 'react-native-pdf'
+:ReactNative:Automatically adding native module 'react-native-reanimated'
+:ReactNative:Automatically adding native module 'react-native-safe-area-context'
+:ReactNative:Automatically adding native module 'react-native-screens'
+:ReactNative:Automatically adding native module 'react-native-svg'
+:ReactNative:Automatically adding native module 'react-native-vector-icons'
+Settings evaluated using settings file 'G:\School Mgmt System\mobile-app\android\settings.gradle'.
+Now considering [G:\School Mgmt System\mobile-app\node_modules\@react-native\gradle-plugin, G:\School Mgmt System\mobile-app\android] as hierarchies to watch
+Watching 2 directory hierarchies to track changes
+The configuration detachedConfiguration1 is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration detachedConfiguration1 is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration detachedConfiguration1 is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration detachedConfiguration1 is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Projects loaded. Root project using build file 'G:\School Mgmt System\mobile-app\android\build.gradle'.
+Included projects: [root project 'SchoolMgmtTemp', project ':app', project ':react-native-async-storage_async-storage', project ':react-native-community_netinfo', project ':react-native-document-picker', project ':react-native-fast-image', project ':react-native-firebase_app', project ':react-native-firebase_messaging', project ':react-native-gesture-handler', project ':react-native-image-picker', project ':react-native-mmkv', project ':react-native-pdf', project ':react-native-reanimated', project ':react-native-safe-area-context', project ':react-native-screens', project ':react-native-svg', project ':react-native-vector-icons', project ':shopify_flash-list']
+Skipping generation of dependency accessors for libs as it is up-to-date.
+
+> Configure project :gradle-plugin
+Evaluating project ':gradle-plugin' using build file 'G:\School Mgmt System\mobile-app\node_modules\@react-native\gradle-plugin\build.gradle.kts'.
+The configuration detachedConfiguration1 is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration detachedConfiguration1 is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration detachedConfiguration1 is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration detachedConfiguration1 is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :gradle-plugin:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :gradle-plugin:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :gradle-plugin:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :gradle-plugin:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using Kotlin Gradle Plugin gradle76 variant
+kotlin scripting plugin: created the scripting discovery configuration: kotlinScriptDef
+kotlin scripting plugin: created the scripting discovery configuration: testKotlinScriptDef
+Caching disabled for Kotlin DSL accessors for project ':gradle-plugin' because:
+  Build cache is disabled
+Skipping Kotlin DSL accessors for project ':gradle-plugin' as it is up-to-date.
+Registering project ':gradle-plugin' in composite build. Will substitute for module 'com.facebook.react:react-native-gradle-plugin'.
+Resolve mutations for :gradle-plugin:compileKotlin (Thread[Execution worker,5,main]) started.
+:gradle-plugin:compileKotlin (Thread[Execution worker,5,main]) started.
+
+> Task :gradle-plugin:compileKotlin UP-TO-DATE
+Caching disabled for task ':gradle-plugin:compileKotlin' because:
+  Build cache is disabled
+Skipping task ':gradle-plugin:compileKotlin' as it is up-to-date.
+Resolve mutations for :gradle-plugin:compileJava (Thread[Execution worker,5,main]) started.
+:gradle-plugin:compileJava (Thread[Execution worker,5,main]) started.
+
+> Task :gradle-plugin:compileJava NO-SOURCE
+Skipping task ':gradle-plugin:compileJava' as it has no source files and no previous output files.
+Resolve mutations for :gradle-plugin:pluginDescriptors (Thread[Execution worker,5,main]) started.
+:gradle-plugin:pluginDescriptors (Thread[Execution worker,5,main]) started.
+
+> Task :gradle-plugin:pluginDescriptors UP-TO-DATE
+Caching disabled for task ':gradle-plugin:pluginDescriptors' because:
+  Build cache is disabled
+Skipping task ':gradle-plugin:pluginDescriptors' as it is up-to-date.
+Resolve mutations for :gradle-plugin:processResources (Thread[Execution worker,5,main]) started.
+:gradle-plugin:processResources (Thread[Execution worker,5,main]) started.
+
+> Task :gradle-plugin:processResources UP-TO-DATE
+Caching disabled for task ':gradle-plugin:processResources' because:
+  Build cache is disabled
+Skipping task ':gradle-plugin:processResources' as it is up-to-date.
+Resolve mutations for :gradle-plugin:classes (Thread[Execution worker,5,main]) started.
+:gradle-plugin:classes (Thread[Execution worker,5,main]) started.
+
+> Task :gradle-plugin:classes UP-TO-DATE
+Skipping task ':gradle-plugin:classes' as it has no actions.
+Resolve mutations for :gradle-plugin:jar (Thread[Execution worker,5,main]) started.
+:gradle-plugin:jar (Thread[Execution worker,5,main]) started.
+
+> Task :gradle-plugin:jar UP-TO-DATE
+Caching disabled for task ':gradle-plugin:jar' because:
+  Build cache is disabled
+Skipping task ':gradle-plugin:jar' as it is up-to-date.
+Resolve mutations for :gradle-plugin:inspectClassesForKotlinIC (Thread[Execution worker,5,main]) started.
+:gradle-plugin:inspectClassesForKotlinIC (Thread[Execution worker,5,main]) started.
+
+> Task :gradle-plugin:inspectClassesForKotlinIC UP-TO-DATE
+Caching disabled for task ':gradle-plugin:inspectClassesForKotlinIC' because:
+  Build cache is disabled
+Skipping task ':gradle-plugin:inspectClassesForKotlinIC' as it is up-to-date.
+
+> Configure project :
+Evaluating root project 'SchoolMgmtTemp' using build file 'G:\School Mgmt System\mobile-app\android\build.gradle'.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Found project 'project :gradle-plugin' as substitute for module 'com.facebook.react:react-native-gradle-plugin'.
+The configuration :gradle-plugin:mainSourceElements is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+
+> Configure project :app
+Evaluating project ':app' using build file 'G:\School Mgmt System\mobile-app\android\app\build.gradle'.
+Using default execution profile
+Using Kotlin Gradle Plugin gradle82 variant
+:ReactNative:Automatically adding native module '@react-native-async-storage/async-storage'
+:ReactNative:Automatically adding native module '@react-native-community/netinfo'
+:ReactNative:Automatically adding native module '@react-native-firebase/app'
+:ReactNative:Automatically adding native module '@react-native-firebase/messaging'
+:ReactNative:Automatically adding native module '@shopify/flash-list'
+:ReactNative:Automatically adding native module 'react-native-document-picker'
+:ReactNative:Automatically adding native module 'react-native-fast-image'
+:ReactNative:Automatically adding native module 'react-native-gesture-handler'
+:ReactNative:Automatically adding native module 'react-native-image-picker'
+:ReactNative:Automatically adding native module 'react-native-mmkv'
+:ReactNative:Automatically adding native module 'react-native-pdf'
+:ReactNative:Automatically adding native module 'react-native-reanimated'
+:ReactNative:Automatically adding native module 'react-native-safe-area-context'
+:ReactNative:Automatically adding native module 'react-native-screens'
+:ReactNative:Automatically adding native module 'react-native-svg'
+:ReactNative:Automatically adding native module 'react-native-vector-icons'
+
+> Configure project :react-native-async-storage_async-storage
+Evaluating project ':react-native-async-storage_async-storage' using build file 'G:\School Mgmt System\mobile-app\node_modules\@react-native-async-storage\async-storage\android\build.gradle'.
+The configuration :react-native-async-storage_async-storage:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-async-storage_async-storage:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-async-storage_async-storage:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-async-storage_async-storage:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-async-storage_async-storage:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-async-storage_async-storage:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+[AsyncStorage] Config used: {kotlinVersion=1.9.22, kspVersion=1.9.22-1.0.17, roomVersion=2.6.1, minSdkVersion=23, targetSdkVersion=34, compileSdkVersion=34, useNextStorage=false, databaseSizeMB=6, isNewArchitectureEnabled=false, useDedicatedExecutor=false}
+
+> Configure project :react-native-community_netinfo
+Evaluating project ':react-native-community_netinfo' using build file 'G:\School Mgmt System\mobile-app\node_modules\@react-native-community\netinfo\android\build.gradle'.
+Using default execution profile
+
+> Configure project :react-native-document-picker
+Evaluating project ':react-native-document-picker' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-document-picker\android\build.gradle'.
+Using default execution profile
+
+> Configure project :react-native-fast-image
+Evaluating project ':react-native-fast-image' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-fast-image\android\build.gradle'.
+Using default execution profile
+
+> Configure project :react-native-firebase_app
+Evaluating project ':react-native-firebase_app' using build file 'G:\School Mgmt System\mobile-app\node_modules\@react-native-firebase\app\android\build.gradle'.
+The configuration detachedConfiguration1 is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration detachedConfiguration1 is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration detachedConfiguration1 is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration detachedConfiguration1 is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+:react-native-firebase_app package.json found at G:\School Mgmt System\mobile-app\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app no firebase.json found, skipping
+:react-native-firebase_app:firebase.bom using default value: 32.8.1
+:react-native-firebase_app:play.play-services-auth using default value: 21.0.0
+:react-native-firebase_app package.json found at G:\School Mgmt System\mobile-app\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:version set from package.json: 19.3.0 (19,3,0 - 19003000)
+:react-native-firebase_app:android.compileSdk using custom value: 34
+:react-native-firebase_app:android.targetSdk using custom value: 34
+:react-native-firebase_app:android.minSdk using custom value: 23
+:react-native-firebase_app:reactNativeAndroidDir G:\School Mgmt System\mobile-app\node_modules\react-native\android
+
+> Configure project :react-native-firebase_messaging
+Evaluating project ':react-native-firebase_messaging' using build file 'G:\School Mgmt System\mobile-app\node_modules\@react-native-firebase\messaging\android\build.gradle'.
+The configuration detachedConfiguration1 is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration detachedConfiguration1 is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration detachedConfiguration1 is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration detachedConfiguration1 is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_messaging:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_messaging:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_messaging:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_messaging:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_messaging:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_messaging:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+:react-native-firebase_messaging package.json found at G:\School Mgmt System\mobile-app\node_modules\@react-native-firebase\messaging\package.json
+:react-native-firebase_app package.json found at G:\School Mgmt System\mobile-app\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_messaging no firebase.json found, skipping
+:react-native-firebase_messaging:firebase.bom using default value: 32.8.1
+:react-native-firebase_messaging package.json found at G:\School Mgmt System\mobile-app\node_modules\@react-native-firebase\messaging\package.json
+:react-native-firebase_messaging:version set from package.json: 19.3.0 (19,3,0 - 19003000)
+:react-native-firebase_messaging:android.compileSdk using custom value: 34
+:react-native-firebase_messaging:android.targetSdk using custom value: 34
+:react-native-firebase_messaging:android.minSdk using custom value: 23
+:react-native-firebase_messaging:reactNativeAndroidDir G:\School Mgmt System\mobile-app\node_modules\react-native\android
+
+> Configure project :react-native-gesture-handler
+Evaluating project ':react-native-gesture-handler' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\build.gradle'.
+The configuration :react-native-gesture-handler:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-gesture-handler:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-gesture-handler:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-gesture-handler:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-gesture-handler:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-gesture-handler:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+Using Kotlin Gradle Plugin gradle82 variant
+Starting process 'command 'node''. Working directory: G:\School Mgmt System\mobile-app\android Command: node --print require.resolve('react-native/package.json')
+Successfully started process 'command 'node''
+
+> Configure project :react-native-image-picker
+Evaluating project ':react-native-image-picker' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-image-picker\android\build.gradle'.
+Using default execution profile
+
+> Configure project :react-native-pdf
+Evaluating project ':react-native-pdf' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-pdf\android\build.gradle'.
+The configuration :react-native-pdf:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-pdf:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-pdf:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-pdf:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-pdf:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-pdf:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+
+> Configure project :react-native-reanimated
+Evaluating project ':react-native-reanimated' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-reanimated\android\build.gradle'.
+The configuration :react-native-reanimated:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-reanimated:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-reanimated:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-reanimated:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-reanimated:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-reanimated:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+Android gradle plugin: 8.1.1
+Gradle: 8.3
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+
+> Configure project :react-native-safe-area-context
+Evaluating project ':react-native-safe-area-context' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-safe-area-context\android\build.gradle'.
+The configuration :react-native-safe-area-context:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-safe-area-context:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-safe-area-context:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-safe-area-context:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-safe-area-context:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-safe-area-context:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+Using Kotlin Gradle Plugin gradle82 variant
+
+> Configure project :react-native-screens
+Evaluating project ':react-native-screens' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-screens\android\build.gradle'.
+The configuration :react-native-screens:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-screens:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-screens:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-screens:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-screens:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-screens:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+Using Kotlin Gradle Plugin gradle82 variant
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+
+> Configure project :react-native-svg
+Evaluating project ':react-native-svg' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-svg\android\build.gradle'.
+Using default execution profile
+
+> Configure project :react-native-vector-icons
+Evaluating project ':react-native-vector-icons' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-vector-icons\android\build.gradle'.
+The configuration :react-native-vector-icons:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-vector-icons:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-vector-icons:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-vector-icons:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-vector-icons:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-vector-icons:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+
+> Configure project :shopify_flash-list
+Evaluating project ':shopify_flash-list' using build file 'G:\School Mgmt System\mobile-app\node_modules\@shopify\flash-list\android\build.gradle'.
+The configuration :shopify_flash-list:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :shopify_flash-list:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :shopify_flash-list:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :shopify_flash-list:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :shopify_flash-list:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :shopify_flash-list:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+Using Kotlin Gradle Plugin gradle82 variant
+
+> Configure project :react-native-mmkv
+Evaluating project ':react-native-mmkv' using build file 'G:\School Mgmt System\mobile-app\node_modules\react-native-mmkv\android\build.gradle'.
+The configuration :react-native-mmkv:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-mmkv:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-mmkv:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-mmkv:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-mmkv:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-mmkv:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Using default execution profile
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+C/C++: android.ndkVersion from module build.gradle is [25.1.8937393]
+C/C++: android.ndkPath from module build.gradle is not set
+C/C++: ndk.dir in local.properties is not set
+C/C++: Not considering ANDROID_NDK_HOME because support was removed after deprecation period.
+C/C++: sdkFolder is C:\Users\DigitalEFX\AppData\Local\Android\Sdk
+All projects evaluated.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Found project 'project :gradle-plugin' as substitute for module 'com.facebook.react:react-native-gradle-plugin'.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-async-storage_async-storage:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-async-storage_async-storage:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-async-storage_async-storage:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-async-storage_async-storage:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-async-storage_async-storage:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-async-storage_async-storage:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-async-storage_async-storage:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-async-storage_async-storage:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-async-storage_async-storage:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-async-storage_async-storage:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-community_netinfo:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-community_netinfo:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-community_netinfo:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-community_netinfo:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-community_netinfo:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-community_netinfo:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-community_netinfo:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-community_netinfo:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-community_netinfo:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-community_netinfo:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-community_netinfo:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-community_netinfo:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-document-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-document-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-document-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-document-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-document-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-document-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-document-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-document-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-document-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-document-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-document-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-document-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-fast-image:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-fast-image:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-fast-image:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-fast-image:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-fast-image:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-fast-image:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-fast-image:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-fast-image:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-fast-image:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-fast-image:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-fast-image:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-fast-image:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_app:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_app:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_messaging:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_messaging:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_messaging:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_messaging:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_messaging:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_messaging:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_messaging:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_messaging:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-firebase_messaging:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-firebase_messaging:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-gesture-handler:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-gesture-handler:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-gesture-handler:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-gesture-handler:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-gesture-handler:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-gesture-handler:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-gesture-handler:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-gesture-handler:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-gesture-handler:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-gesture-handler:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-image-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-image-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-image-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-image-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-image-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-image-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-image-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-image-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-image-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-image-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-image-picker:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-image-picker:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-mmkv:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-mmkv:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-mmkv:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-mmkv:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-mmkv:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-mmkv:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-mmkv:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-mmkv:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-mmkv:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-mmkv:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-pdf:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-pdf:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-pdf:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-pdf:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-pdf:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-pdf:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-pdf:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-pdf:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-pdf:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-pdf:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-reanimated:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-reanimated:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-reanimated:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-reanimated:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-reanimated:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-reanimated:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-reanimated:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-reanimated:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-reanimated:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-reanimated:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-safe-area-context:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-safe-area-context:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-safe-area-context:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-safe-area-context:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-safe-area-context:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-safe-area-context:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-safe-area-context:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-safe-area-context:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-safe-area-context:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-safe-area-context:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-screens:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-screens:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-screens:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-screens:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-screens:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-screens:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-screens:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-screens:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-screens:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-screens:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-svg:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-svg:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-svg:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-svg:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-svg:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-svg:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-svg:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-svg:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-svg:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-svg:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-svg:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-svg:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-vector-icons:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-vector-icons:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-vector-icons:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-vector-icons:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-vector-icons:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-vector-icons:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-vector-icons:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-vector-icons:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :react-native-vector-icons:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :react-native-vector-icons:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :shopify_flash-list:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :shopify_flash-list:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :shopify_flash-list:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :shopify_flash-list:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :shopify_flash-list:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :shopify_flash-list:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :shopify_flash-list:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :shopify_flash-list:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :shopify_flash-list:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :shopify_flash-list:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Task path ':react-native-gesture-handler:compileDebugKotlin' matched project ':react-native-gesture-handler'
+Task name matched 'compileDebugKotlin'
+Selected primary task 'compileDebugKotlin' from project :react-native-gesture-handler
+Tasks to be executed: [task ':react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors', task ':react-native-gesture-handler:preBuild', task ':react-native-gesture-handler:preDebugBuild', task ':react-native-gesture-handler:generateDebugBuildConfig', task ':react-native-gesture-handler:generateDebugResValues', task ':react-native-gesture-handler:generateDebugResources', task ':react-native-gesture-handler:packageDebugResources', task ':react-native-gesture-handler:parseDebugLocalResources', task ':react-native-gesture-handler:processDebugManifest', task ':react-native-gesture-handler:generateDebugRFile', task ':react-native-reanimated:assertLatestReactNativeWithNewArchitectureTask', task ':react-native-reanimated:assertMinimalReactNativeVersionTask', task ':react-native-reanimated:prepareHeadersForPrefab', task ':react-native-reanimated:preBuild', task ':react-native-reanimated:preDebugBuild', task ':react-native-reanimated:generateDebugBuildConfig', task ':react-native-reanimated:generateDebugResValues', task ':react-native-reanimated:generateDebugResources', task ':react-native-reanimated:packageDebugResources', task ':react-native-reanimated:parseDebugLocalResources', task ':react-native-reanimated:processDebugManifest', task ':react-native-reanimated:generateDebugRFile', task ':react-native-reanimated:javaPreCompileDebug', task ':react-native-reanimated:packageNdkLibs', task ':react-native-reanimated:compileDebugJavaWithJavac', task ':react-native-reanimated:bundleLibCompileToJarDebug', task ':react-native-gesture-handler:compileDebugKotlin']
+Tasks that were excluded: []
+Analytics other plugin to proto: Unknown plugin type com.facebook.react.ReactRootProjectPlugin expected enum COM_FACEBOOK_REACT_REACTROOTPROJECTPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type com.facebook.react.ReactPlugin expected enum COM_FACEBOOK_REACT_REACTPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type io.invertase.gradle.build.ReactNativePlugin expected enum IO_INVERTASE_GRADLE_BUILD_REACTNATIVEPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type io.invertase.gradle.build.ReactNativePlugin expected enum IO_INVERTASE_GRADLE_BUILD_REACTNATIVEPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.publish.plugins.PublishingPlugin$Inject expected enum ORG_GRADLE_API_PUBLISH_PLUGINS_PUBLISHINGPLUGIN
+Analytics other plugin to proto: Unknown plugin type de.undercouch.gradle.tasks.download.DownloadTaskPlugin expected enum DE_UNDERCOUCH_GRADLE_TASKS_DOWNLOAD_DOWNLOADTASKPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
+Resolve mutations for :react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors (Thread[Execution worker Thread 5,5,main]) started.
+:react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors (Thread[Execution worker Thread 5,5,main]) started.
+
+> Task :react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors
+Caching disabled for task ':react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors' because:
+  Build cache is disabled
+Task ':react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+Resolve mutations for :react-native-gesture-handler:preBuild (Thread[Execution worker Thread 5,5,main]) started.
+:react-native-gesture-handler:preBuild (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :react-native-gesture-handler:preBuild UP-TO-DATE
+Skipping task ':react-native-gesture-handler:preBuild' as it has no actions.
+Resolve mutations for :react-native-gesture-handler:preDebugBuild (Thread[Execution worker Thread 8,5,main]) started.
+:react-native-gesture-handler:preDebugBuild (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :react-native-gesture-handler:preDebugBuild UP-TO-DATE
+Skipping task ':react-native-gesture-handler:preDebugBuild' as it has no actions.
+Resolve mutations for :react-native-gesture-handler:generateDebugBuildConfig (Thread[Execution worker Thread 8,5,main]) started.
+:react-native-gesture-handler:generateDebugBuildConfig (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :react-native-gesture-handler:generateDebugBuildConfig UP-TO-DATE
+Caching disabled for task ':react-native-gesture-handler:generateDebugBuildConfig' because:
+  Build cache is disabled
+Skipping task ':react-native-gesture-handler:generateDebugBuildConfig' as it is up-to-date.
+Resolve mutations for :react-native-gesture-handler:generateDebugResValues (Thread[Execution worker Thread 8,5,main]) started.
+:react-native-gesture-handler:generateDebugResValues (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :react-native-gesture-handler:generateDebugResValues UP-TO-DATE
+Caching disabled for task ':react-native-gesture-handler:generateDebugResValues' because:
+  Build cache is disabled
+Skipping task ':react-native-gesture-handler:generateDebugResValues' as it is up-to-date.
+Resolve mutations for :react-native-gesture-handler:generateDebugResources (Thread[Execution worker Thread 8,5,main]) started.
+:react-native-gesture-handler:generateDebugResources (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-gesture-handler:generateDebugResources UP-TO-DATE
+Skipping task ':react-native-gesture-handler:generateDebugResources' as it has no actions.
+Resolve mutations for :react-native-gesture-handler:packageDebugResources (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-gesture-handler:packageDebugResources (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-gesture-handler:packageDebugResources UP-TO-DATE
+Caching disabled for task ':react-native-gesture-handler:packageDebugResources' because:
+  Build cache is disabled
+Skipping task ':react-native-gesture-handler:packageDebugResources' as it is up-to-date.
+Resolve mutations for :react-native-gesture-handler:parseDebugLocalResources (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-gesture-handler:parseDebugLocalResources (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-gesture-handler:parseDebugLocalResources UP-TO-DATE
+Transforming android.jar with PlatformAttrTransform
+Transforming android.jar with PlatformAttrTransform
+Caching disabled for task ':react-native-gesture-handler:parseDebugLocalResources' because:
+  Build cache is disabled
+Skipping task ':react-native-gesture-handler:parseDebugLocalResources' as it is up-to-date.
+Resolve mutations for :react-native-gesture-handler:processDebugManifest (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-gesture-handler:processDebugManifest (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-gesture-handler:processDebugManifest UP-TO-DATE
+Caching disabled for task ':react-native-gesture-handler:processDebugManifest' because:
+  Build cache is disabled
+Skipping task ':react-native-gesture-handler:processDebugManifest' as it is up-to-date.
+Resolve mutations for :react-native-gesture-handler:generateDebugRFile (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-gesture-handler:generateDebugRFile (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-gesture-handler:generateDebugRFile UP-TO-DATE
+Transforming android.jar with PlatformAttrTransform
+Caching disabled for task ':react-native-gesture-handler:generateDebugRFile' because:
+  Build cache is disabled
+Skipping task ':react-native-gesture-handler:generateDebugRFile' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:assertLatestReactNativeWithNewArchitectureTask (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:assertLatestReactNativeWithNewArchitectureTask (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:assertLatestReactNativeWithNewArchitectureTask SKIPPED
+Skipping task ':react-native-reanimated:assertLatestReactNativeWithNewArchitectureTask' as task onlyIf 'Task satisfies onlyIf closure' is false.
+Resolve mutations for :react-native-reanimated:assertMinimalReactNativeVersionTask (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:assertMinimalReactNativeVersionTask (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:assertMinimalReactNativeVersionTask SKIPPED
+Skipping task ':react-native-reanimated:assertMinimalReactNativeVersionTask' as task onlyIf 'Task satisfies onlyIf closure' is false.
+Resolve mutations for :react-native-reanimated:prepareHeadersForPrefab (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:prepareHeadersForPrefab (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:prepareHeadersForPrefab UP-TO-DATE
+Caching disabled for task ':react-native-reanimated:prepareHeadersForPrefab' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:prepareHeadersForPrefab' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:preBuild (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:preBuild (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:preBuild UP-TO-DATE
+Skipping task ':react-native-reanimated:preBuild' as it has no actions.
+Resolve mutations for :react-native-reanimated:preDebugBuild (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:preDebugBuild (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:preDebugBuild UP-TO-DATE
+Skipping task ':react-native-reanimated:preDebugBuild' as it has no actions.
+Resolve mutations for :react-native-reanimated:generateDebugBuildConfig (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:generateDebugBuildConfig (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:generateDebugBuildConfig UP-TO-DATE
+Caching disabled for task ':react-native-reanimated:generateDebugBuildConfig' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:generateDebugBuildConfig' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:generateDebugResValues (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:generateDebugResValues (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:generateDebugResValues UP-TO-DATE
+Caching disabled for task ':react-native-reanimated:generateDebugResValues' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:generateDebugResValues' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:generateDebugResources (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:generateDebugResources (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:generateDebugResources UP-TO-DATE
+Skipping task ':react-native-reanimated:generateDebugResources' as it has no actions.
+Resolve mutations for :react-native-reanimated:packageDebugResources (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:packageDebugResources (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:packageDebugResources UP-TO-DATE
+Caching disabled for task ':react-native-reanimated:packageDebugResources' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:packageDebugResources' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:parseDebugLocalResources (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:parseDebugLocalResources (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:parseDebugLocalResources UP-TO-DATE
+Transforming android.jar with PlatformAttrTransform
+Transforming android.jar with PlatformAttrTransform
+Caching disabled for task ':react-native-reanimated:parseDebugLocalResources' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:parseDebugLocalResources' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:processDebugManifest (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:processDebugManifest (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:processDebugManifest UP-TO-DATE
+Caching disabled for task ':react-native-reanimated:processDebugManifest' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:processDebugManifest' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:generateDebugRFile (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:generateDebugRFile (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:generateDebugRFile UP-TO-DATE
+Transforming android.jar with PlatformAttrTransform
+Caching disabled for task ':react-native-reanimated:generateDebugRFile' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:generateDebugRFile' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:javaPreCompileDebug (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:javaPreCompileDebug (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:javaPreCompileDebug UP-TO-DATE
+Caching disabled for task ':react-native-reanimated:javaPreCompileDebug' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:javaPreCompileDebug' as it is up-to-date.
+Resolve mutations for :react-native-reanimated:packageNdkLibs (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:packageNdkLibs (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:packageNdkLibs NO-SOURCE
+Skipping task ':react-native-reanimated:packageNdkLibs' as it has no source files and no previous output files.
+Resolve mutations for :react-native-reanimated:compileDebugJavaWithJavac (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:compileDebugJavaWithJavac (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:compileDebugJavaWithJavac UP-TO-DATE
+Transforming annotations-13.0.jar (org.jetbrains:annotations:13.0) with JetifyTransform
+Transforming proguard-annotations-1.19.0.jar (com.facebook.yoga:proguard-annotations:1.19.0) with JetifyTransform
+Transforming annotations-13.0.jar (org.jetbrains:annotations:13.0) with IdentityTransform
+Transforming proguard-annotations-1.19.0.jar (com.facebook.yoga:proguard-annotations:1.19.0) with IdentityTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with JetifyTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with IdentityTransform
+Transforming javax.inject-1.jar (javax.inject:javax.inject:1) with JetifyTransform
+Transforming javax.inject-1.jar (javax.inject:javax.inject:1) with IdentityTransform
+Transforming transition-1.1.0.aar (androidx.transition:transition:1.1.0) with JetifyTransform
+Transforming appcompat-1.6.1.aar (androidx.appcompat:appcompat:1.6.1) with JetifyTransform
+Transforming appcompat-1.6.1.aar (androidx.appcompat:appcompat:1.6.1) with AarToClassTransform
+Transforming transition-1.1.0.aar (androidx.transition:transition:1.1.0) with AarToClassTransform
+Transforming appcompat-resources-1.6.1.aar (androidx.appcompat:appcompat-resources:1.6.1) with JetifyTransform
+Transforming appcompat-resources-1.6.1.aar (androidx.appcompat:appcompat-resources:1.6.1) with AarToClassTransform
+Transforming swiperefreshlayout-1.1.0.aar (androidx.swiperefreshlayout:swiperefreshlayout:1.1.0) with JetifyTransform
+Transforming swiperefreshlayout-1.1.0.aar (androidx.swiperefreshlayout:swiperefreshlayout:1.1.0) with AarToClassTransform
+Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with JetifyTransform
+Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with AarToClassTransform
+Transforming activity-1.6.0.aar (androidx.activity:activity:1.6.0) with JetifyTransform
+Transforming activity-1.6.0.aar (androidx.activity:activity:1.6.0) with AarToClassTransform
+Transforming lifecycle-viewmodel-savedstate-2.5.1.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1) with JetifyTransform
+Transforming lifecycle-viewmodel-savedstate-2.5.1.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1) with AarToClassTransform
+Transforming drawerlayout-1.0.0.aar (androidx.drawerlayout:drawerlayout:1.0.0) with JetifyTransform
+Transforming drawerlayout-1.0.0.aar (androidx.drawerlayout:drawerlayout:1.0.0) with AarToClassTransform
+Transforming customview-1.0.0.aar (androidx.customview:customview:1.0.0) with JetifyTransform
+Transforming customview-1.0.0.aar (androidx.customview:customview:1.0.0) with JetifyTransform
+Transforming customview-1.0.0.aar (androidx.customview:customview:1.0.0) with AarToClassTransform
+Transforming customview-1.0.0.aar (androidx.customview:customview:1.0.0) with AarToClassTransform
+Transforming react-android-0.73.11-debug.aar (com.facebook.react:react-android:0.73.11) with JetifyTransform
+Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with JetifyTransform
+Transforming react-android-0.73.11-debug.aar (com.facebook.react:react-android:0.73.11) with AarToClassTransform
+Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with AarToClassTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with JetifyTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with AarToClassTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with JetifyTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with JetifyTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with AarToClassTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with AarToClassTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with AarToClassTransform
+Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with JetifyTransform
+Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with AarToClassTransform
+Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with JetifyTransform
+Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with AarToClassTransform
+Transforming lifecycle-runtime-2.5.1.aar (androidx.lifecycle:lifecycle-runtime:2.5.1) with JetifyTransform
+Transforming lifecycle-runtime-2.5.1.aar (androidx.lifecycle:lifecycle-runtime:2.5.1) with AarToClassTransform
+Transforming core-ktx-1.9.0.aar (androidx.core:core-ktx:1.9.0) with JetifyTransform
+Transforming core-ktx-1.9.0.aar (androidx.core:core-ktx:1.9.0) with AarToClassTransform
+Transforming lifecycle-livedata-2.0.0.aar (androidx.lifecycle:lifecycle-livedata:2.0.0) with JetifyTransform
+Transforming lifecycle-livedata-2.0.0.aar (androidx.lifecycle:lifecycle-livedata:2.0.0) with AarToClassTransform
+Transforming collection-1.1.0.jar (androidx.collection:collection:1.1.0) with JetifyTransform
+Transforming collection-1.1.0.jar (androidx.collection:collection:1.1.0) with IdentityTransform
+Transforming lifecycle-livedata-core-2.5.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.5.1) with JetifyTransform
+Transforming lifecycle-livedata-core-2.5.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.5.1) with AarToClassTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with AarToClassTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with AarToClassTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with AarToClassTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with JetifyTransform
+Transforming lifecycle-livedata-core-2.5.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.5.1) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with AarToClassTransform
+Transforming lifecycle-livedata-core-2.5.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.5.1) with AarToClassTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with AarToClassTransform
+Transforming core-common-2.1.0.jar (androidx.arch.core:core-common:2.1.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with AarToClassTransform
+Transforming core-common-2.1.0.jar (androidx.arch.core:core-common:2.1.0) with IdentityTransform
+Transforming lifecycle-common-2.5.1.jar (androidx.lifecycle:lifecycle-common:2.5.1) with JetifyTransform
+Transforming core-runtime-2.1.0.aar (androidx.arch.core:core-runtime:2.1.0) with JetifyTransform
+Transforming core-1.9.0.aar (androidx.core:core:1.9.0) with AarToClassTransform
+Transforming core-runtime-2.1.0.aar (androidx.arch.core:core-runtime:2.1.0) with AarToClassTransform
+Transforming lifecycle-common-2.5.1.jar (androidx.lifecycle:lifecycle-common:2.5.1) with IdentityTransform
+Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with JetifyTransform
+Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with AarToClassTransform
+Transforming savedstate-1.2.0.aar (androidx.savedstate:savedstate:1.2.0) with JetifyTransform
+Transforming savedstate-1.2.0.aar (androidx.savedstate:savedstate:1.2.0) with AarToClassTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with JetifyTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with JetifyTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with AarToClassTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with AarToClassTransform
+Transforming fresco-3.1.3.aar (com.facebook.fresco:fresco:3.1.3) with JetifyTransform
+Transforming fresco-3.1.3.aar (com.facebook.fresco:fresco:3.1.3) with AarToClassTransform
+Transforming okhttp-urlconnection-4.9.2.jar (com.squareup.okhttp3:okhttp-urlconnection:4.9.2) with JetifyTransform
+Transforming okhttp-urlconnection-4.9.2.jar (com.squareup.okhttp3:okhttp-urlconnection:4.9.2) with IdentityTransform
+Transforming imagepipeline-3.1.3.aar (com.facebook.fresco:imagepipeline:3.1.3) with JetifyTransform
+Transforming imagepipeline-3.1.3.aar (com.facebook.fresco:imagepipeline:3.1.3) with AarToClassTransform
+Transforming lifecycle-viewmodel-2.5.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.5.1) with JetifyTransform
+Transforming lifecycle-viewmodel-2.5.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.5.1) with AarToClassTransform
+Transforming ui-common-3.1.3.aar (com.facebook.fresco:ui-common:3.1.3) with JetifyTransform
+Transforming ui-common-3.1.3.aar (com.facebook.fresco:ui-common:3.1.3) with AarToClassTransform
+Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with JetifyTransform
+Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with AarToClassTransform
+Transforming kotlin-stdlib-jdk8-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21) with JetifyTransform
+Transforming kotlin-stdlib-jdk8-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21) with IdentityTransform
+Transforming okhttp-4.9.2.jar (com.squareup.okhttp3:okhttp:4.9.2) with JetifyTransform
+Transforming okhttp-4.9.2.jar (com.squareup.okhttp3:okhttp:4.9.2) with IdentityTransform
+Transforming kotlin-stdlib-jdk7-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.21) with JetifyTransform
+Transforming kotlin-stdlib-jdk7-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.21) with IdentityTransform
+Transforming kotlinx-coroutines-android-1.6.1.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1) with JetifyTransform
+Transforming kotlinx-coroutines-android-1.6.1.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1) with IdentityTransform
+Transforming tracing-1.1.0.aar (androidx.tracing:tracing:1.1.0) with JetifyTransform
+Transforming tracing-1.1.0.aar (androidx.tracing:tracing:1.1.0) with AarToClassTransform
+Transforming autofill-1.1.0.aar (androidx.autofill:autofill:1.1.0) with JetifyTransform
+Transforming autofill-1.1.0.aar (androidx.autofill:autofill:1.1.0) with AarToClassTransform
+Transforming imagepipeline-base-3.1.3.aar (com.facebook.fresco:imagepipeline-base:3.1.3) with JetifyTransform
+Transforming imagepipeline-base-3.1.3.aar (com.facebook.fresco:imagepipeline-base:3.1.3) with AarToClassTransform
+Transforming fbcore-3.1.3.aar (com.facebook.fresco:fbcore:3.1.3) with JetifyTransform
+Transforming fbcore-3.1.3.aar (com.facebook.fresco:fbcore:3.1.3) with AarToClassTransform
+Transforming lifecycle-viewmodel-2.5.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.5.1) with JetifyTransform
+Transforming lifecycle-viewmodel-2.5.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.5.1) with AarToClassTransform
+Transforming fbjni-0.5.1.aar (com.facebook.fbjni:fbjni:0.5.1) with JetifyTransform
+Transforming fbjni-0.5.1.aar (com.facebook.fbjni:fbjni:0.5.1) with AarToClassTransform
+Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with JetifyTransform
+Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with IdentityTransform
+Transforming nativeloader-0.10.5.jar (com.facebook.soloader:nativeloader:0.10.5) with JetifyTransform
+Transforming nativeloader-0.10.5.jar (com.facebook.soloader:nativeloader:0.10.5) with IdentityTransform
+Transforming drawee-3.1.3.aar (com.facebook.fresco:drawee:3.1.3) with JetifyTransform
+Transforming drawee-3.1.3.aar (com.facebook.fresco:drawee:3.1.3) with AarToClassTransform
+Transforming imagepipeline-okhttp3-3.1.3.aar (com.facebook.fresco:imagepipeline-okhttp3:3.1.3) with JetifyTransform
+Transforming imagepipeline-okhttp3-3.1.3.aar (com.facebook.fresco:imagepipeline-okhttp3:3.1.3) with AarToClassTransform
+Transforming okio-jvm-2.9.0.jar (com.squareup.okio:okio:2.9.0) with JetifyTransform
+Transforming okio-jvm-2.9.0.jar (com.squareup.okio:okio:2.9.0) with IdentityTransform
+Transforming memory-type-ashmem-3.1.3.aar (com.facebook.fresco:memory-type-ashmem:3.1.3) with JetifyTransform
+Transforming memory-type-ashmem-3.1.3.aar (com.facebook.fresco:memory-type-ashmem:3.1.3) with AarToClassTransform
+Transforming kotlin-annotations-jvm-1.3.72.jar (org.jetbrains.kotlin:kotlin-annotations-jvm:1.3.72) with JetifyTransform
+Transforming kotlin-annotations-jvm-1.3.72.jar (org.jetbrains.kotlin:kotlin-annotations-jvm:1.3.72) with IdentityTransform
+Transforming middleware-3.1.3.aar (com.facebook.fresco:middleware:3.1.3) with JetifyTransform
+Transforming middleware-3.1.3.aar (com.facebook.fresco:middleware:3.1.3) with AarToClassTransform
+Transforming memory-type-java-3.1.3.aar (com.facebook.fresco:memory-type-java:3.1.3) with JetifyTransform
+Transforming memory-type-java-3.1.3.aar (com.facebook.fresco:memory-type-java:3.1.3) with AarToClassTransform
+Transforming nativeimagefilters-3.1.3.aar (com.facebook.fresco:nativeimagefilters:3.1.3) with JetifyTransform
+Transforming nativeimagefilters-3.1.3.aar (com.facebook.fresco:nativeimagefilters:3.1.3) with AarToClassTransform
+Transforming kotlinx-coroutines-core-jvm-1.6.1.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.1) with JetifyTransform
+Transforming kotlinx-coroutines-core-jvm-1.6.1.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.1) with IdentityTransform
+Transforming kotlin-stdlib-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib:1.8.21) with JetifyTransform
+Transforming kotlin-stdlib-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib:1.8.21) with IdentityTransform
+Transforming hermes-android-0.73.11-debug.aar (com.facebook.react:hermes-android:0.73.11) with JetifyTransform
+Transforming hermes-android-0.73.11-debug.aar (com.facebook.react:hermes-android:0.73.11) with AarToClassTransform
+Transforming nativeimagetranscoder-3.1.3.aar (com.facebook.fresco:nativeimagetranscoder:3.1.3) with JetifyTransform
+Transforming nativeimagetranscoder-3.1.3.aar (com.facebook.fresco:nativeimagetranscoder:3.1.3) with AarToClassTransform
+Transforming memory-type-native-3.1.3.aar (com.facebook.fresco:memory-type-native:3.1.3) with JetifyTransform
+Transforming memory-type-native-3.1.3.aar (com.facebook.fresco:memory-type-native:3.1.3) with AarToClassTransform
+Transforming kotlin-stdlib-common-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-common:1.8.21) with JetifyTransform
+Transforming kotlin-stdlib-common-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-common:1.8.21) with IdentityTransform
+Transforming soloader-0.10.5.aar (com.facebook.soloader:soloader:0.10.5) with JetifyTransform
+Transforming soloader-0.10.5.aar (com.facebook.soloader:soloader:0.10.5) with AarToClassTransform
+Transforming annotation-0.10.5.jar (com.facebook.soloader:annotation:0.10.5) with JetifyTransform
+Transforming annotation-0.10.5.jar (com.facebook.soloader:annotation:0.10.5) with IdentityTransform
+Transforming infer-annotation-0.18.0.jar (com.facebook.infer.annotation:infer-annotation:0.18.0) with JetifyTransform
+Transforming infer-annotation-0.18.0.jar (com.facebook.infer.annotation:infer-annotation:0.18.0) with IdentityTransform
+Transforming imagepipeline-native-3.1.3.aar (com.facebook.fresco:imagepipeline-native:3.1.3) with JetifyTransform
+Transforming imagepipeline-native-3.1.3.aar (com.facebook.fresco:imagepipeline-native:3.1.3) with AarToClassTransform
+Transforming core-for-system-modules.jar with JdkImageTransform
+Transforming core-for-system-modules.jar with JdkImageTransform
+Transforming core-for-system-modules.jar with JdkImageTransform
+Transforming core-for-system-modules.jar with JdkImageTransform
+Transforming core-for-system-modules.jar with JdkImageTransform
+Transforming core-for-system-modules.jar with JdkImageTransform
+Caching disabled for task ':react-native-reanimated:compileDebugJavaWithJavac' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:compileDebugJavaWithJavac' as it is up-to-date.
+No compile result for :react-native-reanimated:compileDebugJavaWithJavac
+No compile result for :react-native-reanimated:compileDebugJavaWithJavac
+Resolve mutations for :react-native-reanimated:bundleLibCompileToJarDebug (Thread[Execution worker Thread 9,5,main]) started.
+:react-native-reanimated:bundleLibCompileToJarDebug (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :react-native-reanimated:bundleLibCompileToJarDebug UP-TO-DATE
+Caching disabled for task ':react-native-reanimated:bundleLibCompileToJarDebug' because:
+  Build cache is disabled
+Skipping task ':react-native-reanimated:bundleLibCompileToJarDebug' as it is up-to-date.
+work action resolve classes.jar (project :react-native-reanimated) (Thread[Execution worker Thread 9,5,main]) started.
+Resolve mutations for :react-native-gesture-handler:compileDebugKotlin (Thread[Execution worker Thread 11,5,main]) started.
+:react-native-gesture-handler:compileDebugKotlin (Thread[Execution worker Thread 11,5,main]) started.
+
+> Task :react-native-gesture-handler:compileDebugKotlin
+Transforming react-android-0.73.11-debug.aar (com.facebook.react:react-android:0.73.11) with JetifyTransform
+Transforming react-android-0.73.11-debug.aar (com.facebook.react:react-android:0.73.11) with AarToClassTransform
+Transforming swiperefreshlayout-1.1.0.aar (androidx.swiperefreshlayout:swiperefreshlayout:1.1.0) with JetifyTransform
+Transforming swiperefreshlayout-1.1.0.aar (androidx.swiperefreshlayout:swiperefreshlayout:1.1.0) with AarToClassTransform
+Transforming drawerlayout-1.0.0.aar (androidx.drawerlayout:drawerlayout:1.0.0) with JetifyTransform
+Transforming drawerlayout-1.0.0.aar (androidx.drawerlayout:drawerlayout:1.0.0) with AarToClassTransform
+Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with JetifyTransform
+Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with AarToClassTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with JetifyTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with AarToClassTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with JetifyTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with AarToClassTransform
+Transforming appcompat-1.7.0.aar (androidx.appcompat:appcompat:1.7.0) with JetifyTransform
+Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with JetifyTransform
+Transforming appcompat-1.7.0.aar (androidx.appcompat:appcompat:1.7.0) with AarToClassTransform
+Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with AarToClassTransform
+Transforming customview-1.0.0.aar (androidx.customview:customview:1.0.0) with JetifyTransform
+Transforming customview-1.0.0.aar (androidx.customview:customview:1.0.0) with AarToClassTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with JetifyTransform
+Transforming appcompat-resources-1.7.0.aar (androidx.appcompat:appcompat-resources:1.7.0) with JetifyTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with AarToClassTransform
+Transforming activity-1.7.0.aar (androidx.activity:activity:1.7.0) with JetifyTransform
+Transforming appcompat-resources-1.7.0.aar (androidx.appcompat:appcompat-resources:1.7.0) with AarToClassTransform
+Transforming activity-1.7.0.aar (androidx.activity:activity:1.7.0) with AarToClassTransform
+Transforming fragment-1.5.4.aar (androidx.fragment:fragment:1.5.4) with JetifyTransform
+Transforming core-ktx-1.9.0.aar (androidx.core:core-ktx:1.9.0) with JetifyTransform
+Transforming fragment-1.5.4.aar (androidx.fragment:fragment:1.5.4) with AarToClassTransform
+Transforming core-ktx-1.9.0.aar (androidx.core:core-ktx:1.9.0) with AarToClassTransform
+Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with JetifyTransform
+Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with AarToClassTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with AarToClassTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with JetifyTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with AarToClassTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with AarToClassTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with AarToClassTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with AarToClassTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with AarToClassTransform
+Transforming lifecycle-livedata-2.6.2.aar (androidx.lifecycle:lifecycle-livedata:2.6.2) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with AarToClassTransform
+Transforming lifecycle-viewmodel-2.6.2.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.2) with JetifyTransform
+Transforming core-1.13.0.aar (androidx.core:core:1.13.0) with AarToClassTransform
+Transforming lifecycle-viewmodel-2.6.2.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.2) with AarToClassTransform
+Transforming lifecycle-livedata-2.6.2.aar (androidx.lifecycle:lifecycle-livedata:2.6.2) with AarToClassTransform
+Transforming lifecycle-livedata-core-2.6.2.aar (androidx.lifecycle:lifecycle-livedata-core:2.6.2) with JetifyTransform
+Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with JetifyTransform
+Transforming lifecycle-livedata-core-2.6.2.aar (androidx.lifecycle:lifecycle-livedata-core:2.6.2) with AarToClassTransform
+Transforming lifecycle-common-2.6.2.jar (androidx.lifecycle:lifecycle-common:2.6.2) with JetifyTransform
+Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with AarToClassTransform
+Transforming lifecycle-runtime-2.6.2.aar (androidx.lifecycle:lifecycle-runtime:2.6.2) with JetifyTransform
+Transforming lifecycle-viewmodel-savedstate-2.6.2.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2) with JetifyTransform
+Transforming lifecycle-viewmodel-2.6.2.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.2) with JetifyTransform
+Transforming lifecycle-viewmodel-savedstate-2.6.2.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2) with AarToClassTransform
+Transforming lifecycle-runtime-2.6.2.aar (androidx.lifecycle:lifecycle-runtime:2.6.2) with AarToClassTransform
+Transforming collection-1.1.0.jar (androidx.collection:collection:1.1.0) with JetifyTransform
+Transforming lifecycle-common-2.6.2.jar (androidx.lifecycle:lifecycle-common:2.6.2) with IdentityTransform
+Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with JetifyTransform
+Transforming lifecycle-viewmodel-2.6.2.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.2) with AarToClassTransform
+Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with AarToClassTransform
+Transforming collection-1.1.0.jar (androidx.collection:collection:1.1.0) with IdentityTransform
+Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with JetifyTransform
+Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with IdentityTransform
+Transforming imagepipeline-okhttp3-3.1.3.aar (com.facebook.fresco:imagepipeline-okhttp3:3.1.3) with JetifyTransform
+Transforming imagepipeline-okhttp3-3.1.3.aar (com.facebook.fresco:imagepipeline-okhttp3:3.1.3) with AarToClassTransform
+Transforming okhttp-urlconnection-4.9.2.jar (com.squareup.okhttp3:okhttp-urlconnection:4.9.2) with JetifyTransform
+Transforming okhttp-urlconnection-4.9.2.jar (com.squareup.okhttp3:okhttp-urlconnection:4.9.2) with IdentityTransform
+Transforming okhttp-4.9.2.jar (com.squareup.okhttp3:okhttp:4.9.2) with JetifyTransform
+Transforming okhttp-4.9.2.jar (com.squareup.okhttp3:okhttp:4.9.2) with IdentityTransform
+Transforming okio-jvm-2.9.0.jar (com.squareup.okio:okio:2.9.0) with JetifyTransform
+Transforming okio-jvm-2.9.0.jar (com.squareup.okio:okio:2.9.0) with IdentityTransform
+Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with JetifyTransform
+Transforming fresco-3.1.3.aar (com.facebook.fresco:fresco:3.1.3) with JetifyTransform
+Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with IdentityTransform
+Transforming fresco-3.1.3.aar (com.facebook.fresco:fresco:3.1.3) with AarToClassTransform
+Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with JetifyTransform
+Transforming middleware-3.1.3.aar (com.facebook.fresco:middleware:3.1.3) with JetifyTransform
+Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with AarToClassTransform
+Transforming middleware-3.1.3.aar (com.facebook.fresco:middleware:3.1.3) with AarToClassTransform
+Transforming ui-common-3.1.3.aar (com.facebook.fresco:ui-common:3.1.3) with JetifyTransform
+Transforming ui-common-3.1.3.aar (com.facebook.fresco:ui-common:3.1.3) with AarToClassTransform
+Transforming fbcore-3.1.3.aar (com.facebook.fresco:fbcore:3.1.3) with JetifyTransform
+Transforming fbcore-3.1.3.aar (com.facebook.fresco:fbcore:3.1.3) with AarToClassTransform
+Transforming imagepipeline-3.1.3.aar (com.facebook.fresco:imagepipeline:3.1.3) with JetifyTransform
+Transforming imagepipeline-3.1.3.aar (com.facebook.fresco:imagepipeline:3.1.3) with AarToClassTransform
+Transforming imagepipeline-base-3.1.3.aar (com.facebook.fresco:imagepipeline-base:3.1.3) with JetifyTransform
+Transforming imagepipeline-base-3.1.3.aar (com.facebook.fresco:imagepipeline-base:3.1.3) with AarToClassTransform
+Transforming kotlin-stdlib-jdk8-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21) with JetifyTransform
+Transforming kotlin-stdlib-jdk8-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21) with IdentityTransform
+Transforming kotlin-stdlib-jdk7-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.21) with JetifyTransform
+Transforming kotlin-stdlib-jdk7-1.8.21.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.21) with IdentityTransform
+Transforming annotations-13.0.jar (org.jetbrains:annotations:13.0) with JetifyTransform
+Transforming kotlinx-coroutines-core-jvm-1.6.4.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4) with JetifyTransform
+Transforming annotations-13.0.jar (org.jetbrains:annotations:13.0) with IdentityTransform
+Transforming kotlinx-coroutines-core-jvm-1.6.4.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4) with IdentityTransform
+Transforming tracing-1.1.0.aar (androidx.tracing:tracing:1.1.0) with JetifyTransform
+Transforming kotlinx-coroutines-android-1.6.4.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4) with JetifyTransform
+Transforming annotation-experimental-1.4.0.aar (androidx.annotation:annotation-experimental:1.4.0) with JetifyTransform
+Transforming tracing-1.1.0.aar (androidx.tracing:tracing:1.1.0) with AarToClassTransform
+Transforming annotation-experimental-1.4.0.aar (androidx.annotation:annotation-experimental:1.4.0) with AarToClassTransform
+Transforming autofill-1.1.0.aar (androidx.autofill:autofill:1.1.0) with JetifyTransform
+Transforming kotlinx-coroutines-android-1.6.4.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4) with IdentityTransform
+Transforming autofill-1.1.0.aar (androidx.autofill:autofill:1.1.0) with AarToClassTransform
+Transforming kotlin-stdlib-1.9.22.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.22) with JetifyTransform
+Transforming fbjni-0.5.1.aar (com.facebook.fbjni:fbjni:0.5.1) with JetifyTransform
+Transforming kotlin-stdlib-1.9.22.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.22) with IdentityTransform
+Transforming fbjni-0.5.1.aar (com.facebook.fbjni:fbjni:0.5.1) with AarToClassTransform
+Transforming soloader-0.10.5.aar (com.facebook.soloader:soloader:0.10.5) with JetifyTransform
+Transforming soloader-0.10.5.aar (com.facebook.soloader:soloader:0.10.5) with AarToClassTransform
+Transforming nativeloader-0.10.5.jar (com.facebook.soloader:nativeloader:0.10.5) with JetifyTransform
+Transforming nativeloader-0.10.5.jar (com.facebook.soloader:nativeloader:0.10.5) with IdentityTransform
+Transforming annotation-0.10.5.jar (com.facebook.soloader:annotation:0.10.5) with JetifyTransform
+Transforming annotation-0.10.5.jar (com.facebook.soloader:annotation:0.10.5) with IdentityTransform
+Transforming drawee-3.1.3.aar (com.facebook.fresco:drawee:3.1.3) with JetifyTransform
+Transforming drawee-3.1.3.aar (com.facebook.fresco:drawee:3.1.3) with AarToClassTransform
+Transforming infer-annotation-0.18.0.jar (com.facebook.infer.annotation:infer-annotation:0.18.0) with JetifyTransform
+Transforming infer-annotation-0.18.0.jar (com.facebook.infer.annotation:infer-annotation:0.18.0) with IdentityTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with JetifyTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with IdentityTransform
+Transforming kotlin-annotations-jvm-1.3.72.jar (org.jetbrains.kotlin:kotlin-annotations-jvm:1.3.72) with JetifyTransform
+Transforming kotlin-annotations-jvm-1.3.72.jar (org.jetbrains.kotlin:kotlin-annotations-jvm:1.3.72) with IdentityTransform
+Transforming imagepipeline-native-3.1.3.aar (com.facebook.fresco:imagepipeline-native:3.1.3) with JetifyTransform
+Transforming imagepipeline-native-3.1.3.aar (com.facebook.fresco:imagepipeline-native:3.1.3) with AarToClassTransform
+Transforming memory-type-ashmem-3.1.3.aar (com.facebook.fresco:memory-type-ashmem:3.1.3) with JetifyTransform
+Transforming memory-type-ashmem-3.1.3.aar (com.facebook.fresco:memory-type-ashmem:3.1.3) with AarToClassTransform
+Transforming memory-type-native-3.1.3.aar (com.facebook.fresco:memory-type-native:3.1.3) with JetifyTransform
+Transforming memory-type-native-3.1.3.aar (com.facebook.fresco:memory-type-native:3.1.3) with AarToClassTransform
+Transforming memory-type-java-3.1.3.aar (com.facebook.fresco:memory-type-java:3.1.3) with JetifyTransform
+Transforming memory-type-java-3.1.3.aar (com.facebook.fresco:memory-type-java:3.1.3) with AarToClassTransform
+Transforming nativeimagefilters-3.1.3.aar (com.facebook.fresco:nativeimagefilters:3.1.3) with JetifyTransform
+Transforming nativeimagefilters-3.1.3.aar (com.facebook.fresco:nativeimagefilters:3.1.3) with AarToClassTransform
+Transforming nativeimagetranscoder-3.1.3.aar (com.facebook.fresco:nativeimagetranscoder:3.1.3) with JetifyTransform
+Transforming nativeimagetranscoder-3.1.3.aar (com.facebook.fresco:nativeimagetranscoder:3.1.3) with AarToClassTransform
+Transforming proguard-annotations-1.19.0.jar (com.facebook.yoga:proguard-annotations:1.19.0) with JetifyTransform
+Transforming proguard-annotations-1.19.0.jar (com.facebook.yoga:proguard-annotations:1.19.0) with IdentityTransform
+Transforming javax.inject-1.jar (javax.inject:javax.inject:1) with JetifyTransform
+Transforming javax.inject-1.jar (javax.inject:javax.inject:1) with IdentityTransform
+Transforming R.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-react-android-0.73.11-debug-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-appcompat-resources-1.7.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming appcompat-1.7.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming fragment-1.5.4-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-activity-1.7.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming swiperefreshlayout-1.1.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming drawerlayout-1.0.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming vectordrawable-animated-1.1.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming vectordrawable-1.1.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming viewpager-1.0.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming customview-1.0.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming loader-1.0.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming core-1.13.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming lifecycle-livedata-2.6.2-api.jar with ClasspathEntrySnapshotTransform
+Transforming lifecycle-common-2.6.2.jar with ClasspathEntrySnapshotTransform
+Transforming lifecycle-livedata-core-2.6.2-api.jar with ClasspathEntrySnapshotTransform
+Transforming lifecycle-viewmodel-2.6.2-api.jar with ClasspathEntrySnapshotTransform
+Transforming lifecycle-runtime-2.6.2-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-lifecycle-viewmodel-savedstate-2.6.2-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-core-ktx-1.9.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming cursoradapter-1.0.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-savedstate-1.2.1-api.jar with ClasspathEntrySnapshotTransform
+Transforming interpolator-1.0.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming versionedparcelable-1.1.1-api.jar with ClasspathEntrySnapshotTransform
+Transforming collection-1.1.0.jar with ClasspathEntrySnapshotTransform
+Transforming core-runtime-2.2.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming core-common-2.2.0.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-annotation-jvm-1.6.0.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-imagepipeline-okhttp3-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-okhttp-urlconnection-4.9.2.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-okhttp-4.9.2.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-okio-jvm-2.9.0.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-fresco-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-middleware-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-ui-common-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-fbcore-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-imagepipeline-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-imagepipeline-base-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-kotlinx-coroutines-core-jvm-1.6.4.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-kotlinx-coroutines-android-1.6.4.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-kotlin-stdlib-jdk8-1.8.21.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-kotlin-stdlib-jdk7-1.8.21.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-annotation-experimental-1.4.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-kotlin-stdlib-1.9.22.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-annotations-13.0.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-tracing-1.1.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-autofill-1.1.0-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-fbjni-0.5.1-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-soloader-0.10.5-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-nativeloader-0.10.5.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-annotation-0.10.5.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-drawee-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-infer-annotation-0.18.0.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-jsr305-3.0.2.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-kotlin-annotations-jvm-1.3.72.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-imagepipeline-native-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-memory-type-ashmem-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-memory-type-native-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-memory-type-java-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-nativeimagefilters-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-nativeimagetranscoder-3.1.3-api.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-proguard-annotations-1.19.0.jar with ClasspathEntrySnapshotTransform
+Transforming jetified-javax.inject-1.jar with ClasspathEntrySnapshotTransform
+Transforming classes.jar with ClasspathEntrySnapshotTransform
+Transforming android.jar with ClasspathEntrySnapshotTransform
+Transforming core-lambda-stubs.jar with ClasspathEntrySnapshotTransform
+Caching disabled for task ':react-native-gesture-handler:compileDebugKotlin' because:
+  Build cache is disabled
+Task ':react-native-gesture-handler:compileDebugKotlin' is not up-to-date because:
+  Task has failed previously.
+The input changes require a full rebuild for incremental task ':react-native-gesture-handler:compileDebugKotlin'.
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\kotlin', not found
+file or directory 'G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\debug\java', not found
+Kotlin source files: G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\DiagonalDirections.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\FlingGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\GestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\GestureHandlerInteractionController.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\GestureHandlerOrchestrator.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\GestureHandlerRegistry.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\GestureUtils.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\HoverGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\LongPressGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\ManualGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\NativeViewGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\OnTouchEventListener.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\PanGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\PinchGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\PointerEventsConfig.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\RotationGestureDetector.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\RotationGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\StylusData.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\TapGestureHandler.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\Vector.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\ViewConfigurationHelper.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\FlingGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\GestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\HoverGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\LongPressGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\ManualGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\NativeGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\PanGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\PinchGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\RotationGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\eventbuilders\TapGestureHandlerEventDataBuilder.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\Extensions.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerButtonViewManager.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerEnabledRootView.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerEvent.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerEventDispatcher.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerFactoryUtil.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerInteractionManager.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerModule.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerRegistry.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerRootHelper.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerRootInterface.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerRootView.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerRootViewManager.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerStateChangeEvent.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNGestureHandlerTouchEvent.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\react\RNViewConfigurationHelper.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\RNGestureHandlerPackage.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\reanimated\src\main\java\com\swmansion\gesturehandler\ReanimatedEventDispatcher.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\nosvg\src\main\java\com\swmansion\gesturehandler\RNSVGHitTester.kt, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\paper\src\main\java\com\swmansion\gesturehandler\ReactContextExtensions.kt
+Java source files: G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\src\main\java\com\swmansion\gesturehandler\core\ScaleGestureDetector.java, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\paper\src\main\java\com\facebook\react\viewmanagers\RNGestureHandlerButtonManagerDelegate.java, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\paper\src\main\java\com\facebook\react\viewmanagers\RNGestureHandlerButtonManagerInterface.java, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\paper\src\main\java\com\facebook\react\viewmanagers\RNGestureHandlerRootViewManagerDelegate.java, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\paper\src\main\java\com\facebook\react\viewmanagers\RNGestureHandlerRootViewManagerInterface.java, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\paper\src\main\java\com\swmansion\gesturehandler\NativeRNGestureHandlerModuleSpec.java, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\build\generated\source\buildConfig\debug\com\swmansion\gesturehandler\BuildConfig.java
+Script source files: 
+Script file extensions: 
+Using Kotlin/JVM incremental compilation
+[KOTLIN] Kotlin compilation 'jdkHome' argument: null
+i: found daemon on port 17161 (70485 ms old), trying to connect
+i: connected to the daemon
+Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0, 3], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[]), areFileChangesKnown=false, modifiedFiles=null, deletedFiles=null, classpathChanges=NotAvailableForNonIncrementalRun, workingDir=G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\build\kotlin\compileDebugKotlin\cacheable, multiModuleICSettings=MultiModuleICSettings(buildHistoryFile=G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\build\kotlin\compileDebugKotlin\local-state\build-history.bin, useModuleDetection=true), usePreciseJavaTracking=true, outputFiles=[G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\build\tmp\kotlin-classes\debug, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\build\kotlin\compileDebugKotlin\cacheable, G:\School Mgmt System\mobile-app\node_modules\react-native-gesture-handler\android\build\kotlin\compileDebugKotlin\local-state])
+e: Supertypes of the following classes cannot be resolved. Please make sure you have the required dependencies in the classpath:
+    class com.facebook.react.viewmanagers.RNGestureHandlerButtonManagerInterface, unresolved supertypes: ViewManagerWithGeneratedInterface
+    class com.facebook.react.viewmanagers.RNGestureHandlerRootViewManagerInterface, unresolved supertypes: ViewManagerWithGeneratedInterface
+Adding -Xextended-compiler-checks argument might provide additional information.
+
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/RNGestureHandlerPackage.kt:3:27 Unresolved reference: BaseReactPackage
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/RNGestureHandlerPackage.kt:23:3 Unresolved reference: BaseReactPackage
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/RNGestureHandlerPackage.kt:36:3 'createViewManagers' overrides nothing
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/RNGestureHandlerPackage.kt:41:3 'getViewManagers' overrides nothing
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/RNGestureHandlerPackage.kt:47:3 'getModule' overrides nothing
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/RNGestureHandlerPackage.kt:54:3 'getReactModuleInfoProvider' overrides nothing
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt:40:1 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerButtonViewManager'. Check your module classpath for missing or conflicting dependencies
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt:47:5 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerButtonViewManager'. Check your module classpath for missing or conflicting dependencies
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt:47:107 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerButtonViewManager'. Check your module classpath for missing or conflicting dependencies
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt:136:5 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerButtonViewManager'. Check your module classpath for missing or conflicting dependencies
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt:141:71 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerButtonViewManager'. Check your module classpath for missing or conflicting dependencies
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerRootViewManager.kt:16:1 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerRootViewManager'. Check your module classpath for missing or conflicting dependencies
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerRootViewManager.kt:23:5 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerRootViewManager'. Check your module classpath for missing or conflicting dependencies
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerRootViewManager.kt:23:116 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerRootViewManager'. Check your module classpath for missing or conflicting dependencies
+e: file:///G:/School%20Mgmt%20System/mobile-app/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerRootViewManager.kt:26:79 Cannot access 'ViewManagerWithGeneratedInterface' which is a supertype of 'com.swmansion.gesturehandler.react.RNGestureHandlerRootViewManager'. Check your module classpath for missing or conflicting dependencies
+
+> Task :react-native-gesture-handler:compileDebugKotlin FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':react-native-gesture-handler:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 14s
+23 actionable tasks: 2 executed, 21 up-to-date
+Watched directory hierarchies: [G:\School Mgmt System\mobile-app\node_modules\@react-native\gradle-plugin, G:\School Mgmt System\mobile-app\android]

@@ -1,0 +1,55 @@
+# Core Django
+Django==4.2.7
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.0
+django-cors-headers==4.3.0
+django-filter==23.3
+drf-spectacular==0.26.5
+django-jazzmin==2.6.0
+
+# Database
+psycopg2-binary==2.9.9
+django-tenants>=3.6.0
+
+# Caching & Task Queue
+redis==5.0.1
+celery==5.3.4
+django-celery-beat==2.5.0
+
+# Server
+gunicorn==21.2.0
+whitenoise==6.6.0
+
+# Media & Files
+Pillow==10.1.0
+python-magic==0.4.27
+
+# Utilities
+python-decouple==3.8
+python-dateutil==2.8.2
+
+# Payment Gateways
+razorpay==1.4.1
+stripe==7.4.0
+
+# SMS & Communication
+twilio==8.10.0
+
+# Biometric
+pyzk==0.9
+
+# Excel/PDF Generation
+openpyxl==3.1.2
+reportlab==4.0.7
+WeasyPrint==60.1
+xlsxwriter==3.1.9
+
+# Validation
+jsonschema==4.20.0
+
+# Encryption
+cryptography==41.0.7
+
+# AI Integration
+openai>=1.0.0
+anthropic>=0.30.0

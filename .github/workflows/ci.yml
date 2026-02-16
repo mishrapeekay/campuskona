@@ -1,0 +1,315 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # -----------------------------------------------
+  # Lint — Python and JavaScript
+  # -----------------------------------------------
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python linters
+        run: pip install flake8 black isort
+
+      - name: Run flake8
+        run: |
+          cd backend
+          flake8 apps/ config/ --max-line-length=120 --exclude=migrations,__pycache__
+
+      - name: Check black formatting
+        run: |
+          cd backend
+          black --check --line-length=120 apps/ config/ || true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: cd frontend && npm ci
+
+      - name: Run ESLint
+        run: cd frontend && npm run lint || true
+
+  # -----------------------------------------------
+  # Backend Tests
+  # -----------------------------------------------
+  test-backend:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    needs: lint
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: test_school_management
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements/test.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install --upgrade pip
+          pip install -r requirements/test.txt
+
+      - name: Run migrations
+        run: |
+          cd backend
+          python manage.py migrate --noinput
+        env:
+          DJANGO_SETTINGS_MODULE: config.settings.test
+
+      - name: Run tests with coverage
+        run: |
+          cd backend
+          python -m pytest --cov=apps --cov-report=xml --cov-report=term-missing -q
+        env:
+          DJANGO_SETTINGS_MODULE: config.settings.test
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage
+          path: backend/coverage.xml
+
+  # -----------------------------------------------
+  # Frontend Tests
+  # -----------------------------------------------
+  test-frontend:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: cd frontend && npm ci
+
+      - name: Run tests
+        run: cd frontend && npx vitest run
+
+      - name: Build check
+        run: cd frontend && npm run build
+
+  # -----------------------------------------------
+  # Docker Build
+  # -----------------------------------------------
+  build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        run: |
+          docker build \
+            -f infrastructure/docker/backend/Dockerfile.prod \
+            -t school-mgmt-backend:${{ github.sha }} \
+            backend/
+
+      - name: Build frontend image
+        run: |
+          docker build \
+            -f infrastructure/docker/frontend/Dockerfile.prod \
+            -t school-mgmt-frontend:${{ github.sha }} \
+            frontend/
+
+  # -----------------------------------------------
+  # Mobile — TypeScript check + Android debug build
+  # -----------------------------------------------
+  test-mobile:
+    name: Mobile Tests
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: mobile-app/package-lock.json
+
+      - name: Install mobile dependencies
+        run: cd mobile-app && npm ci
+
+      - name: TypeScript check
+        run: cd mobile-app && npx tsc --noEmit
+
+      - name: Run Jest tests
+        run: cd mobile-app && npx jest --passWithNoTests --ci --coverage
+        env:
+          CI: true
+
+      - name: Upload mobile coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-coverage
+          path: mobile-app/coverage/
+
+  build-android:
+    name: Android Debug Build
+    runs-on: ubuntu-latest
+    needs: test-mobile
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: mobile-app/package-lock.json
+
+      - name: Install mobile dependencies
+        run: cd mobile-app && npm ci
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('mobile-app/android/**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Build Android debug APK
+        run: |
+          cd mobile-app/android
+          ./gradlew assembleDebug --no-daemon --stacktrace
+        env:
+          # Prevent Gradle from requiring real signing config for debug builds
+          RELEASE_KEYSTORE_PATH: ""
+          RELEASE_STORE_PASSWORD: ""
+          RELEASE_KEY_ALIAS: ""
+          RELEASE_KEY_PASSWORD: ""
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-debug-apk
+          path: mobile-app/android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 7
+
+  # -----------------------------------------------
+  # Security Scanning
+  # -----------------------------------------------
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: lint
+    # Run on main/develop and PRs to main; don't block on failure (advisory)
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install pip-audit
+        run: pip install pip-audit
+
+      - name: Audit Python dependencies
+        run: |
+          cd backend
+          pip install -r requirements/base.txt --dry-run 2>/dev/null || true
+          pip-audit -r requirements/base.txt --format=json -o pip-audit-results.json || true
+          pip-audit -r requirements/base.txt
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Audit frontend npm dependencies
+        run: |
+          cd frontend
+          npm audit --audit-level=high || true
+
+      - name: Audit mobile npm dependencies
+        run: |
+          cd mobile-app
+          npm audit --audit-level=high || true
+
+      - name: Upload pip-audit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pip-audit-results
+          path: backend/pip-audit-results.json

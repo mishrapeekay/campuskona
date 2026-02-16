@@ -1,0 +1,33 @@
+{% extends "emails/base.html" %}
+
+{% block title %}{{ notice.title }}{% endblock %}
+
+{% block header %}
+{% if notice.priority == 'URGENT' %}🚨 URGENT{% elif notice.priority == 'HIGH' %}⚠️ Important{% endif %} Notice
+{% endblock %}
+
+{% block content %}
+<h2>{{ notice.title }}</h2>
+
+<p>{{ notice.content|linebreaks }}</p>
+
+{% if notice.attachment %}
+<div class="info-box">
+    <p><strong>Attachment:</strong> {{ notice.attachment.name }}</p>
+</div>
+{% endif %}
+
+<p><strong>Posted by:</strong> {{ notice.posted_by.get_full_name }}<br>
+<strong>Date:</strong> {{ notice.created_at|date:"M d, Y" }}</p>
+
+{% if notice_url %}
+<p style="text-align: center;">
+    <a href="{{ notice_url }}" class="button">View Full Notice</a>
+</p>
+{% endif %}
+
+<p>For more information, please visit the school portal or contact the administration.</p>
+
+<p>Regards,<br>
+{{ school_name }}</p>
+{% endblock %}

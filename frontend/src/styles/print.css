@@ -1,0 +1,256 @@
+/**
+ * Print styles for Student Management System
+ * Optimized for printing student details, reports, and lists
+ */
+
+@media print {
+    /* Hide non-essential elements */
+    .no-print,
+    nav,
+    header,
+    footer,
+    .sidebar,
+    button,
+    .btn,
+    .print-hide,
+    .breadcrumb,
+    .page-header-actions {
+        display: none !important;
+    }
+
+    /* Page setup */
+    @page {
+        size: A4;
+        margin: 1.5cm;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 11pt;
+        line-height: 1.4;
+    }
+
+    /* Remove shadows and backgrounds */
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+        background: white !important;
+        color: black !important;
+    }
+
+    /* Container adjustments */
+    .container,
+    .max-w-7xl,
+    .max-w-4xl {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 20pt;
+        font-weight: bold;
+        margin-bottom: 12pt;
+        page-break-after: avoid;
+    }
+
+    h2 {
+        font-size: 16pt;
+        font-weight: bold;
+        margin-top: 12pt;
+        margin-bottom: 8pt;
+        page-break-after: avoid;
+    }
+
+    h3 {
+        font-size: 14pt;
+        font-weight: bold;
+        margin-top: 10pt;
+        margin-bottom: 6pt;
+        page-break-after: avoid;
+    }
+
+    p {
+        margin-bottom: 6pt;
+        orphans: 3;
+        widows: 3;
+    }
+
+    /* Tables */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        page-break-inside: auto;
+        margin: 12pt 0;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    th,
+    td {
+        border: 1px solid #000 !important;
+        padding: 6pt 8pt;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f0f0f0 !important;
+        font-weight: bold;
+    }
+
+    /* Cards */
+    .card,
+    .bg-white {
+        border: 1px solid #ddd !important;
+        padding: 12pt;
+        margin-bottom: 12pt;
+        page-break-inside: avoid;
+    }
+
+    /* Grid layouts */
+    .grid {
+        display: block !important;
+    }
+
+    .grid > * {
+        margin-bottom: 8pt;
+    }
+
+    /* Photo/Avatar */
+    img {
+        max-width: 150px !important;
+        max-height: 150px !important;
+        page-break-inside: avoid;
+    }
+
+    /* Badges */
+    .badge,
+    .inline-flex {
+        border: 1px solid #000 !important;
+        padding: 2pt 6pt !important;
+        border-radius: 3pt !important;
+        display: inline-block !important;
+    }
+
+    /* Print header */
+    .print-header {
+        text-align: center;
+        margin-bottom: 20pt;
+        border-bottom: 2px solid #000;
+        padding-bottom: 10pt;
+    }
+
+    .print-header h1 {
+        margin: 0;
+    }
+
+    .print-header .print-date {
+        font-size: 10pt;
+        color: #666 !important;
+    }
+
+    /* Student detail specific */
+    .student-detail-print .photo-section {
+        text-align: center;
+        margin-bottom: 15pt;
+    }
+
+    .student-detail-print .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12pt;
+        margin-bottom: 12pt;
+    }
+
+    .student-detail-print .info-item {
+        margin-bottom: 6pt;
+    }
+
+    .student-detail-print .info-label {
+        font-weight: bold;
+        font-size: 9pt;
+    }
+
+    .student-detail-print .info-value {
+        font-size: 11pt;
+    }
+
+    /* Section breaks */
+    .print-section {
+        margin-bottom: 20pt;
+        page-break-inside: avoid;
+    }
+
+    .print-section-title {
+        font-size: 14pt;
+        font-weight: bold;
+        border-bottom: 1px solid #000;
+        padding-bottom: 4pt;
+        margin-bottom: 10pt;
+    }
+
+    /* Page breaks */
+    .page-break-before {
+        page-break-before: always;
+    }
+
+    .page-break-after {
+        page-break-after: always;
+    }
+
+    .page-break-avoid {
+        page-break-inside: avoid;
+    }
+
+    /* Links */
+    a {
+        text-decoration: none;
+        color: black !important;
+    }
+
+    a[href]:after {
+        content: none !important;
+    }
+
+    /* Icons - hide for print */
+    svg,
+    .icon {
+        display: none !important;
+    }
+
+    /* Spacing utilities */
+    .space-y-6 > *:not(:last-child) {
+        margin-bottom: 12pt !important;
+    }
+
+    /* Print-specific visibility */
+    .print-only {
+        display: block !important;
+    }
+
+    .screen-only {
+        display: none !important;
+    }
+}
+
+/* Print-specific classes for screen view */
+.print-header,
+.print-section-title {
+    display: none;
+}
+
+@media print {
+    .print-header,
+    .print-section-title {
+        display: block;
+    }
+}

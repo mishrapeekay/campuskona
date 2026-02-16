@@ -1,0 +1,142 @@
+[
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 1,
+        "fields": {
+            "code": "CORE_EDUCATIONAL",
+            "name": "Core Educational Activities",
+            "description": "Processing student data for enrollment, class assignments, academic records, examinations, report cards, and attendance tracking. This is essential for providing educational services and cannot be withdrawn.",
+            "is_mandatory": true,
+            "category": "EDUCATIONAL",
+            "legal_basis": "Essential for fulfilling the educational contract between school and parent/guardian. Required under Right to Education Act, 2009.",
+            "retention_period_days": 3650,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 2,
+        "fields": {
+            "code": "HEALTH_SAFETY",
+            "name": "Health & Safety Records",
+            "description": "Storing health records, medical conditions, allergies, vaccination records, and emergency contact information to ensure student safety and well-being during school hours.",
+            "is_mandatory": true,
+            "category": "HEALTH",
+            "legal_basis": "Legal obligation under Disaster Management Act, 2005 and duty of care to ensure student safety. Required for emergency response.",
+            "retention_period_days": 3650,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 3,
+        "fields": {
+            "code": "COMMUNICATION_NOTICES",
+            "name": "Communication & Notices",
+            "description": "Sending emails, SMS, and app notifications for school notices, event updates, academic communications, holiday announcements, and parent-teacher meeting schedules.",
+            "is_mandatory": false,
+            "category": "COMMUNICATION",
+            "legal_basis": "Legitimate interest in keeping parents informed about school activities. Parents may opt-out and choose alternative communication methods.",
+            "retention_period_days": 365,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 4,
+        "fields": {
+            "code": "FEE_MANAGEMENT",
+            "name": "Fee Management & Financial Processing",
+            "description": "Processing fee payments, generating invoices, tracking financial transactions, payment reminders, and maintaining fee payment history for accounting purposes.",
+            "is_mandatory": true,
+            "category": "FINANCIAL",
+            "legal_basis": "Contractual obligation for fee collection and legal requirement under Income Tax Act, 1961 for financial record retention (7 years).",
+            "retention_period_days": 2555,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 5,
+        "fields": {
+            "code": "ATTENDANCE_TRACKING",
+            "name": "Attendance Tracking & Monitoring",
+            "description": "Recording daily attendance, tracking absence patterns, generating attendance reports, and monitoring punctuality for academic assessment and safety purposes.",
+            "is_mandatory": true,
+            "category": "EDUCATIONAL",
+            "legal_basis": "Educational necessity under Right to Education Act and safety monitoring requirement. Essential for tracking student presence on campus.",
+            "retention_period_days": 1825,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 6,
+        "fields": {
+            "code": "BEHAVIORAL_MONITORING",
+            "name": "Behavioral Monitoring & Development Notes",
+            "description": "Recording behavioral incidents, achievements, developmental observations, disciplinary actions, and teacher remarks for student development and counseling purposes.",
+            "is_mandatory": false,
+            "category": "EDUCATIONAL",
+            "legal_basis": "Educational development and student welfare. Helps track behavioral patterns and provide appropriate counseling support.",
+            "retention_period_days": 1825,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 7,
+        "fields": {
+            "code": "PHOTO_MEDIA",
+            "name": "Photo & Media Storage",
+            "description": "Storing student photographs for ID cards, school records, yearbooks, website galleries, and promotional materials. Photos may be used in school publications and events.",
+            "is_mandatory": false,
+            "category": "ADMINISTRATIVE",
+            "legal_basis": "Administrative convenience for identification purposes. Parents may decline photo usage in public materials while allowing ID card photos.",
+            "retention_period_days": 1095,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 8,
+        "fields": {
+            "code": "ANALYTICS_IMPROVEMENT",
+            "name": "Analytics & System Improvement",
+            "description": "Analyzing academic performance trends, attendance patterns, usage statistics, and system performance data to improve educational outcomes and optimize school operations.",
+            "is_mandatory": false,
+            "category": "ANALYTICS",
+            "legal_basis": "Legitimate interest in improving educational services and system efficiency. Data is anonymized where possible for trend analysis.",
+            "retention_period_days": 730,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 9,
+        "fields": {
+            "code": "THIRD_PARTY_SMS",
+            "name": "Third-Party SMS Service (Twilio)",
+            "description": "Sharing phone numbers with Twilio SMS service for sending text notifications about attendance, fee reminders, exam schedules, and emergency alerts.",
+            "is_mandatory": false,
+            "category": "THIRD_PARTY",
+            "legal_basis": "Service delivery via authorized vendor with Data Processing Agreement. Twilio processes data only as per our instructions.",
+            "retention_period_days": 365,
+            "is_active": true
+        }
+    },
+    {
+        "model": "privacy.consentpurpose",
+        "pk": 10,
+        "fields": {
+            "code": "THIRD_PARTY_PAYMENT",
+            "name": "Third-Party Payment Gateway (Razorpay/PayU/Stripe)",
+            "description": "Sharing payment details with payment gateway providers (Razorpay, PayU, Stripe) for processing online fee payments securely. Payment data is tokenized and encrypted.",
+            "is_mandatory": false,
+            "category": "THIRD_PARTY",
+            "legal_basis": "Service delivery via PCI-DSS compliant payment processors. Required for online payment processing with Data Processing Agreements in place.",
+            "retention_period_days": 2555,
+            "is_active": true
+        }
+    }
+]
