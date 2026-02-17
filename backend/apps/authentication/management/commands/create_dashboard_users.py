@@ -71,7 +71,7 @@ class Command(BaseCommand):
                 'last_name': 'Admin',
                 'password': 'Admin@123',
                 'phone_suffix': '006',
-                'is_staff': True,
+                'is_staff': False,
             },
         ]
 

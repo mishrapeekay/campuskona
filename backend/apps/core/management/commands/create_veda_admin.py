@@ -30,7 +30,7 @@ class Command(BaseCommand):
             last_name='Administrator',
             phone='9123456789',  # Unique phone for Veda admin
             user_type='SCHOOL_ADMIN',
-            is_staff=True,
+            is_staff=False,
             is_active=True
         )
 

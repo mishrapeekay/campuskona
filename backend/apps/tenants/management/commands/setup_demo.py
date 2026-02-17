@@ -180,7 +180,7 @@ class Command(BaseCommand):
                     'last_name': 'Administrator',
                     'phone': '9876543210',
                     'user_type': 'SCHOOL_ADMIN',
-                    'is_staff': True,
+                    'is_staff': False,
                     'is_active': True,
                     'password': make_password('Admin@123')
                 }
