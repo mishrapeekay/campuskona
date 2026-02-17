@@ -502,25 +502,31 @@ JAZZMIN_SETTINGS = {
     # Copyright on the footer
     "copyright": "CampusKona School Management System",
 
-    # List of model admins to search from the search bar
-    "search_model": ["authentication.User", "tenants.School", "students.Student", "staff.StaffMember"],
+    # List of model admins to search from the search bar.
+    # IMPORTANT: Only include models whose tables exist in BOTH public AND tenant schemas,
+    # or whose absence won't cause 404s. authentication.User and tenants.School only exist
+    # in the public schema — including them causes 404 errors on tenant admin pages.
+    "search_model": ["students.Student", "staff.StaffMember"],
 
     ############
     # Top Menu #
     ############
+    # IMPORTANT: Do NOT add {"model": "..."} links for public-schema-only apps
+    # (authentication, tenants) here — they generate /admin/<app>/<model>/ URLs which
+    # are 404s when accessed from tenant subdomains (veda9.campuskona.com/admin/).
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"name": "Frontend", "url": "https://campuskona.com", "new_window": True},
         {"name": "Veda9 School Admin", "url": "https://veda9.campuskona.com/admin/", "new_window": True},
-        {"model": "authentication.User"},
-        {"model": "tenants.School"},
     ],
 
     #############
     # User Menu #
     #############
+    # Removed authentication.User link — it is a public-schema-only model and causes
+    # 404 errors when accessed from tenant admin portals.
     "usermenu_links": [
-        {"model": "authentication.User"},
+        {"name": "Profile", "url": "/admin/password_change/", "icon": "fas fa-user"},
     ],
 
     #############
