@@ -4,560 +4,510 @@
 {% block extrahead %}
 {{ block.super }}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-{# Custom Styles - Using is_master_admin for dynamic branding #}
 <style>
-    #content {
-        padding: 0 !important;
-        margin: 0 !important;
-    }
+/* ── Reset content area ───────────────────────────────────────────────── */
+#content { padding: 0 !important; margin: 0 !important; }
 
-    .dashboard-container {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        min-height: calc(100vh - 120px);
-        padding: 2rem;
-    }
+/* ── Root layout ──────────────────────────────────────────────────────── */
+.db-wrap {
+    background: #f1f5f9;
+    min-height: calc(100vh - 100px);
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
 
-    .hero-section {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 3rem 2.5rem;
-        border-radius: 16px;
-        margin-bottom: 2.5rem;
-        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
+/* ── Compact top bar ──────────────────────────────────────────────────── */
+.db-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 1.5rem;
+    {% if is_master_admin %}
+    background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+    {% else %}
+    background: linear-gradient(90deg, #059669 0%, #0891b2 100%);
+    {% endif %}
+    color: white;
+}
+.db-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.db-topbar-left i { font-size: 1.1rem; opacity: 0.85; }
+.db-topbar-title { font-size: 1rem; font-weight: 700; letter-spacing: 0.01em; }
+.db-topbar-sub { font-size: 0.72rem; opacity: 0.8; margin-top: 1px; }
+.db-topbar-right { display: flex; align-items: center; gap: 1rem; font-size: 0.75rem; opacity: 0.9; }
+.db-topbar-badge {
+    background: rgba(255,255,255,0.2);
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
 
-    .hero-section.tenant-hero {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
-    }
+/* ── Stat strip ───────────────────────────────────────────────────────── */
+.db-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+}
+.db-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 1.25rem;
+    border-right: 1px solid #e2e8f0;
+    transition: background 0.15s;
+    text-decoration: none;
+}
+.db-stat:last-child { border-right: none; }
+.db-stat:hover { background: #f8fafc; }
+.db-stat-icon {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+.db-stat-icon.s1 { background: #ede9fe; color: #7c3aed; }
+.db-stat-icon.s2 { background: #dbeafe; color: #2563eb; }
+.db-stat-icon.s3 { background: #fef3c7; color: #d97706; }
+.db-stat-icon.s4 { background: #dcfce7; color: #16a34a; }
+.db-stat-icon.s5 { background: #fee2e2; color: #dc2626; }
+.db-stat-icon.s6 { background: #e0f2fe; color: #0284c7; }
+.db-stat-val { font-size: 1.45rem; font-weight: 800; color: #0f172a; line-height: 1; }
+.db-stat-lbl { font-size: 0.68rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
 
-    .hero-section::before,
-    .hero-section::after {
-        content: '';
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-    }
+/* ── Main 2-column body ───────────────────────────────────────────────── */
+.db-body {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    align-items: start;
+}
 
-    .hero-section::before {
-        top: -50%;
-        right: -10%;
-        width: 400px;
-        height: 400px;
-    }
+/* ── Card base ────────────────────────────────────────────────────────── */
+.db-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+.db-card-hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fafafa;
+}
+.db-card-hdr h3 {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 0.45rem;
+}
+.db-card-hdr h3 i { color: #94a3b8; font-size: 0.72rem; }
 
-    .hero-section::after {
-        bottom: -30%;
-        left: -5%;
-        width: 300px;
-        height: 300px;
-        opacity: 0.5;
-    }
+/* ── Quick Actions ────────────────────────────────────────────────────── */
+.db-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+.db-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    color: #374151;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-right: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    transition: all 0.15s;
+}
+.db-action-btn:hover { background: #f0fdf4; color: #059669; }
+.db-action-btn i { width: 24px; height: 24px; border-radius: 6px; display:flex; align-items:center; justify-content:center; font-size:0.7rem; flex-shrink:0; }
+.db-action-btn .ai-green { background: #dcfce7; color: #16a34a; }
+.db-action-btn .ai-blue  { background: #dbeafe; color: #2563eb; }
+.db-action-btn .ai-purple{ background: #ede9fe; color: #7c3aed; }
+.db-action-btn .ai-amber { background: #fef3c7; color: #d97706; }
+.db-action-btn .ai-red   { background: #fee2e2; color: #dc2626; }
+.db-action-btn .ai-cyan  { background: #e0f2fe; color: #0284c7; }
+.db-action-btn .ai-slate { background: #f1f5f9; color: #475569; }
+.db-action-btn .ai-pink  { background: #fce7f3; color: #db2777; }
 
-    .hero-content {
-        position: relative;
-        z-index: 1;
-    }
+/* ── Module grid (compact) ────────────────────────────────────────────── */
+.db-modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 0.6rem;
+    padding: 0.75rem;
+}
+.mod-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+.mod-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.mod-hdr {
+    padding: 0.5rem 0.75rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex; align-items: center; gap: 0.4rem;
+}
+.mod-hdr a {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #1e293b;
+    text-decoration: none;
+    flex: 1;
+}
+.mod-hdr a:hover { color: #2563eb; }
+.mod-count {
+    font-size: 0.63rem;
+    background: #e2e8f0;
+    color: #64748b;
+    padding: 0.1rem 0.4rem;
+    border-radius: 10px;
+    font-weight: 600;
+}
+.mod-models { padding: 0.25rem 0; }
+.mod-row {
+    display: flex;
+    align-items: center;
+    padding: 0.28rem 0.75rem;
+    gap: 0.4rem;
+    border-bottom: 1px solid #f8fafc;
+}
+.mod-row:last-child { border-bottom: none; }
+.mod-row:hover { background: #f8fafc; }
+.mod-dot { width: 5px; height: 5px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
+.mod-link {
+    flex: 1;
+    font-size: 0.75rem;
+    color: #475569;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.mod-link:hover { color: #2563eb; }
+.mod-add {
+    display: none;
+    font-size: 0.62rem;
+    color: #16a34a;
+    text-decoration: none;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    background: #dcfce7;
+    font-weight: 600;
+}
+.mod-row:hover .mod-add { display: block; }
 
-    .hero-section h1 {
-        color: white;
-        margin: 0 0 0.5rem 0;
-        font-size: 2.5rem;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
+/* ── Right column ─────────────────────────────────────────────────────── */
+.db-right { display: flex; flex-direction: column; gap: 1rem; }
 
-    .hero-section .subtitle {
-        font-size: 1.1rem;
-        opacity: 0.95;
-    }
+/* ── Recent actions ───────────────────────────────────────────────────── */
+.act-list { list-style: none; padding: 0; margin: 0; }
+.act-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.55rem 0.85rem;
+    border-bottom: 1px solid #f8fafc;
+}
+.act-item:last-child { border-bottom: none; }
+.act-icon {
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; flex-shrink: 0; margin-top: 1px;
+}
+.act-add  { background: #dcfce7; color: #16a34a; }
+.act-chg  { background: #dbeafe; color: #2563eb; }
+.act-del  { background: #fee2e2; color: #dc2626; }
+.act-obj { font-size: 0.75rem; font-weight: 600; color: #1e293b; text-decoration: none; display: block; }
+.act-obj:hover { color: #2563eb; }
+.act-meta { font-size: 0.67rem; color: #94a3b8; margin-top: 1px; }
 
-    .info-alert {
-        background: white;
-        padding: 1.5rem 2rem;
-        border-radius: 12px;
-        border-left: 5px solid #3b82f6;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-    }
+/* ── School portals (master admin) ───────────────────────────────────── */
+.portal-list { padding: 0.5rem 0; }
+.portal-item {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.5rem 0.85rem;
+    border-bottom: 1px solid #f8fafc;
+    text-decoration: none; color: #374151;
+    transition: background 0.1s;
+}
+.portal-item:last-child { border-bottom: none; }
+.portal-item:hover { background: #f0fdf4; }
+.portal-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
+.portal-name { font-size: 0.78rem; font-weight: 600; flex: 1; }
+.portal-schema { font-size: 0.65rem; color: #94a3b8; font-family: monospace; }
+.portal-arrow { color: #cbd5e1; font-size: 0.65rem; }
 
-    .info-alert h2 {
-        margin: 0 0 0.5rem 0;
-        color: #1f2937;
-        font-size: 1.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
+/* ── Tenant info chip ─────────────────────────────────────────────────── */
+.db-tenant-chip {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.68rem; color: rgba(255,255,255,0.85);
+}
+.db-tenant-chip .chip-val { font-weight: 700; color: white; }
 
-    .info-alert p {
-        color: #6b7280;
-        line-height: 1.5;
-        margin: 0;
-    }
+/* ── Empty state ──────────────────────────────────────────────────────── */
+.db-empty { padding: 1.5rem; text-align: center; color: #94a3b8; font-size: 0.78rem; }
 
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
-    }
-
-    .stat-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, var(--card-color-1), var(--card-color-2));
-    }
-
-    .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-    }
-
-    .stat-card.blue {
-        --card-color-1: #667eea;
-        --card-color-2: #764ba2;
-    }
-
-    .stat-card.green {
-        --card-color-1: #10b981;
-        --card-color-2: #059669;
-    }
-
-    .stat-card.purple {
-        --card-color-1: #8b5cf6;
-        --card-color-2: #7c3aed;
-    }
-
-    .stat-card.orange {
-        --card-color-1: #f59e0b;
-        --card-color-2: #d97706;
-    }
-
-    .stat-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.25rem;
-        background: linear-gradient(135deg, var(--card-color-1), var(--card-color-2));
-        color: white;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .stat-content h3 {
-        margin: 0 0 0.5rem 0;
-        color: #6b7280;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        font-weight: 600;
-    }
-
-    .stat-number {
-        font-size: 2rem;
-        font-weight: 800;
-        color: #1f2937;
-        line-height: 1;
-    }
-
-    .apps-section {
-        background: white;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-        margin-bottom: 2rem;
-    }
-
-    .section-header {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 2px solid #f3f4f6;
-    }
-
-    .section-header h2 {
-        margin: 0;
-        color: #1f2937;
-        font-size: 1.5rem;
-        font-weight: 700;
-    }
-
-    .modules-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .module-card {
-        background: #fff;
-        border-radius: 12px;
-        border: 1px solid #e5e7eb;
-        overflow: hidden;
-        transition: all 0.2s;
-    }
-
-    .module-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    .module-header {
-        background: #f8fafc;
-        padding: 1rem;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .module-title {
-        font-weight: 700;
-        color: #1e293b;
-        font-size: 1rem;
-        text-decoration: none;
-        display: block;
-    }
-
-    .module-models {
-        padding: 0.5rem 0;
-    }
-
-    .model-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.6rem 1rem;
-        border-bottom: 1px solid #f1f5f9;
-    }
-
-    .model-link {
-        color: #475569;
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.9rem;
-        flex: 1;
-    }
-
-    .model-actions {
-        display: flex;
-        gap: 6px;
-        opacity: 0;
-        transition: opacity 0.2s;
-    }
-
-    .model-row:hover .model-actions {
-        opacity: 1;
-    }
-
-    .model-action {
-        width: 26px;
-        height: 26px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
-        color: #64748b;
-        background: #f1f5f9;
-        text-decoration: none;
-        font-size: 0.75rem;
-    }
-
-    .action-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .action-item {
-        padding: 1rem;
-        border-bottom: 1px solid #f1f5f9;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .action-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.8rem;
-    }
-
-    .action-add {
-        background: #dcfce7;
-        color: #166534;
-    }
-
-    .action-change {
-        background: #dbeafe;
-        color: #1e40af;
-    }
-
-    .action-delete {
-        background: #fee2e2;
-        color: #991b1b;
-    }
-
-    .action-details {
-        flex: 1;
-    }
-
-    .quick-actions-section {
-        background: white;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-        margin-bottom: 2rem;
-    }
-
-    .actions-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1rem;
-    }
-
-    .action-button {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 1.25rem;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        text-decoration: none;
-        color: #334155;
-        transition: all 0.2s;
-        font-weight: 600;
-    }
-
-    .action-button:hover {
-        background: #667eea;
-        color: white;
-        border-color: #667eea;
-        transform: translateX(5px);
-    }
-
-    .dashboard-footer {
-        text-align: center;
-        padding: 2rem 0;
-        color: #94a3b8;
-        font-size: 0.85rem;
-    }
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+    .db-body { grid-template-columns: 1fr; }
+    .db-right { flex-direction: row; flex-wrap: wrap; }
+    .db-right .db-card { flex: 1; min-width: 280px; }
+}
+@media (max-width: 700px) {
+    .db-stats { grid-template-columns: repeat(2, 1fr); }
+    .db-modules { grid-template-columns: 1fr 1fr; }
+}
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="dashboard-container">
-    {# Main Hero Section - Dynamic based on is_master_admin #}
-    <div class="hero-section {% if not is_master_admin %}tenant-hero{% endif %}">
-        <div class="hero-content">
+<div class="db-wrap">
+
+{# ── COMPACT TOP BAR ──────────────────────────────────────────────────── #}
+<div class="db-topbar">
+    <div class="db-topbar-left">
+        {% if is_master_admin %}
+        <i class="fas fa-shield-alt"></i>
+        <div>
+            <div class="db-topbar-title">CampusKona Platform Admin</div>
+            <div class="db-topbar-sub">Global Control Center</div>
+        </div>
+        {% else %}
+        <i class="fas fa-graduation-cap"></i>
+        <div>
+            <div class="db-topbar-title">{{ request.tenant.name }}</div>
+            <div class="db-topbar-sub">School Administrator · {{ current_academic_year|default:"" }}</div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="db-topbar-right">
+        {% if not is_master_admin %}
+        <span class="db-tenant-chip">
+            Schema: <span class="chip-val">{{ request.tenant.schema_name }}</span>
+        </span>
+        <span class="db-tenant-chip">
+            Domain: <span class="chip-val">{{ request.tenant.subdomain }}.campuskona.com</span>
+        </span>
+        {% else %}
+        <span class="db-topbar-badge">{{ active_schools }} Active Schools</span>
+        <span class="db-topbar-badge">{{ total_subscriptions }} Subscriptions</span>
+        {% endif %}
+    </div>
+</div>
+
+{# ── STAT STRIP ───────────────────────────────────────────────────────── #}
+<div class="db-stats">
+{% if is_master_admin %}
+    <div class="db-stat">
+        <div class="db-stat-icon s1"><i class="fas fa-school"></i></div>
+        <div><div class="db-stat-val">{{ total_schools|default:"0" }}</div><div class="db-stat-lbl">Total Schools</div></div>
+    </div>
+    <div class="db-stat">
+        <div class="db-stat-icon s2"><i class="fas fa-check-circle"></i></div>
+        <div><div class="db-stat-val">{{ active_schools|default:"0" }}</div><div class="db-stat-lbl">Active</div></div>
+    </div>
+    <div class="db-stat">
+        <div class="db-stat-icon s3"><i class="fas fa-file-invoice-dollar"></i></div>
+        <div><div class="db-stat-val">{{ total_subscriptions|default:"0" }}</div><div class="db-stat-lbl">Subscriptions</div></div>
+    </div>
+    <div class="db-stat">
+        <div class="db-stat-icon s4"><i class="fas fa-globe"></i></div>
+        <div><div class="db-stat-val">{{ total_domains|default:"0" }}</div><div class="db-stat-lbl">Domains</div></div>
+    </div>
+{% else %}
+    <div class="db-stat">
+        <div class="db-stat-icon s1"><i class="fas fa-user-graduate"></i></div>
+        <div><div class="db-stat-val">{{ total_students|default:"0" }}</div><div class="db-stat-lbl">Students</div></div>
+    </div>
+    <div class="db-stat">
+        <div class="db-stat-icon s2"><i class="fas fa-user-tie"></i></div>
+        <div><div class="db-stat-val">{{ total_staff|default:"0" }}</div><div class="db-stat-lbl">Staff</div></div>
+    </div>
+    <div class="db-stat">
+        <div class="db-stat-icon s3"><i class="fas fa-chalkboard"></i></div>
+        <div><div class="db-stat-val">{{ total_classes|default:"0" }}</div><div class="db-stat-lbl">Active Sections</div></div>
+    </div>
+    <div class="db-stat">
+        <div class="db-stat-icon s4"><i class="fas fa-calendar-check"></i></div>
+        <div><div class="db-stat-val">{{ attendance_percentage|default:"0" }}%</div><div class="db-stat-lbl">Attendance</div></div>
+    </div>
+{% endif %}
+</div>
+
+{# ── 2-COLUMN BODY ────────────────────────────────────────────────────── #}
+<div class="db-body">
+
+    {# LEFT: Quick Actions + Modules #}
+    <div>
+        {# Quick Actions #}
+        <div class="db-card" style="margin-bottom:1rem;">
+            <div class="db-card-hdr">
+                <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+            </div>
+            <div class="db-actions">
             {% if is_master_admin %}
-            <h1><i class="fas fa-shield-alt"></i> {% trans 'Super Administrator Dashboard' %}</h1>
-            <p class="subtitle">{% trans 'Global Schema Management - Platform Control Center' %}</p>
+                <a href="{% url 'admin:tenants_school_add' %}" class="db-action-btn">
+                    <i class="ai-green fas fa-plus"></i> Add School</a>
+                <a href="{% url 'admin:tenants_school_changelist' %}" class="db-action-btn">
+                    <i class="ai-blue fas fa-list"></i> All Schools</a>
+                <a href="{% url 'admin:tenants_subscription_changelist' %}" class="db-action-btn">
+                    <i class="ai-amber fas fa-file-invoice-dollar"></i> Subscriptions</a>
+                <a href="{% url 'admin:tenants_domain_changelist' %}" class="db-action-btn">
+                    <i class="ai-purple fas fa-globe"></i> Domains</a>
+                <a href="{% url 'admin:authentication_user_changelist' %}" class="db-action-btn">
+                    <i class="ai-slate fas fa-users"></i> Users</a>
+                <a href="{% url 'admin:partners_partner_changelist' %}" class="db-action-btn">
+                    <i class="ai-cyan fas fa-handshake"></i> Partners</a>
             {% else %}
-            <h1><i class="fas fa-graduation-cap"></i> {% trans 'School Administrator Dashboard' %}</h1>
-            <p class="subtitle">{% trans 'School Operations & Academic Management' %}</p>
+                <a href="{% url 'admin:students_student_add' %}" class="db-action-btn">
+                    <i class="ai-green fas fa-user-plus"></i> Add Student</a>
+                <a href="{% url 'admin:students_student_changelist' %}" class="db-action-btn">
+                    <i class="ai-blue fas fa-users"></i> Students</a>
+                <a href="{% url 'admin:staff_staffmember_add' %}" class="db-action-btn">
+                    <i class="ai-purple fas fa-user-tie"></i> Add Staff</a>
+                <a href="{% url 'admin:staff_staffmember_changelist' %}" class="db-action-btn">
+                    <i class="ai-cyan fas fa-list"></i> All Staff</a>
+                <a href="{% url 'admin:attendance_studentattendance_changelist' %}" class="db-action-btn">
+                    <i class="ai-amber fas fa-calendar-check"></i> Attendance</a>
+                <a href="{% url 'admin:examinations_examination_changelist' %}" class="db-action-btn">
+                    <i class="ai-red fas fa-clipboard-list"></i> Exams</a>
+                <a href="{% url 'admin:finance_payment_add' %}" class="db-action-btn">
+                    <i class="ai-green fas fa-rupee-sign"></i> Add Payment</a>
+                <a href="{% url 'admin:communication_notice_add' %}" class="db-action-btn">
+                    <i class="ai-pink fas fa-bullhorn"></i> Post Notice</a>
             {% endif %}
+            </div>
         </div>
-    </div>
 
-    {% if is_master_admin %}
-    {# MASTER ADMIN VIEW #}
-    <div class="stats-grid">
-        <div class="stat-card blue">
-            <div class="stat-header">
-                <div class="stat-content">
-                    <h3>{% trans 'Total Schools' %}</h3>
-                    <div class="stat-number">{{ total_schools|default:"0" }}</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-school"></i></div>
+        {# Modules #}
+        {% if app_list %}
+        <div class="db-card">
+            <div class="db-card-hdr">
+                <h3><i class="fas fa-th-large"></i> Available Modules</h3>
+                <span style="font-size:0.7rem;color:#94a3b8;">{{ app_list|length }} modules</span>
             </div>
-        </div>
-        <div class="stat-card green">
-            <div class="stat-header">
-                <div class="stat-content">
-                    <h3>{% trans 'Active Schools' %}</h3>
-                    <div class="stat-number">{{ active_schools|default:"0" }}</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-            </div>
-        </div>
-        <div class="stat-card purple">
-            <div class="stat-header">
-                <div class="stat-content">
-                    <h3>{% trans 'Subscriptions' %}</h3>
-                    <div class="stat-number">{{ total_subscriptions|default:"0" }}</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-            </div>
-        </div>
-        <div class="stat-card orange">
-            <div class="stat-header">
-                <div class="stat-content">
-                    <h3>{% trans 'Total Domains' %}</h3>
-                    <div class="stat-number">{{ total_domains|default:"0" }}</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-globe"></i></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="quick-actions-section">
-        <div class="section-header">
-            <h2><i class="fas fa-bolt"></i> {% trans 'Quick Actions' %}</h2>
-        </div>
-        <div class="actions-grid">
-            <a href="{% url 'admin:tenants_school_add' %}" class="action-button"><i
-                    class="fas fa-plus-circle"></i><span>{% trans 'Add New School' %}</span></a>
-            <a href="{% url 'admin:tenants_school_changelist' %}" class="action-button"><i
-                    class="fas fa-list"></i><span>{% trans 'View All Schools' %}</span></a>
-            <a href="{% url 'admin:tenants_subscription_changelist' %}" class="action-button"><i
-                    class="fas fa-cog"></i><span>{% trans 'Manage Subscriptions' %}</span></a>
-            <a href="{% url 'admin:tenants_domain_changelist' %}" class="action-button"><i
-                    class="fas fa-network-wired"></i><span>{% trans 'Manage Domains' %}</span></a>
-        </div>
-    </div>
-    {% else %}
-    {# SCHOOL ADMIN VIEW #}
-    <div class="info-alert" style="border-left-color: #10b981;">
-        <h2><i class="fas fa-university"></i> {{ request.tenant.name }}</h2>
-        <p>{% trans 'Subdomain:' %} <strong>{{ request.tenant.subdomain }}</strong> &bull; {% trans 'Schema:' %}
-            <strong>{{ request.tenant.schema_name }}</strong></p>
-    </div>
-
-    <div class="stats-grid">
-        <div class="stat-card blue">
-            <div class="stat-header">
-                <div class="stat-content">
-                    <h3>{% trans 'Students' %}</h3>
-                    <div class="stat-number">{{ total_students|default:"0" }}</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
-            </div>
-        </div>
-        <div class="stat-card green" style="--card-color-1: #3b82f6; --card-color-2: #2563eb;">
-            <div class="stat-header">
-                <div class="stat-content">
-                    <h3>{% trans 'Staff' %}</h3>
-                    <div class="stat-number">{{ total_staff|default:"0" }}</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
-            </div>
-        </div>
-        <div class="stat-card purple" style="--card-color-1: #f59e0b; --card-color-2: #d97706;">
-            <div class="stat-header">
-                <div class="stat-content">
-                    <h3>{% trans 'Active Classes' %}</h3>
-                    <div class="stat-number">{{ total_classes|default:"0" }}</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-chalkboard"></i></div>
-            </div>
-        </div>
-        <div class="stat-card orange" style="--card-color-1: #ef4444; --card-color-2: #dc2626;">
-            <div class="stat-header">
-                <div class="stat-content">
-                    <h3>{% trans 'Attendance' %}</h3>
-                    <div class="stat-number">{{ attendance_percentage|default:"0" }}%</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    {# Modules and Apps - Visible to both #}
-    {% if app_list %}
-    <div class="apps-section">
-        <div class="section-header">
-            <h2><i class="fas fa-th-large"></i> {% trans 'Available Modules' %}</h2>
-        </div>
-        <div class="modules-grid">
-            {% for app in app_list %}
-            <div class="module-card">
-                <div class="module-header"><a href="{{ app.app_url }}" class="module-title">{{ app.name }}</a></div>
-                <div class="module-models">
-                    {% for model in app.models %}
-                    <div class="model-row">
-                        {% if model.admin_url %}<a href="{{ model.admin_url }}" class="model-link">{{ model.name }}</a>{% else %}<span class="model-link disabled">{{ model.name }}</span>{% endif %}
-                        <div class="model-actions">
-                            {% if model.add_url %}<a href="{{ model.add_url }}" class="model-action add"
-                                title="{% trans 'Add' %}"><i class="fas fa-plus"></i></a>{% endif %}
-                            {% if model.admin_url %}<a href="{{ model.admin_url }}" class="model-action view"
-                                title="{% trans 'View' %}"><i class="fas fa-eye"></i></a>{% endif %}
+            <div class="db-modules">
+                {% for app in app_list %}
+                <div class="mod-card">
+                    <div class="mod-hdr">
+                        <a href="{{ app.app_url }}">{{ app.name }}</a>
+                        <span class="mod-count">{{ app.models|length }}</span>
+                    </div>
+                    <div class="mod-models">
+                        {% for model in app.models %}
+                        <div class="mod-row">
+                            <span class="mod-dot"></span>
+                            {% if model.admin_url %}
+                            <a href="{{ model.admin_url }}" class="mod-link" title="{{ model.name }}">{{ model.name }}</a>
+                            {% else %}
+                            <span class="mod-link" style="color:#cbd5e1;">{{ model.name }}</span>
+                            {% endif %}
+                            {% if model.add_url %}
+                            <a href="{{ model.add_url }}" class="mod-add" title="Add">+ Add</a>
+                            {% endif %}
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
+        {% endif %}
     </div>
-    {% endif %}
 
-    <div class="apps-section">
-        <div class="section-header">
-            <h2><i class="fas fa-history"></i> {% trans 'Recent Actions' %}</h2>
-        </div>
-        <div class="recent-actions-content">
+    {# RIGHT: Recent Activity + School Portals #}
+    <div class="db-right">
+
+        {# Recent Actions #}
+        <div class="db-card">
+            <div class="db-card-hdr">
+                <h3><i class="fas fa-history"></i> Recent Activity</h3>
+            </div>
             {% load log %}
-            {% get_admin_log 10 as admin_log for_user user %}
-            {% if not admin_log %}<p class="no-data">{% trans 'No recent actions found.' %}</p>
+            {% get_admin_log 12 as admin_log for_user user %}
+            {% if not admin_log %}
+            <div class="db-empty"><i class="fas fa-inbox" style="font-size:1.5rem;display:block;margin-bottom:0.5rem;"></i>No recent actions</div>
             {% else %}
-            <ul class="action-list">
+            <ul class="act-list">
                 {% for entry in admin_log %}
-                <li class="action-item">
-                    <div
-                        class="action-icon {% if entry.is_addition %}action-add{% elif entry.is_change %}action-change{% elif entry.is_deletion %}action-delete{% endif %}">
-                        <i
-                            class="fas {% if entry.is_addition %}fa-plus{% elif entry.is_change %}fa-pen{% else %}fa-trash{% endif %}"></i>
+                <li class="act-item">
+                    <div class="act-icon {% if entry.is_addition %}act-add{% elif entry.is_change %}act-chg{% else %}act-del{% endif %}">
+                        <i class="fas {% if entry.is_addition %}fa-plus{% elif entry.is_change %}fa-pen{% else %}fa-trash{% endif %}"></i>
                     </div>
-                    <div class="action-details">
-                        {% if entry.is_deletion or not entry.get_admin_url %}<span class="action-object">{{
-                            entry.object_repr }}</span>{% else %}<a href="{{ entry.get_admin_url }}"
-                            class="action-object">{{ entry.object_repr }}</a>{% endif %}
-                        <div class="action-meta">{% if entry.content_type %}<span>{{ entry.content_type.name|capfirst
-                                }}</span>{% endif %} &bull; {{ entry.action_time|date:"F j, Y, P" }}</div>
+                    <div style="min-width:0;">
+                        {% if entry.is_deletion or not entry.get_admin_url %}
+                        <span class="act-obj" style="cursor:default;">{{ entry.object_repr|truncatechars:32 }}</span>
+                        {% else %}
+                        <a href="{{ entry.get_admin_url }}" class="act-obj">{{ entry.object_repr|truncatechars:32 }}</a>
+                        {% endif %}
+                        <div class="act-meta">
+                            {% if entry.content_type %}{{ entry.content_type.name|capfirst }} · {% endif %}{{ entry.action_time|timesince }} ago
+                        </div>
                     </div>
                 </li>
                 {% endfor %}
             </ul>
             {% endif %}
         </div>
-    </div>
-    <div class="dashboard-footer">
-        <p>{% trans 'Copyright © 2026 ' %}{{ site_header|default:'School Management System' }}. {% trans 'All rights
-            reserved.' %}</p>
-    </div>
-</div>
+
+        {# School Portals (master admin only) #}
+        {% if is_master_admin and school_portals %}
+        <div class="db-card">
+            <div class="db-card-hdr">
+                <h3><i class="fas fa-external-link-alt"></i> School Portals</h3>
+            </div>
+            <div class="portal-list">
+                {% for portal in school_portals %}
+                <a href="{{ portal.admin_url }}" class="portal-item" target="_blank">
+                    <span class="portal-dot"></span>
+                    <span class="portal-name">{{ portal.name }}</span>
+                    <span class="portal-schema">{{ portal.schema }}</span>
+                    <i class="fas fa-arrow-up-right-from-square portal-arrow"></i>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {# System info chip #}
+        <div class="db-card">
+            <div class="db-card-hdr"><h3><i class="fas fa-info-circle"></i> System</h3></div>
+            <div style="padding:0.65rem 0.85rem;font-size:0.72rem;color:#64748b;line-height:1.9;">
+                {% if is_master_admin %}
+                <div>🌐 <strong>campuskona.com</strong> · Public Schema</div>
+                <div>🏫 {{ total_schools }} schools registered</div>
+                <div>✅ {{ active_schools }} currently active</div>
+                {% else %}
+                <div>🏫 <strong>{{ request.tenant.name }}</strong></div>
+                <div>🌐 {{ request.tenant.subdomain }}.campuskona.com</div>
+                <div>📋 Schema: <code style="background:#f1f5f9;padding:0 4px;border-radius:3px;">{{ request.tenant.schema_name }}</code></div>
+                <div>📅 Year: <strong>{{ current_academic_year|default:"Not set" }}</strong></div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>{# /db-right #}
+</div>{# /db-body #}
+</div>{# /db-wrap #}
 {% endblock %}
 
 {% block sidebar %}
-{% if is_master_admin %}
-{# Sidebar is hidden/minimal in master admin #}
-{% else %}
-{{ block.super }}
-{% endif %}
+{% if is_master_admin %}{% else %}{{ block.super }}{% endif %}
 {% endblock %}
