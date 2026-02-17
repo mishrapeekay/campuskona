@@ -10,15 +10,11 @@ class PublicSchemaAdminSite(admin.AdminSite):
 
     def get_app_list(self, request, app_label=None):
         app_list = super().get_app_list(request, app_label)
-        
-        # In Master/Public Admin, only show platform management tools
-        if self._is_public_schema():
-            from django.conf import settings
-            shared_labels = [app.split('.')[-1] for app in getattr(settings, 'SHARED_APPS', [])]
-            shared_labels.extend(['auth', 'contenttypes', 'admin', 'messages', 'staticfiles'])
-            return [app for app in app_list if app['app_label'] in shared_labels]
-        
-        # In School/Tenant Admin, show all school-specific apps
+
+        # Always show all registered apps — super admin owns the whole platform.
+        # Tenant-level models exist in the registry; their tables are in the
+        # correct schema at runtime, so Django handles access correctly.
+        # Filtering was causing school modules to be hidden in the public admin.
         return app_list
 
     def index(self, request, extra_context=None):

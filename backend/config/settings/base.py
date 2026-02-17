@@ -481,172 +481,339 @@ LIBRARY_DEFAULT_ISSUE_DAYS = 14  # Default number of days for book issue
 
 # Jazzmin Configuration
 JAZZMIN_SETTINGS = {
-    # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "School Admin",
+    # title of the window
+    "site_title": "CampusKona Admin",
 
-    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "School Management",
+    # Title on the login screen
+    "site_header": "CampusKona",
 
-    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "School Management",
-
-    # Logo to use for your site, must be present in static files, used for brand on top left
-    # "site_logo": "images/logo.png",
-
-    # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    # "login_logo": None,
-
-    # Logo to use for email authentication within the admin logic (defaults to site_logo)
-    # "login_logo_dark": None,
+    # Title on the brand (top left)
+    "site_brand": "CampusKona",
 
     # CSS classes that are applied to the logo above
     "site_logo_classes": "img-circle",
 
-    # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 pixel)
+    # Relative path to a favicon for your site
     "site_icon": None,
 
     # Welcome text on the login screen
-    "welcome_sign": "Welcome to School Management Platform",
+    "welcome_sign": "Welcome to CampusKona School Management Platform",
 
     # Copyright on the footer
-    "copyright": "School Management System Limited",
+    "copyright": "CampusKona School Management System",
 
-    # List of model admins to search from the search bar, search bar omitted if excluded
-    "search_model": ["authentication.User", "tenants.School"],
+    # List of model admins to search from the search bar
+    "search_model": ["authentication.User", "tenants.School", "students.Student", "staff.StaffMember"],
 
     ############
     # Top Menu #
     ############
-
-    # Links to put along the top menu
     "topmenu_links": [
-        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "Frontend", "url": "http://localhost:3000", "new_window": True},
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Frontend", "url": "https://campuskona.com", "new_window": True},
+        {"name": "Veda9 School Admin", "url": "https://veda9.campuskona.com/admin/", "new_window": True},
         {"model": "authentication.User"},
+        {"model": "tenants.School"},
     ],
 
     #############
     # User Menu #
     #############
-
-    # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
-        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-        {"model": "authentication.User"}
+        {"model": "authentication.User"},
     ],
 
     #############
     # Side Menu #
     #############
-
-    # Whether to display the side menu
     "show_sidebar": True,
-
-    # Whether to aut expand the menu
     "navigation_expanded": True,
 
-    # Hide these apps when generating side menu e.g (auth)
-    "hide_apps": [],
+    # Hide these apps from the side menu
+    "hide_apps": ["auth", "contenttypes"],
 
-    # Hide these models when generating side menu (e.g auth.user)
-    "hide_models": [],
+    # Hide individual models from the side menu
+    "hide_models": [
+        "authentication.EmailVerificationToken",
+        "authentication.PasswordResetToken",
+    ],
 
-    # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
+    # Ordering of apps in the sidebar
     "order_with_respect_to": [
+        # --- Platform Management (Public Schema) ---
         "tenants",
+        "authentication",
+        "partners",
+        "analytics",
+        "finance_ledger",
+        "platform_finance",
+        "core",
+        # --- School Management (Tenant Schema) ---
         "students",
         "admissions",
         "staff",
+        "hr_payroll",
         "academics",
         "attendance",
         "timetable",
         "examinations",
+        "assignments",
+        "ai_questions",
         "finance",
+        "fee_ledger",
+        "communication",
         "library",
         "transport",
         "hostel",
-        "hr_payroll",
-        "reports",
+        "houses",
+        "activities",
+        "privacy",
         "government_reports",
-        "authentication",
-        "auth"
+        "reports",
+        "workflows",
+        "integrations",
     ],
 
-    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
-    # for the full list of 5.13.0 free icon classes
+    # Custom icons for side menu apps/models
     "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        
+        # ── Platform / Shared ──────────────────────────────────────────────
+        "tenants": "fas fa-server",
         "tenants.School": "fas fa-school",
+        "tenants.Domain": "fas fa-globe",
         "tenants.Subscription": "fas fa-file-invoice-dollar",
-        
+        "tenants.TenantConfig": "fas fa-sliders-h",
+        "tenants.TenantFeature": "fas fa-toggle-on",
+        "tenants.FeatureDefinition": "fas fa-list-alt",
+
+        "authentication": "fas fa-shield-alt",
+        "authentication.User": "fas fa-user",
+        "authentication.Role": "fas fa-user-tag",
+        "authentication.UserRole": "fas fa-user-lock",
+        "authentication.Permission": "fas fa-key",
+        "authentication.LoginHistory": "fas fa-history",
+
+        "partners": "fas fa-handshake",
+        "partners.Partner": "fas fa-handshake",
+        "partners.Lead": "fas fa-funnel-dollar",
+        "partners.CommissionRule": "fas fa-percentage",
+        "partners.Commission": "fas fa-coins",
+        "partners.Payout": "fas fa-money-bill-wave",
+
+        "analytics": "fas fa-chart-line",
+        "analytics.InvestorMetric": "fas fa-chart-line",
+        "analytics.MarketingSpend": "fas fa-ad",
+
+        "finance_ledger": "fas fa-book-open",
+        "finance_ledger.LedgerAccount": "fas fa-wallet",
+        "finance_ledger.LedgerTransaction": "fas fa-exchange-alt",
+        "finance_ledger.LedgerEntry": "fas fa-list-ol",
+        "finance_ledger.FinancialSnapshot": "fas fa-camera",
+        "finance_ledger.FinancialAuditLog": "fas fa-search-dollar",
+
+        "platform_finance": "fas fa-landmark",
+        "platform_finance.InvestorMetric": "fas fa-chart-pie",
+        "platform_finance.InvestorProfile": "fas fa-user-tie",
+        "platform_finance.MarketingSpend": "fas fa-bullhorn",
+        "platform_finance.FinancialLedger": "fas fa-book",
+        "platform_finance.FinancialSnapshot": "fas fa-camera-retro",
+        "platform_finance.FinancialReport": "fas fa-file-invoice",
+        "platform_finance.RoleBasedAccess": "fas fa-user-shield",
+        "platform_finance.AuditLog": "fas fa-history",
+
+        "core": "fas fa-cogs",
+        "core.AuditLog": "fas fa-clipboard-list",
+
+        # ── Students ───────────────────────────────────────────────────────
+        "students": "fas fa-user-graduate",
         "students.Student": "fas fa-user-graduate",
-        "students.StudentParent": "fas fa-user-friends",
+        "students.StudentParent": "fas fa-users",
         "students.StudentHealthRecord": "fas fa-heartbeat",
         "students.StudentDocument": "fas fa-file-alt",
-        
-        "staff.StaffMember": "fas fa-chalkboard-teacher",
-        "staff.StaffLeave": "fas fa-calendar-minus",
-        
-        "academics.Class": "fas fa-chalkboard",
-        "academics.Section": "fas fa-layer-group",
-        "academics.Subject": "fas fa-book",
-        
-        "attendance.StudentAttendanceRecord": "fas fa-clipboard-check",
-        
-        "finance.FeeStructure": "fas fa-money-check-alt",
-        "finance.FeeTransaction": "fas fa-rupee-sign",
+        "students.StudentNote": "fas fa-sticky-note",
 
+        # ── Admissions ─────────────────────────────────────────────────────
+        "admissions": "fas fa-door-open",
         "admissions.AdmissionEnquiry": "fas fa-question-circle",
         "admissions.AdmissionApplication": "fas fa-file-signature",
         "admissions.AdmissionDocument": "fas fa-folder-open",
         "admissions.AdmissionSetting": "fas fa-cogs",
 
+        # ── Staff ──────────────────────────────────────────────────────────
+        "staff": "fas fa-chalkboard-teacher",
+        "staff.StaffMember": "fas fa-chalkboard-teacher",
+
+        # ── HR & Payroll ───────────────────────────────────────────────────
+        "hr_payroll": "fas fa-money-check-alt",
+        "hr_payroll.Department": "fas fa-sitemap",
+        "hr_payroll.Designation": "fas fa-id-badge",
+        "hr_payroll.SalaryComponent": "fas fa-puzzle-piece",
+        "hr_payroll.SalaryStructure": "fas fa-project-diagram",
+        "hr_payroll.SalaryStructureComponent": "fas fa-th-list",
+        "hr_payroll.PayrollRun": "fas fa-calculator",
+        "hr_payroll.Payslip": "fas fa-file-invoice-dollar",
+        "hr_payroll.PayslipComponent": "fas fa-receipt",
+
+        # ── Academics ──────────────────────────────────────────────────────
+        "academics": "fas fa-graduation-cap",
+        "academics.AcademicYear": "fas fa-calendar-alt",
+        "academics.Board": "fas fa-university",
+        "academics.Class": "fas fa-chalkboard",
+        "academics.Section": "fas fa-layer-group",
+        "academics.Subject": "fas fa-book",
+        "academics.ClassSubject": "fas fa-link",
+        "academics.StudentEnrollment": "fas fa-user-plus",
+        "academics.SyllabusUnit": "fas fa-list",
+
+        # ── Attendance ─────────────────────────────────────────────────────
+        "attendance": "fas fa-clipboard-check",
+        "attendance.StudentAttendance": "fas fa-user-check",
+        "attendance.StaffAttendance": "fas fa-briefcase",
+        "attendance.AttendancePeriod": "fas fa-clock",
+        "attendance.StudentLeave": "fas fa-calendar-minus",
+        "attendance.Holiday": "fas fa-umbrella-beach",
+        "attendance.AttendanceSummary": "fas fa-chart-bar",
+
+        # ── Timetable ──────────────────────────────────────────────────────
+        "timetable": "fas fa-calendar-week",
+        "timetable.TimeSlot": "fas fa-stopwatch",
+        "timetable.ClassTimetable": "fas fa-table",
+        "timetable.TeacherTimetable": "fas fa-chalkboard-teacher",
+        "timetable.TimetableSubstitution": "fas fa-random",
+        "timetable.RoomAllocation": "fas fa-door-open",
+        "timetable.TimetableTemplate": "fas fa-copy",
+        "timetable.TimetableGenerationRun": "fas fa-magic",
+
+        # ── Examinations ───────────────────────────────────────────────────
+        "examinations": "fas fa-pencil-alt",
+        "examinations.GradeScale": "fas fa-sliders-h",
+        "examinations.ExamType": "fas fa-tag",
+        "examinations.Examination": "fas fa-file-alt",
+        "examinations.ExamSchedule": "fas fa-calendar-check",
+        "examinations.StudentMark": "fas fa-star",
+        "examinations.ExamResult": "fas fa-poll",
+        "examinations.ReportCard": "fas fa-id-card",
+
+        # ── Assignments ────────────────────────────────────────────────────
+        "assignments": "fas fa-tasks",
+        "assignments.Assignment": "fas fa-tasks",
+        "assignments.AssignmentSubmission": "fas fa-upload",
+
+        # ── AI Question Bank ───────────────────────────────────────────────
+        "ai_questions": "fas fa-robot",
+        "ai_questions.QuestionBank": "fas fa-brain",
+        "ai_questions.MCQOption": "fas fa-check-square",
+
+        # ── Finance ────────────────────────────────────────────────────────
+        "finance": "fas fa-rupee-sign",
+        "finance.FeeCategory": "fas fa-tags",
+        "finance.FeeStructure": "fas fa-money-check-alt",
+        "finance.StudentFee": "fas fa-file-invoice-dollar",
+        "finance.Payment": "fas fa-credit-card",
+        "finance.Expense": "fas fa-shopping-cart",
+        "finance.Invoice": "fas fa-file-invoice",
+
+        # ── Fee Ledger ─────────────────────────────────────────────────────
+        "fee_ledger": "fas fa-ledger",
+        "fee_ledger.FeeLedgerEntry": "fas fa-receipt",
+
+        # ── Communication ──────────────────────────────────────────────────
+        "communication": "fas fa-bullhorn",
+        "communication.Notice": "fas fa-bell",
+        "communication.Event": "fas fa-calendar-day",
+        "communication.Notification": "fas fa-paper-plane",
+
+        # ── Library ────────────────────────────────────────────────────────
+        "library": "fas fa-book-reader",
+        "library.Category": "fas fa-folder",
+        "library.Author": "fas fa-pen-nib",
+        "library.Book": "fas fa-book",
+        "library.BookIssue": "fas fa-book-open",
+
+        # ── Transport ──────────────────────────────────────────────────────
+        "transport": "fas fa-bus",
+        "transport.Vehicle": "fas fa-bus",
+        "transport.Driver": "fas fa-id-card",
+        "transport.Route": "fas fa-route",
+        "transport.Stop": "fas fa-map-marker-alt",
+        "transport.TransportAllocation": "fas fa-user-tag",
+
+        # ── Hostel ─────────────────────────────────────────────────────────
+        "hostel": "fas fa-hotel",
         "hostel.Hostel": "fas fa-building",
-        "hostel.Room": "fas fa-door-open",
+        "hostel.Room": "fas fa-door-closed",
         "hostel.RoomAllocation": "fas fa-bed",
         "hostel.HostelAttendance": "fas fa-clipboard-list",
         "hostel.MessMenu": "fas fa-utensils",
         "hostel.HostelComplaint": "fas fa-exclamation-triangle",
         "hostel.HostelVisitor": "fas fa-user-clock",
 
-        "hr_payroll.Department": "fas fa-sitemap",
-        "hr_payroll.Designation": "fas fa-id-badge",
-        "hr_payroll.SalaryComponent": "fas fa-puzzle-piece",
-        "hr_payroll.SalaryStructure": "fas fa-project-diagram",
-        "hr_payroll.PayrollRun": "fas fa-calculator",
-        "hr_payroll.Payslip": "fas fa-file-invoice-dollar",
+        # ── Houses ─────────────────────────────────────────────────────────
+        "houses": "fas fa-flag",
+        "houses.House": "fas fa-flag",
+        "houses.HouseMembership": "fas fa-user-friends",
+        "houses.HousePointLog": "fas fa-star",
 
+        # ── Activities / Clubs ─────────────────────────────────────────────
+        "activities": "fas fa-running",
+        "activities.Club": "fas fa-users",
+        "activities.ClubMembership": "fas fa-user-plus",
+        "activities.ClubActivity": "fas fa-calendar-day",
+        "activities.ActivityAttendance": "fas fa-clipboard-check",
+
+        # ── Privacy / DPDP ─────────────────────────────────────────────────
+        "privacy": "fas fa-user-shield",
+        "privacy.ConsentPurpose": "fas fa-file-contract",
+        "privacy.ParentalConsent": "fas fa-file-signature",
+        "privacy.ConsentAuditLog": "fas fa-search",
+        "privacy.Grievance": "fas fa-comments",
+        "privacy.DataBreach": "fas fa-exclamation-circle",
+        "privacy.DeletionRequest": "fas fa-trash-alt",
+        "privacy.CorrectionRequest": "fas fa-edit",
+
+        # ── Government Reports ─────────────────────────────────────────────
+        "government_reports": "fas fa-landmark",
+        "government_reports.ReportGeneration": "fas fa-file-contract",
+        "government_reports.RTEComplianceRecord": "fas fa-balance-scale",
+        "government_reports.UDISECodeMapping": "fas fa-code-branch",
+
+        # ── Reports ────────────────────────────────────────────────────────
+        "reports": "fas fa-chart-bar",
         "reports.ReportTemplate": "fas fa-file-alt",
         "reports.GeneratedReport": "fas fa-chart-bar",
         "reports.ReportSchedule": "fas fa-clock",
         "reports.SavedReport": "fas fa-bookmark",
-        "government_reports.ReportGeneration": "fas fa-file-contract",
-        "government_reports.RTEComplianceRecord": "fas fa-balance-scale",
+
+        # ── Workflows ──────────────────────────────────────────────────────
+        "workflows": "fas fa-project-diagram",
+        "workflows.WorkflowConfiguration": "fas fa-cogs",
+        "workflows.WorkflowStep": "fas fa-shoe-prints",
+        "workflows.WorkflowRequest": "fas fa-inbox",
+        "workflows.WorkflowActionLog": "fas fa-history",
+
+        # ── Integrations ───────────────────────────────────────────────────
+        "integrations": "fas fa-plug",
+        "integrations.Integration": "fas fa-plug",
+        "integrations.IntegrationCredential": "fas fa-key",
+        "integrations.WebhookSubscription": "fas fa-satellite-dish",
+        "integrations.WebhookEvent": "fas fa-bolt",
+        "integrations.WebhookDelivery": "fas fa-paper-plane",
     },
-    
-    # Icons that are used when one is not specified
+
+    # Icons used when none is specified
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
 
     #################
     # Related Modal #
     #################
-    # Use modals instead of popups
     "related_modal_active": True,
 
     #############
     # UI Tweaks #
     #############
-    # Relative paths to custom CSS/JS scripts (must be present in static files)
-    # Relative paths to custom CSS/JS scripts (must be present in static files)
     "custom_css": "css/admin_theme.css",
     "custom_js": None,
-    # Whether to link font from fonts.googleapis.com (use custom_css to supply font otherwise)
     "use_google_fonts_cdn": True,
-    # Whether to show the UI customizer on the sidebar
     "show_ui_builder": False,
 }
 
