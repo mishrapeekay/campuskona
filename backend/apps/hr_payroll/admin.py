@@ -49,12 +49,20 @@ class SalaryComponentAdmin(admin.ModelAdmin):
 
 @admin.register(SalaryStructure)
 class SalaryStructureAdmin(admin.ModelAdmin):
-    list_display = ('staff', 'effective_from', 'is_active', 'total_earnings', 'total_deductions')
+    list_display = ('staff', 'effective_from', 'is_active', 'get_total_earnings', 'get_total_deductions')
     list_filter = ('is_active', 'effective_from')
     search_fields = ('staff__employee_id', 'staff__user__first_name', 'staff__user__last_name')
     autocomplete_fields = ['staff']
     inlines = [SalaryStructureComponentInline]
     date_hierarchy = 'effective_from'
+
+    def get_total_earnings(self, obj):
+        return f"₹{obj.total_earnings:,.2f}"
+    get_total_earnings.short_description = 'Total Earnings'
+
+    def get_total_deductions(self, obj):
+        return f"₹{obj.total_deductions:,.2f}"
+    get_total_deductions.short_description = 'Total Deductions'
 
 
 @admin.register(SalaryStructureComponent)
@@ -67,11 +75,16 @@ class SalaryStructureComponentAdmin(admin.ModelAdmin):
 
 @admin.register(PayrollRun)
 class PayrollRunAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'run_date', 'status', 'total_gross', 'total_deductions', 'total_net')
+    list_display = ('period_display', 'run_date', 'status', 'total_gross', 'total_deductions', 'total_net')
     list_filter = ('status', 'year', 'month')
     search_fields = ('year',)
     readonly_fields = ('total_gross', 'total_deductions', 'total_net')
     date_hierarchy = 'run_date'
+
+    def period_display(self, obj):
+        import calendar
+        return f"{calendar.month_name[obj.month]} {obj.year}"
+    period_display.short_description = 'Period'
 
 
 @admin.register(Payslip)

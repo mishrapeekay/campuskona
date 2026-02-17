@@ -33,6 +33,19 @@ class StudentLeaveAdmin(admin.ModelAdmin):
         queryset.update(status='APPROVED')
     approve_leaves.short_description = "Approve selected leaves"
 
+
+@admin.register(StaffLeave)
+class StaffLeaveAdmin(admin.ModelAdmin):
+    list_display = ('staff_member', 'leave_type', 'start_date', 'end_date', 'status', 'total_days')
+    list_filter = ('status', 'leave_type')
+    search_fields = ('staff_member__first_name', 'staff_member__last_name', 'staff_member__employee_id', 'reason')
+    actions = ['approve_leaves']
+
+    def approve_leaves(self, request, queryset):
+        queryset.update(status='APPROVED')
+    approve_leaves.short_description = "Approve selected leaves"
+
+
 @admin.register(Holiday)
 class HolidayAdmin(admin.ModelAdmin):
     list_display = ('name', 'date', 'holiday_type', 'academic_year', 'is_optional')
