@@ -70,7 +70,8 @@ class PublicSchemaAdminSite(admin.AdminSite):
                     'total_subscriptions': Subscription.objects.count(),
                     'total_domains': Domain.objects.count(),
                     'school_portals': school_portals,
-                    'is_platform_admin': True,
+                    # Template checks 'is_master_admin' for hero section / sidebar logic
+                    'is_master_admin': True,
                 })
             except Exception:
                 pass
@@ -80,15 +81,31 @@ class PublicSchemaAdminSite(admin.AdminSite):
                 from apps.students.models import Student
                 from apps.staff.models import StaffMember
                 from apps.academics.models import AcademicYear, Section
+                from apps.attendance.models import AttendanceSummary
+                from django.db.models import Avg
+
                 current_year = AcademicYear.objects.filter(is_current=True).first()
+
+                # Attendance: average percentage across all summaries for current year
+                avg_attendance = 0
+                if current_year:
+                    avg_qs = AttendanceSummary.objects.filter(
+                        academic_year=current_year
+                    ).aggregate(avg=Avg('attendance_percentage'))
+                    avg_attendance = round(avg_qs['avg'] or 0, 1)
+
                 extra_context.update({
-                    'total_students': Student.objects.filter(status='ACTIVE').count(),
+                    # Student count — field is 'admission_status', NOT 'status'
+                    'total_students': Student.objects.filter(admission_status='ACTIVE').count(),
                     'total_staff': StaffMember.objects.filter(
                         employment_status='ACTIVE'
                     ).count(),
-                    'total_sections': Section.objects.filter(
+                    # Template variable is 'total_classes', not 'total_sections'
+                    'total_classes': Section.objects.filter(
                         academic_year=current_year, is_active=True
                     ).count() if current_year else 0,
+                    # Template variable 'attendance_percentage' was missing before
+                    'attendance_percentage': avg_attendance,
                     'current_academic_year': str(current_year) if current_year else 'Not set',
                     'is_school_admin': True,
                 })
