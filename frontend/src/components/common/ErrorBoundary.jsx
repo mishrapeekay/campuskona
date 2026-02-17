@@ -11,10 +11,7 @@ class ErrorBoundary extends React.Component {
     }
 
     componentDidCatch(error, info) {
-        // Log to console in development; replace with error reporting service (e.g. Sentry) in production
-        if (import.meta.env.DEV) {
-            console.error('[ErrorBoundary] Caught error:', error, info.componentStack);
-        }
+        console.error('[ErrorBoundary] Caught error:', error, info.componentStack);
     }
 
     handleReset = () => {
@@ -37,9 +34,14 @@ class ErrorBoundary extends React.Component {
                             </svg>
                         </div>
                         <h1 className="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h1>
-                        <p className="text-gray-500 mb-6">
+                        <p className="text-gray-500 mb-4">
                             An unexpected error occurred. Please try refreshing the page.
                         </p>
+                        {this.state.error && (
+                            <pre className="text-left text-xs text-red-600 bg-red-50 p-3 rounded-lg mb-4 max-h-32 overflow-auto whitespace-pre-wrap break-words">
+                                {this.state.error.toString()}
+                            </pre>
+                        )}
                         <div className="flex gap-3 justify-center">
                             <button
                                 onClick={this.handleReset}
