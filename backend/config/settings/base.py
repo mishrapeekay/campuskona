@@ -538,9 +538,10 @@ JAZZMIN_SETTINGS = {
         "authentication.PasswordResetToken",
     ],
 
-    # Ordering of apps in the sidebar
+    # Sidebar ordering — platform apps first, school apps second.
+    # On public schema only shared apps appear; on tenant schema only school apps.
     "order_with_respect_to": [
-        # --- Platform Management (Public Schema) ---
+        # Platform / Shared (visible at campuskona.com/admin/)
         "tenants",
         "authentication",
         "partners",
@@ -548,7 +549,7 @@ JAZZMIN_SETTINGS = {
         "finance_ledger",
         "platform_finance",
         "core",
-        # --- School Management (Tenant Schema) ---
+        # School / Tenant (visible at <school>.campuskona.com/admin/)
         "students",
         "admissions",
         "staff",
@@ -573,6 +574,21 @@ JAZZMIN_SETTINGS = {
         "workflows",
         "integrations",
     ],
+
+    # Custom sidebar links — "School Portals" section shown in platform admin
+    "custom_links": {
+        "tenants": [{
+            "name": "Veda9 School Admin",
+            "url": "https://veda9.campuskona.com/admin/",
+            "icon": "fas fa-external-link-alt",
+            "new_window": True,
+        }, {
+            "name": "Demo School Admin",
+            "url": "https://demo.campuskona.com/admin/",
+            "icon": "fas fa-external-link-alt",
+            "new_window": True,
+        }],
+    },
 
     # Custom icons for side menu apps/models
     "icons": {
