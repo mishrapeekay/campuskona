@@ -81,8 +81,12 @@ const authSlice = createSlice({
             localStorage.setItem('tenant_features', JSON.stringify(action.payload.features))
             localStorage.setItem('subscription_tier', action.payload.subscription_tier || 'BASIC')
         },
+        updateUserInStore: (state, action) => {
+            state.user = { ...state.user, ...action.payload }
+            localStorage.setItem('user', JSON.stringify(state.user))
+        },
     },
 })
 
-export const { loginSuccess, loginStart, loginFailure, logout, setTenantFeatures } = authSlice.actions
+export const { loginSuccess, loginStart, loginFailure, logout, setTenantFeatures, updateUserInStore } = authSlice.actions
 export default authSlice.reducer
