@@ -52,11 +52,23 @@ class AcademicService {
     }
 
     /**
-     * Get subjects
+     * Get subjects (optionally filtered by class group via class_id)
      */
     async getSubjects(params?: QueryParams): Promise<PaginatedResponse<Subject>> {
         const queryString = params ? apiClient.buildQueryString(params) : '';
         return apiClient.get<PaginatedResponse<Subject>>(`/academics/subjects/${queryString}`);
+    }
+
+    /**
+     * Get subjects filtered by class group.
+     * Passes class_id so the backend returns only subjects appropriate for that class level.
+     * Falls back to all subjects if no classId provided.
+     */
+    async getSubjectsByClass(classId: string, extraParams?: QueryParams): Promise<Subject[]> {
+        const params = { class_id: classId, page_size: 100, ...extraParams };
+        const queryString = apiClient.buildQueryString(params);
+        const response = await apiClient.get<PaginatedResponse<Subject>>(`/academics/subjects/${queryString}`);
+        return response.results;
     }
 
     /**

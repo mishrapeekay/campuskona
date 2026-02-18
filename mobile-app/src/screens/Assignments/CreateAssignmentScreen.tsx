@@ -41,19 +41,18 @@ const CreateAssignmentScreen: React.FC = () => {
 
     const [subjects, setSubjects] = useState<any[]>([]);
     const [sections, setSections] = useState<any[]>([]);
+    const [loadingSubjects, setLoadingSubjects] = useState(false);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
 
+    // Load sections on mount; also load assignment data if editing
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const [subjRes, sectRes] = await Promise.all([
-                    academicService.getSubjects(),
-                    academicService.getSections()
-                ]);
-                setSubjects(subjRes.results || []);
-                setSections(sectRes.results || []);
+                const sectRes = await academicService.getSections();
+                const loadedSections = sectRes.results || [];
+                setSections(loadedSections);
 
                 if (isEditing) {
                     const assignment = await assignmentService.getAssignment(assignmentId);
@@ -63,6 +62,17 @@ const CreateAssignmentScreen: React.FC = () => {
                     setSectionId(assignment.section);
                     setDueDate(new Date(assignment.due_date));
                     setMaxMarks(assignment.max_marks.toString());
+
+                    // Load subjects for the assignment's section class group
+                    const sec = loadedSections.find((s: any) => s.id === assignment.section);
+                    const classId = sec?.class_details?.id || sec?.class_instance;
+                    if (classId) {
+                        const subs = await academicService.getSubjectsByClass(classId);
+                        setSubjects(subs);
+                    } else {
+                        const subjRes = await academicService.getSubjects({ page_size: 100 });
+                        setSubjects(subjRes.results || []);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -72,6 +82,28 @@ const CreateAssignmentScreen: React.FC = () => {
         };
         fetchData();
     }, [isEditing, assignmentId]);
+
+    // When section changes, cascade-filter subjects by class group
+    const handleSectionChange = async (newSectionId: string) => {
+        setSectionId(newSectionId);
+        setSubjectId(''); // reset subject when section changes
+        const sec = sections.find((s: any) => s.id === newSectionId);
+        const classId = sec?.class_details?.id || sec?.class_instance;
+        setLoadingSubjects(true);
+        try {
+            if (classId) {
+                const subs = await academicService.getSubjectsByClass(classId);
+                setSubjects(subs);
+            } else {
+                const subjRes = await academicService.getSubjects({ page_size: 100 });
+                setSubjects(subjRes.results || []);
+            }
+        } catch (error) {
+            console.error('Error fetching subjects:', error);
+        } finally {
+            setLoadingSubjects(false);
+        }
+    };
 
     const handleSave = async () => {
         if (!title || !subjectId || !sectionId) {
@@ -151,30 +183,47 @@ const CreateAssignmentScreen: React.FC = () => {
                 <Animated.View entering={FadeInUp.delay(200).duration(800)} className="mb-8">
                     <Text className="text-xl font-black text-slate-900 dark:text-slate-100 mb-6 px-1">Target Distribution</Text>
 
-                    <Text className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-1">Subject Node *</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6 -mx-5 px-5">
-                        {subjects.map(s => (
-                            <TouchableOpacity
-                                key={s.id}
-                                onPress={() => setSubjectId(s.id)}
-                                className={`px-6 py-3 rounded-2xl mr-3 ${subjectId === s.id ? 'bg-indigo-600 shadow-lg shadow-indigo-100' : 'bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800'}`}
-                            >
-                                <Text className={`text-[10px] font-black uppercase tracking-widest ${subjectId === s.id ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`}>{s.name}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-
                     <Text className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-1">Section Hub *</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2 -mx-5 px-5">
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6 -mx-5 px-5">
                         {sections.map(s => (
                             <TouchableOpacity
                                 key={s.id}
-                                onPress={() => setSectionId(s.id)}
+                                onPress={() => handleSectionChange(s.id)}
                                 className={`px-6 py-3 rounded-2xl mr-3 ${sectionId === s.id ? 'bg-indigo-600 shadow-lg shadow-indigo-100' : 'bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800'}`}
                             >
                                 <Text className={`text-[10px] font-black uppercase tracking-widest ${sectionId === s.id ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`}>{s.name}</Text>
                             </TouchableOpacity>
                         ))}
+                    </ScrollView>
+
+                    <View className="flex-row items-center mb-4 px-1">
+                        <Text className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Subject Node *</Text>
+                        {loadingSubjects && (
+                            <Text className="text-[9px] text-indigo-500 ml-2">Loading...</Text>
+                        )}
+                        {!sectionId && !loadingSubjects && (
+                            <Text className="text-[9px] text-slate-400 ml-2">← Select a section first</Text>
+                        )}
+                    </View>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2 -mx-5 px-5">
+                        {subjects.length === 0 && !loadingSubjects ? (
+                            <View className="px-6 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800">
+                                <Text className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                    {sectionId ? 'No subjects for this class' : 'Select section first'}
+                                </Text>
+                            </View>
+                        ) : (
+                            subjects.map(s => (
+                                <TouchableOpacity
+                                    key={s.id}
+                                    onPress={() => setSubjectId(s.id)}
+                                    disabled={loadingSubjects}
+                                    className={`px-6 py-3 rounded-2xl mr-3 ${subjectId === s.id ? 'bg-indigo-600 shadow-lg shadow-indigo-100' : 'bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800'}`}
+                                >
+                                    <Text className={`text-[10px] font-black uppercase tracking-widest ${subjectId === s.id ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`}>{s.name}</Text>
+                                </TouchableOpacity>
+                            ))
+                        )}
                     </ScrollView>
                 </Animated.View>
 
