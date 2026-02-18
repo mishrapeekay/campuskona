@@ -151,9 +151,9 @@ export default function Sidebar({
   };
 
   const sidebarContent = (
-    <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
+    <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 px-4 border-b border-white/10">
+      <div className="flex h-16 items-center gap-2 px-4 border-b border-sidebar-border">
         <Link to="/dashboard" className="flex items-center gap-2" onClick={onMobileClose}>
           <AcademicCapIcon className="h-8 w-8 text-primary shrink-0" />
           <AnimatePresence>
@@ -162,7 +162,7 @@ export default function Sidebar({
                 initial={{ opacity: 0, width: 0 }}
                 animate={{ opacity: 1, width: "auto" }}
                 exit={{ opacity: 0, width: 0 }}
-                className="text-lg font-bold whitespace-nowrap overflow-hidden"
+                className="text-lg font-bold whitespace-nowrap overflow-hidden text-sidebar-foreground"
               >
                 SchoolMS
               </motion.span>
@@ -177,11 +177,11 @@ export default function Sidebar({
           {navigation.map((section) => (
             <div key={section.section}>
               {!collapsed && (
-                <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/40">
+                <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-sidebar-section-label">
                   {translateNav(section.section)}
                 </p>
               )}
-              {collapsed && <Separator className="mb-2 bg-white/10" />}
+              {collapsed && <Separator className="mb-2 bg-sidebar-border" />}
               <div className="space-y-0.5">
                 {section.items.map((item) => (
                   <SidebarItem
@@ -207,10 +207,10 @@ export default function Sidebar({
       </ScrollArea>
 
       {/* Collapse Toggle (desktop only) */}
-      <div className="hidden lg:block border-t border-white/10 p-2">
+      <div className="hidden lg:block border-t border-sidebar-border p-2">
         <button
           onClick={onToggleCollapse}
-          className="flex w-full items-center justify-center rounded-lg p-2 text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+          className="flex w-full items-center justify-center rounded-lg p-2 text-sidebar-muted hover:text-sidebar-foreground hover:bg-sidebar-hover-bg transition-colors"
         >
           {collapsed ? (
             <ChevronsRightIcon className="h-4 w-4" />
@@ -221,7 +221,7 @@ export default function Sidebar({
       </div>
 
       {/* User Info */}
-      <div className="border-t border-white/10 p-3">
+      <div className="border-t border-sidebar-border p-3">
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9 shrink-0">
             <AvatarFallback className="bg-primary text-primary-foreground text-xs">
@@ -237,10 +237,10 @@ export default function Sidebar({
                 exit={{ opacity: 0, width: 0 }}
                 className="flex-1 min-w-0 overflow-hidden"
               >
-                <p className="text-sm font-medium truncate">
+                <p className="text-sm font-medium truncate text-sidebar-foreground">
                   {user?.first_name} {user?.last_name}
                 </p>
-                <p className="text-xs text-white/50 truncate">
+                <p className="text-xs text-sidebar-muted truncate">
                   {user?.user_type?.replace(/_/g, " ")}
                 </p>
               </motion.div>
@@ -249,7 +249,7 @@ export default function Sidebar({
           {!collapsed && (
             <button
               onClick={handleLogout}
-              className="shrink-0 rounded-lg p-1.5 text-white/50 hover:text-rose-400 hover:bg-white/10 transition-colors"
+              className="shrink-0 rounded-lg p-1.5 text-sidebar-muted hover:text-destructive hover:bg-sidebar-hover-bg transition-colors"
               title="Sign out"
             >
               <LogOutIcon className="h-4 w-4" />
@@ -317,12 +317,12 @@ function SidebarItem({
       className={cn(
         "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
         active
-          ? "bg-primary/15 text-white font-medium border-l-2 border-primary ml-0"
-          : "text-white/70 hover:text-white hover:bg-white/8",
+          ? "bg-sidebar-active-bg text-sidebar-active-text font-medium border-l-2 border-primary ml-0"
+          : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-hover-bg",
         collapsed && "justify-center px-2"
       )}
     >
-      <Icon className={cn("h-5 w-5 shrink-0", active ? "text-primary" : "text-white/50")} />
+      <Icon className={cn("h-5 w-5 shrink-0", active ? "text-primary" : "text-sidebar-muted")} />
       <AnimatePresence>
         {!collapsed && (
           <motion.span
@@ -386,7 +386,7 @@ function SidebarItem({
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <div className="ml-8 mt-0.5 space-y-0.5 border-l border-white/10 pl-3">
+            <div className="ml-8 mt-0.5 space-y-0.5 border-l border-sidebar-border pl-3">
               {item.subItems.map((sub) => (
                 <Link
                   key={sub.href}
@@ -395,8 +395,8 @@ function SidebarItem({
                   className={cn(
                     "block rounded-md px-3 py-1.5 text-sm transition-colors",
                     pathname === sub.href
-                      ? "text-white font-medium bg-white/10"
-                      : "text-white/50 hover:text-white hover:bg-white/5"
+                      ? "text-sidebar-active-text font-medium bg-sidebar-active-bg"
+                      : "text-sidebar-muted hover:text-sidebar-foreground hover:bg-sidebar-hover-bg"
                   )}
                 >
                   {translateNav(sub.name)}

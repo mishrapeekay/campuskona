@@ -52,6 +52,12 @@ export default {
                 sidebar: {
                     DEFAULT: "hsl(var(--sidebar-background))",
                     foreground: "hsl(var(--sidebar-foreground))",
+                    muted: "hsl(var(--sidebar-muted))",
+                    border: "hsl(var(--sidebar-border))",
+                    "active-bg": "hsl(var(--sidebar-active-bg))",
+                    "active-text": "hsl(var(--sidebar-active-text))",
+                    "hover-bg": "hsl(var(--sidebar-hover-bg))",
+                    "section-label": "hsl(var(--sidebar-section-label))",
                 },
                 chart: {
                     1: "hsl(var(--chart-1))",
