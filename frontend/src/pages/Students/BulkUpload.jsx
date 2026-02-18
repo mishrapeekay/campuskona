@@ -15,6 +15,8 @@ import {
     CheckCircle2,
     XCircle,
     Loader2,
+    ShieldAlert,
+    AlertTriangle,
 } from 'lucide-react';
 
 /**
@@ -28,6 +30,8 @@ const BulkUpload = () => {
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [errors, setErrors] = useState([]);
+    const [warnings, setWarnings] = useState([]);
+    const [dpdpFlags, setDpdpFlags] = useState([]);
     const [success, setSuccess] = useState(false);
     const [uploadedCount, setUploadedCount] = useState(0);
 
@@ -85,18 +89,28 @@ const BulkUpload = () => {
         setUploading(true);
         setUploadProgress(0);
         setErrors([]);
+        setWarnings([]);
+        setDpdpFlags([]);
 
         try {
             const result = await dispatch(bulkUploadStudents(file)).unwrap();
 
             setSuccess(true);
-            setUploadedCount(result.success_count || 0);
+            setUploadedCount(result.imported || result.success_count || 0);
 
             if (result.errors && result.errors.length > 0) {
                 setErrors(result.errors);
             }
+            if (result.warnings && result.warnings.length > 0) {
+                setWarnings(result.warnings);
+            }
+            if (result.dpdp_flags && result.dpdp_flags.length > 0) {
+                setDpdpFlags(result.dpdp_flags);
+            }
 
-            if (result.errors.length === 0) {
+            const hasNoErrors = !result.errors || result.errors.length === 0;
+            const hasNoFlags = !result.dpdp_flags || result.dpdp_flags.length === 0;
+            if (hasNoErrors && hasNoFlags) {
                 setTimeout(() => {
                     navigate('/students');
                 }, 3000);
@@ -112,6 +126,8 @@ const BulkUpload = () => {
     const handleReset = () => {
         setFile(null);
         setErrors([]);
+        setWarnings([]);
+        setDpdpFlags([]);
         setSuccess(false);
         setUploadedCount(0);
         setUploadProgress(0);
@@ -251,6 +267,65 @@ const BulkUpload = () => {
                                                     )}
                                                 </ul>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {warnings.length > 0 && (
+                                <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
+                                    <div className="flex">
+                                        <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0" />
+                                        <div className="ml-3 flex-1">
+                                            <h3 className="text-sm font-medium text-amber-700 dark:text-amber-400">
+                                                Warnings ({warnings.length})
+                                            </h3>
+                                            <div className="mt-2 text-sm text-amber-700/80 dark:text-amber-400/80">
+                                                <ul className="list-disc list-inside space-y-1">
+                                                    {warnings.slice(0, 5).map((w, i) => (
+                                                        <li key={i}>
+                                                            {w.row ? `Row ${w.row}: ` : ''}{w.message || w}
+                                                        </li>
+                                                    ))}
+                                                    {warnings.length > 5 && (
+                                                        <li className="font-medium">... and {warnings.length - 5} more warnings</li>
+                                                    )}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {dpdpFlags.length > 0 && (
+                                <div className="bg-violet-500/10 border border-violet-500/20 rounded-xl p-4">
+                                    <div className="flex">
+                                        <ShieldAlert className="h-5 w-5 text-violet-600 shrink-0 mt-0.5" />
+                                        <div className="ml-3 flex-1">
+                                            <h3 className="text-sm font-bold text-violet-700 dark:text-violet-400">
+                                                DPDP Act — Sensitive Data Detected ({dpdpFlags.length} column{dpdpFlags.length !== 1 ? 's' : ''})
+                                            </h3>
+                                            <p className="mt-1 text-xs text-violet-600 dark:text-violet-400">
+                                                The following columns contain sensitive personal data under India's Digital Personal Data Protection Act 2023. This data has been imported but parental consent must be collected and recorded.
+                                            </p>
+                                            <div className="mt-3 space-y-2">
+                                                {dpdpFlags.map((flag, i) => (
+                                                    <div key={i} className="flex items-start gap-2 bg-violet-500/10 rounded-lg p-2">
+                                                        <ShieldAlert className="h-4 w-4 text-violet-500 shrink-0 mt-0.5" />
+                                                        <div>
+                                                            <p className="text-xs font-semibold text-violet-700 dark:text-violet-300 uppercase tracking-wide">
+                                                                {flag.column}
+                                                            </p>
+                                                            <p className="text-xs text-violet-600 dark:text-violet-400">
+                                                                {flag.rows_affected} row{flag.rows_affected !== 1 ? 's' : ''} affected — {flag.message || 'Parental consent required under DPDP Act 2023'}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <p className="mt-3 text-xs text-violet-600 dark:text-violet-400 font-medium">
+                                                Action required: Go to <strong>Compliance → DPDP Dashboard</strong> to send consent requests to parents.
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

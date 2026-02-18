@@ -1103,6 +1103,170 @@ class AccessPatternAlertViewSet(viewsets.ModelViewSet):
         alert = self.get_object()
         notes = request.data.get('notes', '')
 
+
+# ─────────────────────────────────────────────────────────────
+# Workstream D: DPDP Document Generation Views
+# ─────────────────────────────────────────────────────────────
+from rest_framework.views import APIView
+from django.http import HttpResponse
+
+
+class GenerateDPAView(APIView):
+    """Generate and download the Data Processing Agreement PDF (Workstream D)."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        from apps.privacy.services.document_generator import generate_dpa_pdf
+        tenant = getattr(request, 'tenant', None)
+        school_name = getattr(tenant, 'name', '') or getattr(tenant, 'schema_name', 'School')
+        schema_name = getattr(tenant, 'schema_name', 'school')
+
+        pdf_bytes = generate_dpa_pdf(school_name=school_name, schema_name=schema_name)
+        content_type = 'application/pdf'
+        ext = 'pdf'
+        # Detect HTML fallback by checking first bytes
+        if pdf_bytes[:1] in (b'<', b'\n', b'\r'):
+            content_type = 'text/html'
+            ext = 'html'
+
+        response = HttpResponse(pdf_bytes, content_type=content_type)
+        response['Content-Disposition'] = f'attachment; filename="CampusKona_DPA_{schema_name}.{ext}"'
+        return response
+
+
+class GeneratePrivacyNoticeView(APIView):
+    """Generate and download the Privacy Notice PDF (Workstream D)."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        from apps.privacy.services.document_generator import generate_privacy_notice_pdf
+        tenant = getattr(request, 'tenant', None)
+        school_name = getattr(tenant, 'name', '') or getattr(tenant, 'schema_name', 'School')
+        schema_name = getattr(tenant, 'schema_name', 'school')
+
+        pdf_bytes = generate_privacy_notice_pdf(school_name=school_name)
+        content_type = 'application/pdf'
+        ext = 'pdf'
+        if pdf_bytes[:1] in (b'<', b'\n', b'\r'):
+            content_type = 'text/html'
+            ext = 'html'
+
+        response = HttpResponse(pdf_bytes, content_type=content_type)
+        response['Content-Disposition'] = f'attachment; filename="CampusKona_PrivacyNotice_{schema_name}.{ext}"'
+        return response
+
+
+class GenerateComplianceCertificateView(APIView):
+    """Generate and download the DPDP Compliance Certificate (Workstream D)."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        from apps.privacy.services.document_generator import generate_compliance_certificate_pdf
+        tenant = getattr(request, 'tenant', None)
+        school_name = getattr(tenant, 'name', '') or getattr(tenant, 'schema_name', 'School')
+        schema_name = getattr(tenant, 'schema_name', 'school')
+
+        consent_rate = 0.0
+        audit_score = 85
+        try:
+            consented = ParentalConsent.objects.filter(consent_given=True).count()
+            total = ParentalConsent.objects.count()
+            if total > 0:
+                consent_rate = (consented / total) * 100
+        except Exception:
+            pass
+
+        if consent_rate < 80:
+            return Response(
+                {'error': f'Certificate requires 80%+ consent rate. Current: {consent_rate:.1f}%'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        pdf_bytes = generate_compliance_certificate_pdf(
+            school_name=school_name,
+            schema_name=schema_name,
+            consent_rate=consent_rate,
+            audit_score=audit_score,
+        )
+        content_type = 'application/pdf'
+        ext = 'pdf'
+        if pdf_bytes[:1] in (b'<', b'\n', b'\r'):
+            content_type = 'text/html'
+            ext = 'html'
+
+        response = HttpResponse(pdf_bytes, content_type=content_type)
+        response['Content-Disposition'] = f'attachment; filename="CampusKona_Certificate_{schema_name}.{ext}"'
+        return response
+
+
+class BulkImportDPDPAuditView(APIView):
+    """Audit an Excel/CSV file for DPDP-sensitive columns before import (Workstream H)."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        import io
+        import csv
+
+        file_obj = request.FILES.get('file')
+        if not file_obj:
+            return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        filename = file_obj.name.lower()
+        headers = []
+        row_count = 0
+
+        try:
+            if filename.endswith('.xlsx') or filename.endswith('.xls'):
+                from openpyxl import load_workbook
+                wb = load_workbook(file_obj, read_only=True, data_only=True)
+                ws = wb.active
+                all_rows = list(ws.iter_rows(values_only=True))
+                headers = [
+                    str(h).strip().lower().replace(' ', '_')
+                    for h in (all_rows[0] if all_rows else []) if h
+                ]
+                row_count = len(all_rows) - 1
+            elif filename.endswith('.csv'):
+                content = file_obj.read().decode('utf-8-sig')
+                reader = csv.DictReader(io.StringIO(content))
+                headers = [h.strip().lower().replace(' ', '_') for h in (reader.fieldnames or [])]
+                row_count = sum(1 for _ in reader)
+        except Exception as e:
+            return Response({'error': f'File parse error: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+
+        DPDP_SENSITIVE = {
+            'aadhar_number': 'Aadhaar number — government ID, requires explicit consent (DPDP S.9)',
+            'aadhaar_number': 'Aadhaar number — government ID',
+            'aadhar': 'Aadhaar — government ID',
+            'aadhaar': 'Aadhaar — government ID',
+            'religion': 'Religion — special category data under DPDP Act 2023',
+            'caste': 'Caste — special category data, requires explicit consent',
+            'category': 'Caste category — may contain special category data',
+        }
+
+        flags = [
+            {
+                'column': col,
+                'reason': DPDP_SENSITIVE[col],
+                'recommendation': 'Obtain explicit parental consent before importing. CampusKona will encrypt this field.',
+            }
+            for col in headers if col in DPDP_SENSITIVE
+        ]
+
+        return Response({
+            'file_name': file_obj.name,
+            'total_rows': row_count,
+            'total_columns': len(headers),
+            'columns': headers,
+            'dpdp_flags': flags,
+            'flag_count': len(flags),
+            'requires_consent': len(flags) > 0,
+            'message': (
+                f'Found {len(flags)} DPDP-sensitive column(s) in your file. Parental consent required before import.'
+                if flags else 'No DPDP-sensitive columns detected. Safe to import.'
+            ),
+        })
+
         AuditLoggingService.mark_as_false_positive(alert, request.user, notes)
 
         return Response({

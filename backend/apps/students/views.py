@@ -198,20 +198,238 @@ class StudentViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def bulk_upload(self, request):
         """
-        Bulk upload students from CSV/Excel file
+        Bulk upload students from Excel/CSV file (Workstream A).
+        Supports .xlsx, .xls, .csv files.
+        Detects and flags DPDP-sensitive columns (caste, religion, Aadhaar).
+        Auto-generates pseudo-emails and admission numbers when absent.
         """
-        serializer = StudentBulkUploadSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        import io
+        import csv
+        from openpyxl import load_workbook
+        from django.db import transaction
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
 
-        file = serializer.validated_data['file']
+        file_obj = request.FILES.get('file')
+        if not file_obj:
+            # Fall back to serializer if file not in FILES directly
+            serializer = StudentBulkUploadSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            file_obj = serializer.validated_data['file']
 
-        # TODO: Implement CSV/Excel parsing and bulk creation
-        # This is a placeholder for now
+        filename = file_obj.name.lower()
+        rows = []
+        headers = []
+
+        try:
+            if filename.endswith('.xlsx') or filename.endswith('.xls'):
+                wb = load_workbook(file_obj, read_only=True, data_only=True)
+                ws = wb.active
+                all_rows = list(ws.iter_rows(values_only=True))
+                if not all_rows:
+                    return Response({'error': 'Empty file'}, status=status.HTTP_400_BAD_REQUEST)
+                headers = [
+                    str(h).strip().lower().replace(' ', '_') if h else ''
+                    for h in all_rows[0]
+                ]
+                rows = [
+                    dict(zip(headers, row))
+                    for row in all_rows[1:]
+                    if any(cell is not None for cell in row)
+                ]
+            elif filename.endswith('.csv'):
+                content = file_obj.read().decode('utf-8-sig')
+                reader = csv.DictReader(io.StringIO(content))
+                headers = [h.strip().lower().replace(' ', '_') for h in (reader.fieldnames or [])]
+                rows = list(reader)
+            else:
+                return Response(
+                    {'error': 'Unsupported file format. Use .xlsx or .csv'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        except Exception as e:
+            return Response({'error': f'File parse error: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # DPDP-sensitive column detection
+        DPDP_SENSITIVE = {'aadhar_number', 'aadhaar_number', 'aadhar', 'aadhaar', 'religion', 'caste', 'category'}
+        dpdp_flags = [
+            {'column': col, 'message': f'Column "{col}" contains sensitive personal data under DPDP Act 2023. Parental consent required.'}
+            for col in headers if col in DPDP_SENSITIVE
+        ]
+
+        # Field mapping from common column names → Student model fields
+        FIELD_MAP = {
+            'name': 'first_name', 'student_name': 'first_name', 'first_name': 'first_name',
+            'last_name': 'last_name', 'surname': 'last_name',
+            'middle_name': 'middle_name',
+            'dob': 'date_of_birth', 'date_of_birth': 'date_of_birth', 'birth_date': 'date_of_birth',
+            'gender': 'gender',
+            'phone': 'phone_number', 'mobile': 'phone_number', 'contact': 'phone_number',
+            'phone_number': 'phone_number',
+            'father_name': 'father_name', 'father': 'father_name',
+            'mother_name': 'mother_name', 'mother': 'mother_name',
+            'blood_group': 'blood_group',
+            'admission_no': 'admission_number', 'admission_number': 'admission_number',
+            'roll_no': 'admission_number', 'roll_number': 'admission_number',
+            'email': 'email',
+            'address': 'current_address_line1',
+            'address_line1': 'current_address_line1', 'current_address_line1': 'current_address_line1',
+            'city': 'current_city', 'current_city': 'current_city',
+            'state': 'current_state', 'current_state': 'current_state',
+            'pincode': 'current_pincode', 'current_pincode': 'current_pincode',
+        }
+
+        imported = 0
+        errors = []
+        warnings = []
+        schema = request.tenant.schema_name if hasattr(request, 'tenant') else 'public'
+
+        for row_idx, row in enumerate(rows, start=2):
+            mapped = {}
+            for col, val in row.items():
+                field = FIELD_MAP.get(col)
+                if field and val is not None and str(val).strip():
+                    mapped[field] = str(val).strip()
+
+            first_name = mapped.get('first_name', '')
+            if not first_name:
+                errors.append({'row': row_idx, 'error': 'Name is required'})
+                continue
+
+            admission_number = mapped.get('admission_number', '')
+            if not admission_number:
+                import uuid
+                admission_number = f'AUTO-{uuid.uuid4().hex[:8].upper()}'
+                warnings.append({'row': row_idx, 'warning': f'No admission number, auto-assigned: {admission_number}'})
+
+            try:
+                with transaction.atomic():
+                    pseudo_email = (
+                        mapped.get('email') or
+                        f'student.{admission_number.lower().replace(" ", "")}@{schema}.campuskona.internal'
+                    )
+
+                    if User.objects.filter(email=pseudo_email).exists():
+                        warnings.append({'row': row_idx, 'warning': f'User already exists for {admission_number}, skipped'})
+                        continue
+
+                    user = User.objects.create(
+                        email=pseudo_email,
+                        username=pseudo_email,
+                        first_name=first_name,
+                        last_name=mapped.get('last_name', ''),
+                        is_active=True,
+                    )
+                    user.set_unusable_password()
+                    user.save(update_fields=['password'])
+
+                    student_data = {
+                        'user': user,
+                        'admission_number': admission_number,
+                        'first_name': first_name,
+                        'last_name': mapped.get('last_name', ''),
+                        'middle_name': mapped.get('middle_name', ''),
+                        'father_name': mapped.get('father_name', ''),
+                        'mother_name': mapped.get('mother_name', ''),
+                        'blood_group': mapped.get('blood_group', ''),
+                        'current_address_line1': mapped.get('current_address_line1', ''),
+                        'current_city': mapped.get('current_city', ''),
+                        'current_state': mapped.get('current_state', ''),
+                        'current_pincode': mapped.get('current_pincode', ''),
+                        'email': mapped.get('email', '') or '',
+                        'admission_date': timezone.now().date(),
+                        'admission_status': 'ACTIVE',
+                    }
+
+                    # Gender normalization
+                    gender_raw = mapped.get('gender', 'M').upper()
+                    if gender_raw in ('M', 'MALE', 'BOY'):
+                        student_data['gender'] = 'M'
+                    elif gender_raw in ('F', 'FEMALE', 'GIRL'):
+                        student_data['gender'] = 'F'
+                    else:
+                        student_data['gender'] = 'O'
+
+                    # Phone number (max 10 digits)
+                    if mapped.get('phone_number'):
+                        ph = ''.join(filter(str.isdigit, mapped['phone_number']))[-10:]
+                        if len(ph) == 10:
+                            student_data['phone_number'] = ph
+
+                    # Date of birth parsing
+                    if mapped.get('date_of_birth'):
+                        from datetime import datetime
+                        for fmt in ['%Y-%m-%d', '%d-%m-%Y', '%d/%m/%Y', '%m/%d/%Y']:
+                            try:
+                                student_data['date_of_birth'] = datetime.strptime(
+                                    mapped['date_of_birth'], fmt
+                                ).date()
+                                break
+                            except ValueError:
+                                continue
+
+                    Student.objects.create(**student_data)
+                    imported += 1
+
+            except Exception as e:
+                errors.append({'row': row_idx, 'error': str(e)})
 
         return Response({
-            'message': 'Bulk upload feature coming soon',
-            'file_name': file.name
-        }, status=status.HTTP_501_NOT_IMPLEMENTED)
+            'imported': imported,
+            'total_rows': len(rows),
+            'warnings': warnings,
+            'errors': errors,
+            'dpdp_flags': dpdp_flags,
+            'dpdp_flag_count': len(dpdp_flags),
+            'message': f'Successfully imported {imported} of {len(rows)} students',
+        }, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], url_path='bulk_template')
+    def bulk_template(self, request):
+        """Download sample Excel template for bulk student upload."""
+        from openpyxl import Workbook
+        from openpyxl.styles import Font, PatternFill, Alignment
+        import io
+        from django.http import HttpResponse
+
+        wb = Workbook()
+        ws = wb.active
+        ws.title = 'Students'
+
+        headers = [
+            'first_name', 'last_name', 'middle_name', 'date_of_birth',
+            'gender', 'blood_group', 'phone_number', 'email',
+            'father_name', 'mother_name',
+            'admission_number', 'current_address_line1', 'current_city',
+            'current_state', 'current_pincode',
+        ]
+        header_fill = PatternFill(start_color='4472C4', end_color='4472C4', fill_type='solid')
+        header_font = Font(color='FFFFFF', bold=True)
+
+        for col_idx, header in enumerate(headers, 1):
+            cell = ws.cell(row=1, column=col_idx, value=header)
+            cell.fill = header_fill
+            cell.font = header_font
+            cell.alignment = Alignment(horizontal='center')
+            ws.column_dimensions[cell.column_letter].width = 20
+
+        # Sample data row
+        ws.append([
+            'Arjun', 'Sharma', '', '2010-05-15', 'M', 'O+',
+            '9876543210', '', 'Rajesh Sharma', 'Priya Sharma',
+            'ADM001', '123 MG Road', 'Pune', 'Maharashtra', '411001',
+        ])
+
+        buffer = io.BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+
+        response = HttpResponse(
+            buffer.read(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        )
+        response['Content-Disposition'] = 'attachment; filename="student_bulk_upload_template.xlsx"'
+        return response
 
     @action(detail=True, methods=['post'])
     def approve(self, request, pk=None):

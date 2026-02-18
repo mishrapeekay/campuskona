@@ -376,10 +376,16 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@schoolmgmt.com')
 
 # SMS Configuration
-SMS_PROVIDER = config('SMS_PROVIDER', default='twilio')
+SMS_PROVIDER = config('SMS_PROVIDER', default='msg91')
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default='')
 TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default='')
 TWILIO_PHONE_NUMBER = config('TWILIO_PHONE_NUMBER', default='')
+
+# MSG91 SMS + WhatsApp Configuration (Workstream B)
+MSG91_AUTH_KEY = config('MSG91_AUTH_KEY', default='')
+MSG91_SENDER_ID = config('MSG91_SENDER_ID', default='CAMPUS')
+MSG91_WHATSAPP_NUMBER = config('MSG91_WHATSAPP_NUMBER', default='')
+MSG91_OTP_TEMPLATE_ID = config('MSG91_OTP_TEMPLATE_ID', default='')
 
 # Payment Gateway Configuration
 RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID', default='')

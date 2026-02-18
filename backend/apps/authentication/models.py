@@ -631,3 +631,58 @@ class LoginHistory(BaseModel):
 
     def __str__(self):
         return f"{self.user.email} - {self.login_at}"
+
+
+import hashlib as _hashlib
+import secrets as _secrets
+import uuid as _uuid_mod
+from datetime import timedelta as _timedelta
+
+
+class OTPToken(models.Model):
+    """OTP tokens for phone-based authentication (Workstream C)."""
+    phone = models.CharField(max_length=15)
+    otp_hash = models.CharField(max_length=64)  # SHA-256 of OTP
+    session_id = models.UUIDField(default=_uuid_mod.uuid4, unique=True)
+    expires_at = models.DateTimeField()
+    is_used = models.BooleanField(default=False)
+    attempts = models.IntegerField(default=0)  # max 3 attempts
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'OTP Token'
+        verbose_name_plural = 'OTP Tokens'
+
+    def __str__(self):
+        return f"OTP for {self.phone} (used={self.is_used})"
+
+    @classmethod
+    def generate_otp(cls):
+        return str(_secrets.randbelow(900000) + 100000)
+
+    @classmethod
+    def hash_otp(cls, otp):
+        return _hashlib.sha256(otp.encode()).hexdigest()
+
+    @classmethod
+    def create_for_phone(cls, phone):
+        otp = cls.generate_otp()
+        cls.objects.filter(phone=phone, is_used=False).update(is_used=True)
+        instance = cls.objects.create(
+            phone=phone,
+            otp_hash=cls.hash_otp(otp),
+            expires_at=timezone.now() + _timedelta(minutes=10),
+        )
+        return instance, otp
+
+    def verify(self, otp):
+        if self.is_used or timezone.now() > self.expires_at or self.attempts >= 3:
+            return False
+        self.attempts += 1
+        if self.otp_hash == self.hash_otp(otp):
+            self.is_used = True
+            self.save(update_fields=['attempts', 'is_used'])
+            return True
+        self.save(update_fields=['attempts'])
+        return False

@@ -14,9 +14,15 @@ import { Button, Card } from '@/components/ui';
 import { LoginRequest } from '@/types/api';
 import biometricService from '@/services/biometric.service';
 import { BiometryTypes } from 'react-native-biometrics';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '@/types/navigation';
+
+type LoginNavProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<LoginNavProp>();
   const { isLoading, error } = useAppSelector((state) => state.auth);
   const themeColors = useAppSelector(selectThemeColors);
   const { config: brandingConfig } = useAppSelector(selectBranding);
@@ -243,7 +249,15 @@ const LoginScreen: React.FC = () => {
             </Text>
 
             <TouchableOpacity
-              className="mt-6 py-2 px-6 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex-row items-center"
+              className="mt-4 py-2 px-6 rounded-full bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800 flex-row items-center"
+              onPress={() => navigation.navigate('OTPLogin')}
+            >
+              <Icon name="shield-key-outline" size={16} color="#6366f1" style={{ marginRight: 6 }} />
+              <Text className="text-indigo-600 dark:text-indigo-400 font-bold text-xs">Login with OTP / Admission No.</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="mt-3 py-2 px-6 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex-row items-center"
               onPress={() => dispatch(clearTenant())}
             >
               <Icon name="swap-horizontal" size={16} className="text-slate-600 dark:text-slate-400 mr-2" />

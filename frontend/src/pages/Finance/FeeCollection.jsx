@@ -6,7 +6,7 @@ import {
     fetchFinancialSummary
 } from '../../store/slices/financeSlice';
 import { fetchStudents } from '../../store/slices/studentsSlice';
-import { downloadReceipt, getPayments } from '../../api/finance';
+import { downloadReceipt, getPayments, createRazorpayOrder, verifyRazorpayPayment } from '../../api/finance';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/primitives/card';
 import { Button } from '@/ui/primitives/button';
 import Select from '../../components/common/Select';
@@ -28,6 +28,7 @@ const FeeCollection = () => {
     const [feeAllocations, setFeeAllocations] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
     const [processing, setProcessing] = useState(false);
+    const [razorpayLoading, setRazorpayLoading] = useState(false);
 
     useEffect(() => {
         dispatch(fetchFinancialSummary());
@@ -92,6 +93,79 @@ const FeeCollection = () => {
             showToast.error('Failed to collect payment: ' + (error.message || 'Unknown error'));
         } finally {
             setProcessing(false);
+        }
+    };
+
+    const loadRazorpayScript = () => new Promise((resolve) => {
+        if (document.getElementById('razorpay-script')) return resolve(true);
+        const script = document.createElement('script');
+        script.id = 'razorpay-script';
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+    });
+
+    const handleRazorpayPayment = async () => {
+        if (!selectedStudentId || feeAllocations.length === 0) {
+            showToast.warning('Please select student and fees');
+            return;
+        }
+        if (feeAllocations.length > 1) {
+            showToast.warning('Online payment supports one fee at a time. Please select a single fee.');
+            return;
+        }
+
+        setRazorpayLoading(true);
+        try {
+            const loaded = await loadRazorpayScript();
+            if (!loaded) {
+                showToast.error('Failed to load payment gateway. Check your connection.');
+                return;
+            }
+
+            const { data: order } = await createRazorpayOrder(feeAllocations[0].student_fee_id);
+
+            const options = {
+                key: order.key_id,
+                amount: order.amount,
+                currency: order.currency,
+                name: order.school_name || 'School Fee Payment',
+                description: order.description || 'Fee Payment',
+                order_id: order.order_id,
+                prefill: {
+                    name: selectedStudent ? `${selectedStudent.first_name} ${selectedStudent.last_name}` : '',
+                    email: selectedStudent?.email || '',
+                    contact: selectedStudent?.phone_number || '',
+                },
+                theme: { color: '#6366f1' },
+                handler: async (response) => {
+                    try {
+                        await verifyRazorpayPayment({
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature,
+                        });
+                        showToast.success('Payment successful!');
+                        setSelectedStudentId('');
+                        setFeeAllocations([]);
+                        setTotalAmount(0);
+                        dispatch(fetchFinancialSummary());
+                    } catch {
+                        showToast.error('Payment verification failed. Contact support.');
+                    }
+                },
+                modal: {
+                    ondismiss: () => showToast.warning('Payment cancelled.'),
+                },
+            };
+
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        } catch (error) {
+            showToast.error('Failed to initiate payment: ' + (error.message || 'Unknown error'));
+        } finally {
+            setRazorpayLoading(false);
         }
     };
 
@@ -309,12 +383,24 @@ const FeeCollection = () => {
                                 </Button>
                                 <Button
                                     onClick={handleSubmit}
-                                    disabled={processing || feeAllocations.length === 0}
+                                    disabled={processing || razorpayLoading || feeAllocations.length === 0}
                                 >
                                     {processing ? (
                                         <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...</>
                                     ) : (
                                         <><CreditCard className="w-4 h-4 mr-2" /> Collect Payment</>
+                                    )}
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    onClick={handleRazorpayPayment}
+                                    disabled={processing || razorpayLoading || feeAllocations.length === 0}
+                                    className="border-violet-400 text-violet-700 hover:bg-violet-50 dark:border-violet-600 dark:text-violet-400 dark:hover:bg-violet-950"
+                                >
+                                    {razorpayLoading ? (
+                                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Loading...</>
+                                    ) : (
+                                        <><CreditCard className="w-4 h-4 mr-2" /> Pay Online (Razorpay)</>
                                     )}
                                 </Button>
                             </div>

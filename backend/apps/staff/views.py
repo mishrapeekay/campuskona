@@ -339,6 +339,177 @@ class StaffMemberViewSet(viewsets.ModelViewSet):
             }
         })
 
+    @action(detail=False, methods=['post'])
+    def bulk_upload(self, request):
+        """
+        Bulk upload staff from Excel/CSV file (Workstream A).
+        Accepts .xlsx, .xls, .csv files.
+        """
+        import io
+        import csv
+        from openpyxl import load_workbook
+        from django.db import transaction
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+
+        file_obj = request.FILES.get('file')
+        if not file_obj:
+            return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        filename = file_obj.name.lower()
+        rows = []
+        headers = []
+
+        try:
+            if filename.endswith('.xlsx') or filename.endswith('.xls'):
+                wb = load_workbook(file_obj, read_only=True, data_only=True)
+                ws = wb.active
+                all_rows = list(ws.iter_rows(values_only=True))
+                if not all_rows:
+                    return Response({'error': 'Empty file'}, status=status.HTTP_400_BAD_REQUEST)
+                headers = [
+                    str(h).strip().lower().replace(' ', '_') if h else ''
+                    for h in all_rows[0]
+                ]
+                rows = [dict(zip(headers, row)) for row in all_rows[1:] if any(row)]
+            elif filename.endswith('.csv'):
+                content = file_obj.read().decode('utf-8-sig')
+                reader = csv.DictReader(io.StringIO(content))
+                headers = [h.strip().lower().replace(' ', '_') for h in (reader.fieldnames or [])]
+                rows = list(reader)
+            else:
+                return Response(
+                    {'error': 'Unsupported file format. Use .xlsx or .csv'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        except Exception as e:
+            return Response({'error': f'File parse error: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+
+        FIELD_MAP = {
+            'name': 'first_name', 'staff_name': 'first_name', 'first_name': 'first_name',
+            'last_name': 'last_name', 'surname': 'last_name',
+            'email': 'email',
+            'phone': 'phone_number', 'mobile': 'phone_number', 'phone_number': 'phone_number',
+            'employee_id': 'employee_id', 'staff_id': 'employee_id',
+            'joining_date': 'joining_date', 'date_of_joining': 'joining_date',
+            'designation': 'designation',
+            'employment_type': 'employment_type',
+            'gender': 'gender',
+        }
+
+        imported = 0
+        errors = []
+        warnings = []
+        schema = request.tenant.schema_name if hasattr(request, 'tenant') else 'public'
+
+        for row_idx, row in enumerate(rows, start=2):
+            mapped = {}
+            for col, val in row.items():
+                field = FIELD_MAP.get(str(col).lower().strip())
+                if field and val is not None and str(val).strip():
+                    mapped[field] = str(val).strip()
+
+            first_name = mapped.get('first_name', '')
+            if not first_name:
+                errors.append({'row': row_idx, 'error': 'Name is required'})
+                continue
+
+            employee_id = mapped.get('employee_id', '')
+            if not employee_id:
+                import uuid
+                employee_id = f'EMP-{uuid.uuid4().hex[:6].upper()}'
+                warnings.append({'row': row_idx, 'warning': f'Auto-assigned employee_id: {employee_id}'})
+
+            email = mapped.get('email') or f'staff.{employee_id.lower()}@{schema}.campuskona.internal'
+
+            try:
+                with transaction.atomic():
+                    if User.objects.filter(email=email).exists():
+                        warnings.append({'row': row_idx, 'warning': f'User {email} already exists, skipped'})
+                        continue
+
+                    user = User.objects.create(
+                        email=email,
+                        username=email,
+                        first_name=first_name,
+                        last_name=mapped.get('last_name', ''),
+                        is_active=True,
+                    )
+                    user.set_unusable_password()
+                    user.save(update_fields=['password'])
+
+                    joining_date = timezone.now().date()
+                    if mapped.get('joining_date'):
+                        from datetime import datetime as _dt
+                        for fmt in ['%Y-%m-%d', '%d-%m-%Y', '%d/%m/%Y']:
+                            try:
+                                joining_date = _dt.strptime(mapped['joining_date'], fmt).date()
+                                break
+                            except ValueError:
+                                continue
+
+                    gender_raw = mapped.get('gender', 'M').upper()
+                    gender = 'M' if gender_raw in ('M', 'MALE') else ('F' if gender_raw in ('F', 'FEMALE') else 'O')
+
+                    StaffMember.objects.create(
+                        user=user,
+                        employee_id=employee_id,
+                        first_name=first_name,
+                        last_name=mapped.get('last_name', ''),
+                        email=email,
+                        joining_date=joining_date,
+                        designation=mapped.get('designation', 'TEACHER'),
+                        employment_type=mapped.get('employment_type', 'PERMANENT'),
+                        employment_status='ACTIVE',
+                        gender=gender,
+                    )
+                    imported += 1
+            except Exception as e:
+                errors.append({'row': row_idx, 'error': str(e)})
+
+        return Response({
+            'imported': imported,
+            'total_rows': len(rows),
+            'warnings': warnings,
+            'errors': errors,
+            'message': f'Successfully imported {imported} of {len(rows)} staff members',
+        }, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], url_path='bulk_template')
+    def bulk_template(self, request):
+        """Download sample Excel template for bulk staff upload."""
+        from openpyxl import Workbook
+        from openpyxl.styles import Font, PatternFill, Alignment
+        import io
+        from django.http import HttpResponse
+
+        wb = Workbook()
+        ws = wb.active
+        ws.title = 'Staff'
+        headers = [
+            'first_name', 'last_name', 'email', 'phone_number', 'gender',
+            'employee_id', 'joining_date', 'designation', 'employment_type',
+        ]
+        header_fill = PatternFill(start_color='2E7D32', end_color='2E7D32', fill_type='solid')
+        header_font = Font(color='FFFFFF', bold=True)
+        for col_idx, header in enumerate(headers, 1):
+            cell = ws.cell(row=1, column=col_idx, value=header)
+            cell.fill = header_fill
+            cell.font = header_font
+            cell.alignment = Alignment(horizontal='center')
+            ws.column_dimensions[cell.column_letter].width = 20
+        ws.append(['Priya', 'Mehta', 'priya@school.com', '9876543210', 'F', 'EMP001', '2024-06-01', 'TEACHER', 'PERMANENT'])
+
+        buffer = io.BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+        response = HttpResponse(
+            buffer.read(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        )
+        response['Content-Disposition'] = 'attachment; filename="staff_bulk_upload_template.xlsx"'
+        return response
+
 
 class StaffDocumentViewSet(viewsets.ModelViewSet):
     """

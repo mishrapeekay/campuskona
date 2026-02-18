@@ -128,8 +128,21 @@ class FirebaseService {
         console.log('FCM Token:', token);
         store.dispatch(setFCMToken(token));
 
-        // TODO: Send token to backend for storage
-        // await notificationService.registerFCMToken(token);
+        // Workstream K: Register FCM token with backend
+        try {
+          const { Platform } = require('react-native');
+          const DeviceInfo = require('react-native-device-info');
+          const deviceId = await DeviceInfo.getUniqueId();
+          const { apiClient } = require('./api/client');
+          await apiClient.post('/communication/fcm-token/', {
+            token,
+            device_type: Platform.OS,
+            device_id: deviceId,
+          });
+          console.log('[FCM] Token registered with backend');
+        } catch (regError) {
+          console.warn('[FCM] Could not register token with backend:', regError);
+        }
 
         return token;
       }
@@ -148,8 +161,20 @@ class FirebaseService {
       console.log('FCM Token refreshed:', token);
       store.dispatch(setFCMToken(token));
 
-      // TODO: Update token on backend
-      // await notificationService.updateFCMToken(token);
+      // Workstream K: Update token on backend when refreshed
+      try {
+        const { Platform } = require('react-native');
+        const DeviceInfo = require('react-native-device-info');
+        const deviceId = await DeviceInfo.getUniqueId();
+        const { apiClient } = require('./api/client');
+        await apiClient.post('/communication/fcm-token/', {
+          token,
+          device_type: Platform.OS,
+          device_id: deviceId,
+        });
+      } catch (regError) {
+        console.warn('[FCM] Could not update token on backend:', regError);
+      }
     });
   }
 
@@ -208,8 +233,12 @@ class FirebaseService {
     messaging().onMessage(async (remoteMessage) => {
       console.log('Foreground notification received:', remoteMessage);
 
-      // Display notification using notifee
-      await this.displayNotification(remoteMessage);
+      // Workstream M: Handle attendance_absent with high-priority channel
+      if (remoteMessage.data?.type === 'attendance_absent') {
+        await this.displayAbsenceAlert(remoteMessage);
+      } else {
+        await this.displayNotification(remoteMessage);
+      }
 
       // Add to notification center in Redux
       this.addToNotificationCenter(remoteMessage);
@@ -223,9 +252,85 @@ class FirebaseService {
     messaging().setBackgroundMessageHandler(async (remoteMessage) => {
       console.log('Background notification received:', remoteMessage);
 
+      // Workstream M: Background absence alert still needs local display
+      if (remoteMessage.data?.type === 'attendance_absent') {
+        await this.displayAbsenceAlert(remoteMessage);
+      }
+
       // Add to notification center in Redux
       this.addToNotificationCenter(remoteMessage);
     });
+  }
+
+  /**
+   * Workstream M: Display high-priority absence alert notification
+   * Called when FCM data contains type === 'attendance_absent'
+   */
+  async displayAbsenceAlert(
+    remoteMessage: FirebaseMessagingTypes.RemoteMessage
+  ): Promise<void> {
+    try {
+      const { data } = remoteMessage;
+      const studentName = (data?.student_name as string) || 'Your child';
+      const date = (data?.date as string) || new Date().toLocaleDateString();
+      const schoolName = (data?.school_name as string) || 'School';
+
+      // Ensure the absence channel exists (higher importance for urgent alerts)
+      if (Platform.OS === 'android') {
+        await notifee.createChannel({
+          id: 'attendance_alerts',
+          name: 'Attendance Alerts',
+          description: 'Urgent alerts when a student is marked absent',
+          importance: AndroidImportance.HIGH,
+          sound: 'default',
+          vibration: true,
+          vibrationPattern: [0, 500, 250, 500],
+          lights: true,
+          lightColor: '#ef4444',
+        });
+      }
+
+      await notifee.displayNotification({
+        id: `absence_${data?.student_id || Date.now()}`,
+        title: `\u26A0\uFE0F Absence Alert — ${studentName}`,
+        body: `${studentName} was marked ABSENT on ${date} at ${schoolName}. Please contact the school if this is incorrect.`,
+        data: {
+          type: 'attendance_absent',
+          screen: 'AttendanceDetail',
+          student_id: data?.student_id || '',
+          date: date,
+        },
+        android: {
+          channelId: 'attendance_alerts',
+          importance: AndroidImportance.HIGH,
+          color: '#ef4444',
+          pressAction: { id: 'default', launchActivity: 'default' },
+          sound: 'default',
+          vibrationPattern: [0, 500, 250, 500],
+          actions: [
+            {
+              title: 'View Details',
+              pressAction: { id: 'view', launchActivity: 'default' },
+            },
+          ],
+        },
+        ios: {
+          sound: 'default',
+          critical: true,
+          foregroundPresentationOptions: {
+            alert: true,
+            badge: true,
+            sound: true,
+          },
+        },
+      });
+
+      console.log('[FCM] Absence alert displayed for:', studentName);
+    } catch (error) {
+      console.error('[FCM] Failed to display absence alert:', error);
+      // Fall back to generic display
+      await this.displayNotification(remoteMessage);
+    }
   }
 
   /**
@@ -335,15 +440,22 @@ class FirebaseService {
    * Handle deep link navigation from notification data
    */
   handleDeepLink(data: Record<string, any>): void {
-    // Deep link navigation will be handled by navigation service
-    // This is a placeholder - actual implementation in Phase 2
     console.log('Deep link navigation:', data);
 
-    const { screen, params } = data;
+    // Workstream M: attendance_absent tap navigates to attendance screen
+    if (data?.type === 'attendance_absent') {
+      console.log('[FCM] Navigate to attendance for student:', data.student_id, 'date:', data.date);
+      // Navigation service integration: store.dispatch(setDeepLink({screen: 'Attendance', params: data}))
+      // App reads this on mount and navigates accordingly
+      store.dispatch({
+        type: 'navigation/setPendingDeepLink',
+        payload: { screen: 'Attendance', params: { student_id: data.student_id, date: data.date } },
+      });
+      return;
+    }
 
+    const { screen, params } = data;
     if (screen) {
-      // TODO: Integrate with navigation service
-      // navigationService.navigate(screen, JSON.parse(params || '{}'));
       console.log(`Navigate to: ${screen}`, params);
     }
   }

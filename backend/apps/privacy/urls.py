@@ -13,6 +13,10 @@ from apps.privacy.views import (
     SensitiveDataAccessViewSet,
     AccessPatternAlertViewSet,
     ComplianceDashboardViewSet,
+    GenerateDPAView,
+    GeneratePrivacyNoticeView,
+    GenerateComplianceCertificateView,
+    BulkImportDPDPAuditView,
 )
 
 app_name = 'privacy'
@@ -30,4 +34,10 @@ router.register(r'dashboard', ComplianceDashboardViewSet, basename='compliance-d
 
 urlpatterns = [
     path('', include(router.urls)),
+    # Workstream D: DPDP document downloads
+    path('generate-dpa/', GenerateDPAView.as_view(), name='generate-dpa'),
+    path('generate-privacy-notice/', GeneratePrivacyNoticeView.as_view(), name='generate-privacy-notice'),
+    path('compliance-certificate/', GenerateComplianceCertificateView.as_view(), name='compliance-certificate'),
+    # Workstream H: Pre-import DPDP audit
+    path('import-audit/', BulkImportDPDPAuditView.as_view(), name='import-audit'),
 ]

@@ -562,3 +562,155 @@ class UserRoleViewSet(viewsets.ModelViewSet):
         user_role.save()
 
         return Response({'message': 'Role revoked successfully'})
+
+
+# ─────────────────────────────────────────────────────────────
+# Workstream C: OTP Login + Admission Number Login
+# ─────────────────────────────────────────────────────────────
+from rest_framework.views import APIView
+
+
+class OTPRequestView(APIView):
+    """Request OTP via SMS for phone-based login."""
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        phone = request.data.get('phone', '').strip()
+        if not phone or len(phone) < 10:
+            return Response({'error': 'Valid phone number required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        phone = phone.replace(' ', '').replace('-', '').replace('+91', '').replace('+', '')
+        phone_e164 = f'+91{phone[-10:]}'
+
+        from apps.authentication.models import OTPToken
+        token_obj, otp = OTPToken.create_for_phone(phone_e164)
+
+        # Send OTP via MSG91 (graceful degradation if not configured)
+        try:
+            from apps.communication.services.sms_service import sms_service
+            sms_service.send_otp(phone_e164)
+        except Exception as e:
+            logger.warning("OTP SMS not sent (MSG91 may not be configured): %s", str(e))
+
+        return Response({
+            'session_id': str(token_obj.session_id),
+            'message': f'OTP sent to ****{phone_e164[-4:]}',
+            'expires_in': 600,
+        }, status=status.HTTP_200_OK)
+
+
+class OTPVerifyView(APIView):
+    """Verify OTP and return JWT tokens."""
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        import uuid as _uuid
+        from apps.authentication.models import OTPToken
+
+        phone = request.data.get('phone', '').strip()
+        otp = request.data.get('otp', '').strip()
+        session_id = request.data.get('session_id', '').strip()
+
+        if not all([phone, otp, session_id]):
+            return Response({'error': 'phone, otp, and session_id are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            session_uuid = _uuid.UUID(session_id)
+            token_obj = OTPToken.objects.get(session_id=session_uuid, phone__endswith=phone[-10:])
+        except (OTPToken.DoesNotExist, ValueError):
+            return Response({'error': 'Invalid session'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not token_obj.verify(otp):
+            if token_obj.attempts >= 3:
+                return Response({'error': 'Too many attempts. Request a new OTP.'}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+            remaining = max(0, 3 - token_obj.attempts)
+            return Response({'error': f'Invalid OTP. {remaining} attempts remaining.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Find user by phone
+        user = None
+        for field in ['phone', 'mobile', 'phone_number']:
+            try:
+                user = User.objects.get(**{field: phone[-10:]})
+                break
+            except (User.DoesNotExist, Exception):
+                continue
+
+        if not user:
+            try:
+                from apps.students.models import Student
+                student = Student.objects.get(phone_number=phone[-10:])
+                user = student.user
+            except Exception:
+                pass
+
+        if not user:
+            return Response(
+                {'error': 'No account found for this phone number. Contact your school administrator.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        if not user.is_active:
+            return Response({'error': 'Account is inactive.'}, status=status.HTTP_403_FORBIDDEN)
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': {
+                'id': str(user.id),
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+            }
+        }, status=status.HTTP_200_OK)
+
+
+class AdmissionNoLoginView(APIView):
+    """Login with Admission Number + Date of Birth (for students without email)."""
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        admission_number = request.data.get('admission_number', '').strip()
+        date_of_birth = request.data.get('date_of_birth', '').strip()
+
+        if not admission_number or not date_of_birth:
+            return Response({'error': 'admission_number and date_of_birth are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        from datetime import datetime
+        dob = None
+        for fmt in ['%Y-%m-%d', '%d-%m-%Y', '%d/%m/%Y']:
+            try:
+                dob = datetime.strptime(date_of_birth, fmt).date()
+                break
+            except ValueError:
+                continue
+
+        if not dob:
+            return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            from apps.students.models import Student
+            student = Student.objects.select_related('user').get(
+                admission_number__iexact=admission_number,
+                date_of_birth=dob,
+            )
+        except Student.DoesNotExist:
+            return Response({'error': 'No student found with these credentials.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception:
+            return Response({'error': 'Login failed. Contact administrator.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        user = student.user
+        if not user or not user.is_active:
+            return Response({'error': 'Account inactive. Contact school.'}, status=status.HTTP_403_FORBIDDEN)
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': {
+                'id': str(user.id),
+                'name': f"{student.first_name} {student.last_name}".strip(),
+                'admission_number': student.admission_number,
+                'role': 'student',
+            }
+        }, status=status.HTTP_200_OK)

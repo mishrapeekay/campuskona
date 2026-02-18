@@ -31,7 +31,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
 
-  const [step, setStep] = useState('TENANT_SELECTION'); // 'TENANT_SELECTION', 'SCHOOL_LOGIN', 'PLATFORM_LOGIN'
+  const [step, setStep] = useState('TENANT_SELECTION'); // 'TENANT_SELECTION', 'SCHOOL_LOGIN', 'PLATFORM_LOGIN', 'OTP_LOGIN'
   const [schools, setSchools] = useState([]);
   const [filteredSchools, setFilteredSchools] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,6 +43,18 @@ const Login = () => {
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
+
+  // Workstream G: OTP Login state
+  const [otpMode, setOtpMode] = useState('phone'); // 'phone' | 'admission'
+  const [otpPhone, setOtpPhone] = useState('');
+  const [otpCode, setOtpCode] = useState('');
+  const [otpSessionId, setOtpSessionId] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [otpError, setOtpError] = useState('');
+  const [admissionNo, setAdmissionNo] = useState('');
+  const [admissionDob, setAdmissionDob] = useState('');
+  const [resendTimer, setResendTimer] = useState(0);
 
   // Load schools on mount
   useEffect(() => {
@@ -93,6 +105,47 @@ const Login = () => {
     localStorage.removeItem('selectedTenant');
     localStorage.removeItem('tenant_subdomain');
     setStep('PLATFORM_LOGIN');
+  };
+
+  // Workstream G: OTP handlers
+  const handleSendOTP = async () => {
+    if (otpPhone.length < 10) { setOtpError('Please enter a valid 10-digit phone number'); return; }
+    setOtpLoading(true); setOtpError('');
+    try {
+      const res = await apiClient.post('/auth/otp/request/', { phone: otpPhone });
+      setOtpSessionId(res.data.session_id);
+      setOtpSent(true);
+      setResendTimer(60);
+      const timer = setInterval(() => {
+        setResendTimer(prev => { if (prev <= 1) { clearInterval(timer); return 0; } return prev - 1; });
+      }, 1000);
+    } catch (err) {
+      setOtpError(err?.response?.data?.error || 'Failed to send OTP');
+    } finally { setOtpLoading(false); }
+  };
+
+  const handleVerifyOTP = async () => {
+    if (otpCode.length !== 6) { setOtpError('Enter the 6-digit OTP'); return; }
+    setOtpLoading(true); setOtpError('');
+    try {
+      const res = await apiClient.post('/auth/otp/verify/', { phone: otpPhone, otp: otpCode, session_id: otpSessionId });
+      dispatch(loginSuccess(res.data));
+      window.location.href = '/dashboard';
+    } catch (err) {
+      setOtpError(err?.response?.data?.error || 'Invalid OTP');
+    } finally { setOtpLoading(false); }
+  };
+
+  const handleAdmissionLogin = async () => {
+    if (!admissionNo.trim() || !admissionDob.trim()) { setOtpError('Admission number and date of birth are required'); return; }
+    setOtpLoading(true); setOtpError('');
+    try {
+      const res = await apiClient.post('/auth/admission-login/', { admission_number: admissionNo, date_of_birth: admissionDob });
+      dispatch(loginSuccess(res.data));
+      window.location.href = '/dashboard';
+    } catch (err) {
+      setOtpError(err?.response?.data?.error || 'Invalid credentials');
+    } finally { setOtpLoading(false); }
   };
 
   const handleSubmit = async (e) => {
@@ -321,6 +374,14 @@ const Login = () => {
             </Card>
 
             <div className="mt-10 flex flex-col items-center gap-6">
+              {/* Workstream G: OTP Login alternative */}
+              <button
+                onClick={() => setStep('OTP_LOGIN')}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-950/60 border border-emerald-800/50 hover:bg-emerald-900/40 transition-all text-xs font-bold text-emerald-400 uppercase tracking-widest"
+              >
+                📱 Login with Phone OTP / Admission No.
+              </button>
+
               <p className="text-xs font-medium text-slate-500">
                 Don't have an account? <span className="text-slate-200 font-bold hover:underline cursor-pointer">Contact Admin</span>
               </p>
@@ -415,6 +476,104 @@ const Login = () => {
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to School Login
+              </button>
+            </div>
+          </motion.div>
+        )}
+        {/* Workstream G: OTP / Admission Login Step */}
+        {step === 'OTP_LOGIN' && (
+          <motion.div
+            key="otp-login"
+            variants={containerVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="w-full max-w-md z-10"
+          >
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-[28px] bg-emerald-600 shadow-2xl shadow-emerald-900 mb-6">
+                <span className="text-3xl">📱</span>
+              </div>
+              <h1 className="text-3xl font-black text-white mb-2">Passwordless Login</h1>
+              <p className="text-slate-400 text-sm">Login with Phone OTP or Admission Number</p>
+            </div>
+
+            <Card className="bg-slate-900 p-7 rounded-[36px] shadow-2xl border border-slate-800">
+              {/* Mode tabs */}
+              <div className="flex rounded-xl bg-slate-800 p-1 mb-6">
+                {[['phone', '📞 Phone OTP'], ['admission', '🏫 Admission No.']].map(([m, label]) => (
+                  <button key={m} onClick={() => { setOtpMode(m); setOtpError(''); setOtpSent(false); }}
+                    className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${otpMode === m ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                  >{label}</button>
+                ))}
+              </div>
+
+              {otpError && <div className="mb-4 p-3 rounded-xl bg-red-950/50 border border-red-800/50 text-red-400 text-sm text-center">{otpError}</div>}
+
+              {otpMode === 'phone' && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Mobile Number</label>
+                    <input value={otpPhone} onChange={e => setOtpPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      placeholder="10-digit mobile number" disabled={otpSent}
+                      className="mt-1 w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                  {otpSent && (
+                    <div>
+                      <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">6-Digit OTP</label>
+                      <input value={otpCode} onChange={e => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                        placeholder="Enter OTP" maxLength={6}
+                        className="mt-1 w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-center text-2xl font-bold tracking-widest placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                  )}
+                  {!otpSent ? (
+                    <button onClick={handleSendOTP} disabled={otpLoading}
+                      className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all disabled:opacity-50"
+                    >{otpLoading ? 'Sending...' : 'Send OTP'}</button>
+                  ) : (
+                    <>
+                      <button onClick={handleVerifyOTP} disabled={otpLoading}
+                        className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all disabled:opacity-50"
+                      >{otpLoading ? 'Verifying...' : 'Verify & Login'}</button>
+                      <button onClick={resendTimer === 0 ? handleSendOTP : undefined} disabled={resendTimer > 0}
+                        className="w-full text-xs text-slate-400 hover:text-emerald-400 transition-all disabled:opacity-50 mt-1"
+                      >{resendTimer > 0 ? `Resend OTP in ${resendTimer}s` : 'Resend OTP'}</button>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {otpMode === 'admission' && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Admission Number</label>
+                    <input value={admissionNo} onChange={e => setAdmissionNo(e.target.value.toUpperCase())}
+                      placeholder="e.g. ADM2024001"
+                      className="mt-1 w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Date of Birth</label>
+                    <input value={admissionDob} onChange={e => setAdmissionDob(e.target.value)}
+                      type="date" placeholder="YYYY-MM-DD"
+                      className="mt-1 w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                  <button onClick={handleAdmissionLogin} disabled={otpLoading}
+                    className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all disabled:opacity-50"
+                  >{otpLoading ? 'Logging in...' : 'Login'}</button>
+                </div>
+              )}
+            </Card>
+
+            <div className="mt-8 flex justify-center">
+              <button onClick={() => setStep('SCHOOL_LOGIN')}
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900/50 border border-slate-800 hover:bg-slate-800 transition-all text-xs font-bold text-slate-400 uppercase tracking-widest"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Email Login
               </button>
             </div>
           </motion.div>

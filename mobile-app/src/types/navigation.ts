@@ -60,6 +60,7 @@ export type AuthStackParamList = {
   ResetPassword: { token: string; email?: string };
   EmailVerification: { email: string };
   BiometricSetup: undefined;
+  OTPLogin: undefined;
 };
 
 // ============================================================================

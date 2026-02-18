@@ -19,6 +19,9 @@ from .views import (
     PermissionViewSet,
     RoleViewSet,
     UserRoleViewSet,
+    OTPRequestView,
+    OTPVerifyView,
+    AdmissionNoLoginView,
 )
 
 app_name = 'authentication'
@@ -44,6 +47,11 @@ urlpatterns = [
     path('change-password/', change_password_view, name='change_password'),
     path('password-reset/', password_reset_request_view, name='password_reset'),
     path('password-reset/confirm/', password_reset_confirm_view, name='password_reset_confirm'),
+
+    # OTP Login (Workstream C)
+    path('otp/request/', OTPRequestView.as_view(), name='otp-request'),
+    path('otp/verify/', OTPVerifyView.as_view(), name='otp-verify'),
+    path('admission-login/', AdmissionNoLoginView.as_view(), name='admission-login'),
 
     # ViewSets
     path('', include(router.urls)),

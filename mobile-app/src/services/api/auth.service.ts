@@ -243,6 +243,36 @@ class AuthService {
     const userPermissions = await this.getUserPermissions();
     return permissions.every((permission) => userPermissions.includes(permission));
   }
+
+  // ── Workstream L: OTP + Admission login ──────────────────────────────────
+
+  /**
+   * Request an OTP for phone-based login
+   */
+  async requestOTP(phone: string): Promise<{ session_id: string; message: string }> {
+    return apiClient.post('/auth/otp/request/', { phone });
+  }
+
+  /**
+   * Verify OTP and return JWT tokens
+   */
+  async verifyOTP(phone: string, otp: string, sessionId: string): Promise<LoginResponse> {
+    return apiClient.post<LoginResponse>('/auth/otp/verify/', {
+      phone,
+      otp,
+      session_id: sessionId,
+    });
+  }
+
+  /**
+   * Login with admission number + date of birth (student self-login)
+   */
+  async admissionLogin(admissionNumber: string, dateOfBirth: string): Promise<LoginResponse> {
+    return apiClient.post<LoginResponse>('/auth/admission-login/', {
+      admission_number: admissionNumber,
+      date_of_birth: dateOfBirth,
+    });
+  }
 }
 
 export const authService = new AuthService();

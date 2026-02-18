@@ -1,8 +1,10 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
-from .models import Notice, Event, Notification
+from .models import Notice, Event, Notification, FCMToken, WhatsAppLog
 from .serializers import NoticeSerializer, EventSerializer, NotificationSerializer
 
 class NoticeViewSet(viewsets.ModelViewSet):
@@ -75,3 +77,68 @@ class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
     def mark_all_read(self, request):
         self.get_queryset().filter(is_read=False).update(is_read=True)
         return Response({'status': 'all marked as read'})
+
+
+# ─────────────────────────────────────────────────────────────
+# Workstream F: FCM Token Registration
+# ─────────────────────────────────────────────────────────────
+
+class FCMTokenView(APIView):
+    """Register/deregister FCM push notification tokens (Workstream F)."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        token = request.data.get('token')
+        device_type = request.data.get('device_type', 'android')
+        device_id = request.data.get('device_id', '')
+
+        if not token:
+            return Response({'error': 'token is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        fcm_token, created = FCMToken.objects.update_or_create(
+            user=request.user,
+            device_id=device_id,
+            defaults={
+                'token': token,
+                'device_type': device_type,
+                'is_active': True,
+            },
+        )
+        return Response({'registered': True, 'created': created}, status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        device_id = request.data.get('device_id', '')
+        FCMToken.objects.filter(user=request.user, device_id=device_id).update(is_active=False)
+        return Response({'unregistered': True}, status=status.HTTP_200_OK)
+
+
+# ─────────────────────────────────────────────────────────────
+# Workstream B: WhatsApp Send Endpoint
+# ─────────────────────────────────────────────────────────────
+
+class SendWhatsAppView(APIView):
+    """Admin endpoint to send WhatsApp messages via MSG91 (Workstream B)."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        from .services.whatsapp_service import whatsapp_service
+
+        phone = request.data.get('phone')
+        template = request.data.get('template', 'school_welcome')
+        variables = request.data.get('variables', {})
+        message_type = request.data.get('message_type', 'general')
+
+        if not phone:
+            return Response({'error': 'phone is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        result = whatsapp_service.send_template_message(phone, template, variables)
+
+        WhatsAppLog.objects.create(
+            recipient_phone=phone,
+            message_type=message_type,
+            template_name=template,
+            status='sent' if result.get('success') else 'failed',
+            response_data=result,
+        )
+
+        return Response(result)

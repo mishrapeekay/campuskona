@@ -9,6 +9,7 @@ import ForgotPasswordScreen from '@/screens/Auth/ForgotPasswordScreen';
 import ResetPasswordScreen from '@/screens/Auth/ResetPasswordScreen';
 import EmailVerificationScreen from '@/screens/Auth/EmailVerificationScreen';
 import BiometricSetupScreen from '@/screens/Auth/BiometricSetupScreen';
+import OTPLoginScreen from '@/screens/Auth/OTPLoginScreen';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
@@ -31,6 +32,7 @@ const AuthNavigator: React.FC<Props> = ({ initialRoute = 'Login' }) => {
       <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
       <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} />
       <Stack.Screen name="BiometricSetup" component={BiometricSetupScreen} />
+      <Stack.Screen name="OTPLogin" component={OTPLoginScreen} />
     </Stack.Navigator>
   );
 };

@@ -55,6 +55,45 @@ const DPDPDashboard = () => {
         }
     };
 
+    // Workstream I: Document download handlers
+    const handleDownloadDPA = () => {
+        const link = document.createElement('a');
+        link.href = `${apiClient.defaults?.baseURL || '/api/v1'}/privacy/generate-dpa/`;
+        link.setAttribute('download', 'CampusKona_DPA.pdf');
+        document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        toast.success('Downloading Data Processing Agreement...');
+    };
+
+    const handleDownloadPrivacyNotice = () => {
+        const link = document.createElement('a');
+        link.href = `${apiClient.defaults?.baseURL || '/api/v1'}/privacy/generate-privacy-notice/`;
+        link.setAttribute('download', 'CampusKona_PrivacyNotice.pdf');
+        document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        toast.success('Downloading Privacy Notice...');
+    };
+
+    const handleDownloadCertificate = async () => {
+        try {
+            const response = await fetch('/api/v1/privacy/compliance-certificate/', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                toast.error(data.error || 'Certificate not available. Ensure 80%+ consent rate.');
+                return;
+            }
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url; link.setAttribute('download', 'CampusKona_Compliance_Certificate.pdf');
+            document.body.appendChild(link); link.click();
+            window.URL.revokeObjectURL(url); document.body.removeChild(link);
+            toast.success('Compliance Certificate downloaded!');
+        } catch (err) {
+            toast.error('Failed to download certificate');
+        }
+    };
+
     const handleViewSection = async (sectionId) => {
         try {
             setSelectedSection(sectionId);
@@ -97,10 +136,22 @@ const DPDPDashboard = () => {
                         { label: 'Compliance' }
                     ]}
                     action={
-                        <Button variant="outline" onClick={fetchSummary}>
-                            <RefreshCw className="w-4 h-4 mr-2" />
-                            Refresh Stats
-                        </Button>
+                        <div className="flex gap-2 flex-wrap">
+                            {/* Workstream I: DPDP Document Downloads */}
+                            <Button variant="outline" size="sm" onClick={handleDownloadDPA} title="Download Data Processing Agreement">
+                                📄 DPA
+                            </Button>
+                            <Button variant="outline" size="sm" onClick={handleDownloadPrivacyNotice} title="Download Privacy Notice for Parents">
+                                🔒 Privacy Notice
+                            </Button>
+                            <Button variant="outline" size="sm" onClick={handleDownloadCertificate} title="Download DPDP Compliance Certificate">
+                                🏆 Certificate
+                            </Button>
+                            <Button variant="outline" onClick={fetchSummary}>
+                                <RefreshCw className="w-4 h-4 mr-2" />
+                                Refresh
+                            </Button>
+                        </div>
                     }
                 />
 
