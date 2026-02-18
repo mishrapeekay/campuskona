@@ -71,7 +71,7 @@ const NoticeBoard = () => {
         }
     }, [dispatch]);
 
-    const canCreateNotice = ['ADMIN', 'TEACHER', 'SUPER_ADMIN', 'SCHOOL_ADMIN'].includes(user?.role);
+    const canCreateNotice = ['ADMIN', 'TEACHER', 'SUPER_ADMIN', 'SCHOOL_ADMIN', 'PRINCIPAL'].includes(user?.user_type);
 
     const handleInputChange = (e) => {
         const { name, value, files } = e.target;

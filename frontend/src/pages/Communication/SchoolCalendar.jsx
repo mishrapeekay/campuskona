@@ -79,7 +79,7 @@ const SchoolCalendar = () => {
         }
     }, [dispatch]);
 
-    const canCreateEvent = ['ADMIN', 'TEACHER', 'SUPER_ADMIN', 'SCHOOL_ADMIN'].includes(user?.role);
+    const canCreateEvent = ['ADMIN', 'TEACHER', 'SUPER_ADMIN', 'SCHOOL_ADMIN', 'PRINCIPAL'].includes(user?.user_type);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
