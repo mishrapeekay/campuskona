@@ -37,7 +37,7 @@ export const deleteStaff = (id) => {
 
 // Bulk upload staff
 export const bulkUploadStaff = (file, onUploadProgress) => {
-    return uploadFile(`${STAFF_ENDPOINT}/bulk-upload/`, file, onUploadProgress);
+    return uploadFile(`${STAFF_ENDPOINT}/bulk_upload/`, file, onUploadProgress);
 };
 
 // Export staff

@@ -36,7 +36,7 @@ export const deleteStudent = (id) => {
 
 // Bulk upload students
 export const bulkUploadStudents = (file, onUploadProgress) => {
-    return uploadFile(`${STUDENTS_ENDPOINT}/bulk-upload/`, file, onUploadProgress);
+    return uploadFile(`${STUDENTS_ENDPOINT}/bulk_upload/`, file, onUploadProgress);
 };
 
 // Export students

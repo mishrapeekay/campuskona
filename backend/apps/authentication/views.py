@@ -695,7 +695,7 @@ class AdmissionNoLoginView(APIView):
                 date_of_birth=dob,
             )
         except Student.DoesNotExist:
-            return Response({'error': 'No student found with these credentials.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Invalid admission number or date of birth.'}, status=status.HTTP_401_UNAUTHORIZED)
         except Exception:
             return Response({'error': 'Login failed. Contact administrator.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
