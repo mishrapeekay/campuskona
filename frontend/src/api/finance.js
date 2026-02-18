@@ -138,9 +138,9 @@ export const getFinancialSummary = (params) => {
 
 // Razorpay Payment Gateway
 export const createRazorpayOrder = (studentFeeId) => {
-    return client.post(`${BASE_URL}/payments/create-order/`, { student_fee_id: studentFeeId });
+    return client.post(`${BASE_URL}/invoices/create_razorpay_order/`, { student_fee_id: studentFeeId });
 };
 
 export const verifyRazorpayPayment = (data) => {
-    return client.post(`${BASE_URL}/payments/verify/`, data);
+    return client.post(`${BASE_URL}/invoices/verify_razorpay_payment/`, data);
 };
