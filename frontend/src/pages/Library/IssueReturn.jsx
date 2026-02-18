@@ -45,7 +45,10 @@ import showToast, { getErrorMessage } from '../../utils/toast';
 
 const IssueReturn = () => {
     const dispatch = useDispatch();
-    const { issues, books, loading: libraryLoading } = useSelector((state) => state.library);
+    const { issues: issuesObj, books: booksObj } = useSelector((state) => state.library);
+    const issues = issuesObj?.data ?? [];
+    const books = booksObj?.data ?? [];
+    const libraryLoading = issuesObj?.loading || booksObj?.loading;
     const { list: studentsList, loading: studentsLoading } = useSelector((state) => state.students);
 
     // UI State
