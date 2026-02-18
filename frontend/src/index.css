@@ -36,7 +36,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 243 75% 59%;
     --radius: 0.75rem;
-    --sidebar-background: 222.2 84% 4.9%;
+    --sidebar-background: 243 75% 14%;
     --sidebar-foreground: 210 40% 98%;
     --chart-1: 243 75% 59%;
     --chart-2: 160 84% 39%;
@@ -72,6 +72,7 @@
     --border: 217.2 32.6% 12%;
     --input: 217.2 32.6% 12%;
     --ring: 243 75% 59%;
+    --sidebar-background: 222.2 84% 4.9%;
     --chart-1: 243 75% 65%;
     --chart-2: 160 84% 45%;
     --chart-3: 38 92% 55%;
