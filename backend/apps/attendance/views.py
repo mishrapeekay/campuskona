@@ -638,7 +638,6 @@ class StaffLeaveViewSet(viewsets.ModelViewSet):
         """Optimize queryset"""
         return self.queryset.select_related(
             'staff_member',
-            'staff_member__department',
             'approved_by'
         )
 
