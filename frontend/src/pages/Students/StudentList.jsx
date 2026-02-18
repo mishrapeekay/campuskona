@@ -170,6 +170,10 @@ const StudentList = () => {
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
+                            <Button variant="outline" onClick={() => navigate('/students/bulk-upload')}>
+                                <Upload className="w-4 h-4 mr-2" />
+                                Bulk Upload
+                            </Button>
                             <Button onClick={() => navigate('/students/new')}>
                                 <Plus className="w-4 h-4 mr-2" />
                                 Add Student
