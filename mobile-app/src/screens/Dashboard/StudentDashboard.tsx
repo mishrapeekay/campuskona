@@ -23,8 +23,10 @@ import { Card, Button, StatCard, Badge } from '@/components/ui';
 import {
   authService,
   todayViewService,
+  bffService,
 } from '@/services/api';
 import { TodayViewResponse } from '@/types/todayView';
+import { StudentDashboardData } from '@/services/api/bff.service';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 cssInterop(AnimatedView, { className: "style" });
@@ -33,6 +35,7 @@ const StudentDashboard: React.FC = () => {
   const navigation = useNavigation();
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const [data, setData] = useState<TodayViewResponse | null>(null);
+  const [bffData, setBffData] = useState<StudentDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [userName, setUserName] = useState<string>('Student');
@@ -44,6 +47,13 @@ const StudentDashboard: React.FC = () => {
       if (!user) return;
 
       setUserName(user.first_name);
+
+      // BFF aggregated data (fast path — shows upcoming exams & homework due)
+      bffService.getStudentDashboard()
+        .then((d) => setBffData(d))
+        .catch((e) => console.warn('[StudentDashboard] BFF unavailable:', e));
+
+      // Full today-view (attendance status, richer detail)
       const response = await todayViewService.getStudentToday(undefined, force);
       setData(response);
     } catch (error: any) {

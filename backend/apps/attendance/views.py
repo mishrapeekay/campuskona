@@ -164,14 +164,15 @@ class StudentAttendanceViewSet(viewsets.ModelViewSet):
         # Create or update attendance records
         created_count = 0
         updated_count = 0
-        
+        newly_absent_student_ids = []  # Track students newly marked ABSENT for alerts
+
         for record in attendance_data:
             student_id = record['student_id']
             attendance_status = record['status']
             check_in_time = record.get('check_in_time')
             check_out_time = record.get('check_out_time')
             remarks = record.get('remarks', '')
-            
+
             # Get or create attendance
             attendance, created = StudentAttendance.objects.update_or_create(
                 student_id=student_id,
@@ -186,12 +187,29 @@ class StudentAttendanceViewSet(viewsets.ModelViewSet):
                     'marked_by': request.user if request.user.is_authenticated else None
                 }
             )
-            
+
             if created:
                 created_count += 1
             else:
                 updated_count += 1
-        
+
+            # Queue absence alert for newly ABSENT students (not updates to existing)
+            if created and attendance_status == 'ABSENT':
+                newly_absent_student_ids.append(student_id)
+
+        # Fire Celery absence alert tasks (after all DB writes succeed)
+        if newly_absent_student_ids:
+            try:
+                from apps.communication.tasks import send_absence_push_alert
+                date_str = str(date)
+                for sid in newly_absent_student_ids:
+                    send_absence_push_alert.delay(sid, date_str)
+            except Exception as task_err:
+                import logging
+                logging.getLogger(__name__).warning(
+                    f"[Attendance] Could not queue absence alerts: {task_err}"
+                )
+
         return Response({
             'message': 'Attendance marked successfully',
             'created': created_count,

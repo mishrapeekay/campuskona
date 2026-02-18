@@ -23,8 +23,10 @@ import { Card, Button, StatCard, Badge } from '@/components/ui';
 import {
   authService,
   todayViewService,
+  bffService,
 } from '@/services/api';
 import { ParentTodayViewResponse } from '@/types/todayView';
+import { ParentDashboardData } from '@/services/api/bff.service';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 cssInterop(AnimatedView, { className: "style" });
@@ -32,6 +34,7 @@ cssInterop(AnimatedView, { className: "style" });
 const ParentDashboard: React.FC = () => {
   const navigation = useNavigation<any>();
   const [todayData, setTodayData] = useState<ParentTodayViewResponse | null>(null);
+  const [bffData, setBffData] = useState<ParentDashboardData | null>(null);
   const [selectedChildIndex, setSelectedChildIndex] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [userName, setUserName] = useState<string>('Parent');
@@ -48,6 +51,12 @@ const ParentDashboard: React.FC = () => {
       const user = await authService.getStoredUser();
       if (user) setUserName(user.first_name);
 
+      // BFF aggregated summary (fast, lightweight)
+      bffService.getParentDashboard()
+        .then((data) => setBffData(data))
+        .catch((e) => console.warn('[ParentDashboard] BFF unavailable:', e));
+
+      // Full today-view (richer child detail)
       const response = await todayViewService.getParentToday(force);
       setTodayData(response);
     } catch (error) {

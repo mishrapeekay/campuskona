@@ -352,6 +352,142 @@ def send_birthday_wishes_task():
         return 0
 
 
+@shared_task(bind=True, max_retries=3)
+def send_absence_push_alert(self, student_id: int, date_str: str):
+    """
+    Send FCM push + WhatsApp absence alert to parent(s) of a student.
+
+    Triggered by attendance/views.py when a student is marked ABSENT.
+
+    Args:
+        student_id: Student primary key
+        date_str: Attendance date as 'YYYY-MM-DD'
+    """
+    try:
+        from apps.students.models import Student
+        from apps.communication.models import FCMToken, WhatsAppLog
+        from apps.communication.services.whatsapp_service import whatsapp_service
+
+        student = Student.objects.select_related('user').get(id=student_id)
+        student_name = f"{student.first_name} {student.last_name}"
+        school_name = "School"
+
+        # Retrieve school name from the tenant
+        try:
+            from django.db import connection
+            from apps.tenants.models import School
+            school_obj = School.objects.filter(schema_name=connection.schema_name).first()
+            if school_obj:
+                school_name = school_obj.name
+        except Exception:
+            pass
+
+        # --- FCM push to parent devices ---
+        parent_user_ids = []
+
+        # Parents linked via guardian relationships
+        try:
+            from apps.students.models import Guardian
+            parent_user_ids = list(
+                Guardian.objects.filter(student=student)
+                .exclude(user__isnull=True)
+                .values_list('user_id', flat=True)
+            )
+        except Exception:
+            pass
+
+        # Fallback: direct parent_user FK on Student model
+        if not parent_user_ids:
+            try:
+                if student.parent_user_id:
+                    parent_user_ids = [student.parent_user_id]
+            except Exception:
+                pass
+
+        if parent_user_ids:
+            fcm_tokens = FCMToken.objects.filter(
+                user_id__in=parent_user_ids,
+                is_active=True
+            ).values_list('token', flat=True)
+
+            if fcm_tokens:
+                try:
+                    import firebase_admin
+                    from firebase_admin import messaging as fb_messaging
+
+                    if not firebase_admin._apps:
+                        import json
+                        from django.conf import settings
+                        cred_path = getattr(settings, 'FIREBASE_CREDENTIALS_PATH', None)
+                        if cred_path:
+                            cred = firebase_admin.credentials.Certificate(cred_path)
+                            firebase_admin.initialize_app(cred)
+
+                    for token in fcm_tokens:
+                        try:
+                            message = fb_messaging.Message(
+                                data={
+                                    'type': 'attendance_absent',
+                                    'student_id': str(student_id),
+                                    'student_name': student_name,
+                                    'date': date_str,
+                                    'school_name': school_name,
+                                },
+                                notification=fb_messaging.Notification(
+                                    title=f"Absence Alert — {student_name}",
+                                    body=f"{student_name} was marked ABSENT on {date_str}.",
+                                ),
+                                token=token,
+                                android=fb_messaging.AndroidConfig(
+                                    priority='high',
+                                    notification=fb_messaging.AndroidNotification(
+                                        channel_id='attendance_alerts',
+                                        color='#ef4444',
+                                    ),
+                                ),
+                                apns=fb_messaging.APNSConfig(
+                                    payload=fb_messaging.APNSPayload(
+                                        aps=fb_messaging.Aps(
+                                            sound='default',
+                                            badge=1,
+                                        )
+                                    )
+                                ),
+                            )
+                            fb_messaging.send(message)
+                        except Exception as token_err:
+                            logger.warning(f"[FCM] Failed to send to token: {token_err}")
+
+                except Exception as fcm_err:
+                    logger.warning(f"[FCM] Firebase Admin not available: {fcm_err}")
+
+        # --- WhatsApp alert to parent phone ---
+        try:
+            parent_phone = getattr(student, 'father_phone', None) or getattr(student, 'mother_phone', None)
+            if parent_phone:
+                result = whatsapp_service.send_attendance_alert(
+                    parent_phone=parent_phone,
+                    student_name=student_name,
+                    date=date_str,
+                    status='ABSENT',
+                )
+                WhatsAppLog.objects.create(
+                    recipient_phone=parent_phone,
+                    message_type='attendance_alert',
+                    status='sent' if result.get('success') else 'failed',
+                    response_data=result,
+                    student_id=student_id,
+                )
+        except Exception as wa_err:
+            logger.warning(f"[WhatsApp] Could not send absence alert: {wa_err}")
+
+        logger.info(f"[AbsenceAlert] Processed for student {student_id} on {date_str}")
+
+    except Exception as exc:
+        logger.error(f"[AbsenceAlert] Failed for student {student_id}: {exc}")
+        raise self.retry(exc=exc, countdown=60 * (2 ** self.request.retries))
+
+
 @shared_task
 def cleanup_old_notifications_task(days: int = 90):
     """

@@ -8,6 +8,7 @@ export const linking: LinkingOptions<any> = {
             Auth: {
                 screens: {
                     Login: 'login',
+                    OTPLogin: 'otp-login',
                 },
             },
             MainDrawer: {
@@ -24,6 +25,7 @@ export const linking: LinkingOptions<any> = {
                                 screens: {
                                     AcademicsHome: 'academics',
                                     AttendanceOverview: 'attendance',
+                                    AttendanceHistory: 'attendance/history',
                                     ExamList: 'exams',
                                 },
                             },

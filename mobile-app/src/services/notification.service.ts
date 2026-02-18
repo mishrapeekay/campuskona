@@ -47,24 +47,17 @@ class NotificationService {
   }
 
   /**
-   * Setup notification listeners
+   * Setup notification tap listeners (open-app handlers only).
+   *
+   * NOTE: foreground onMessage and setBackgroundMessageHandler are intentionally
+   * NOT registered here — firebase.service.ts owns those handlers to avoid the
+   * Firebase constraint of only one background handler per process.
    */
   setupListeners(
     onNotificationReceived: (notification: any) => void,
     onNotificationOpened: (notification: any) => void
   ): void {
-    // Foreground message handler
-    messaging().onMessage(async (remoteMessage) => {
-      console.log('Foreground notification received:', remoteMessage);
-      onNotificationReceived(remoteMessage);
-    });
-
-    // Background/Quit state message handler
-    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-      console.log('Background message received:', remoteMessage);
-    });
-
-    // Notification opened app from background/quit state
+    // Notification opened app from background state
     messaging().onNotificationOpenedApp((remoteMessage) => {
       console.log('Notification opened app from background:', remoteMessage);
       onNotificationOpened(remoteMessage);
@@ -80,7 +73,7 @@ class NotificationService {
         }
       });
 
-    // Token refresh listener
+    // Token refresh listener — safe to have alongside firebase.service.ts
     messaging().onTokenRefresh(async (token) => {
       console.log('FCM Token refreshed:', token);
       await AsyncStorage.setItem('fcm_token', token);

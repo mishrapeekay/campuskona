@@ -74,9 +74,29 @@ class AuthService {
   }
 
   /**
-   * Logout user
+   * Logout user — deregisters FCM token from backend before clearing session
    */
   async logout(): Promise<void> {
+    // Deregister FCM token so this device stops receiving push notifications after logout
+    try {
+      const { Platform } = require('react-native');
+      const DeviceInfo = require('react-native-device-info');
+      const deviceId = await DeviceInfo.getUniqueId();
+      await apiClient.delete('/communication/fcm-token/', {
+        data: { device_id: deviceId, device_type: Platform.OS },
+      });
+    } catch (fcmError) {
+      console.warn('[Logout] Could not deregister FCM token:', fcmError);
+    }
+
+    // Delete the local Firebase token so a fresh one is issued on next login
+    try {
+      const { default: messaging } = require('@react-native-firebase/messaging');
+      await messaging().deleteToken();
+    } catch (e) {
+      console.warn('[Logout] Could not delete local FCM token:', e);
+    }
+
     try {
       const refreshToken = await AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
       if (refreshToken) {
