@@ -24,6 +24,7 @@ import MyLibrary from './pages/Student/MyLibrary';
 import OnboardingReview from './pages/Parent/OnboardingReview';
 import AssignmentTracker from './pages/Student/AssignmentTracker';
 import AchievementsLocker from './pages/Student/AchievementsLocker';
+import StudentAttendance from './pages/Student/StudentAttendance';
 
 // Attendance Pages
 import { MarkAttendance, LeaveManagement, AttendanceReports } from './pages/Attendance';
@@ -268,6 +269,7 @@ function App() {
           <Route path="/student/library" element={<ProtectedRoute><MyLibrary /></ProtectedRoute>} />
           <Route path="/student/assignments" element={<ProtectedRoute><AssignmentTracker /></ProtectedRoute>} />
           <Route path="/student/achievements" element={<ProtectedRoute><AchievementsLocker /></ProtectedRoute>} />
+          <Route path="/student/attendance" element={<ProtectedRoute><StudentAttendance /></ProtectedRoute>} />
 
           {/* Parent Portal Routes */}
           <Route path="/parent/dashboard" element={<ProtectedRoute><FeatureGate feature="parent_portal" showUpgrade><ParentDashboard /></FeatureGate></ProtectedRoute>} />

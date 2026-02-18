@@ -45,7 +45,7 @@ export const navigationConfig = [
         name: "Students",
         href: "/students",
         icon: UsersIcon,
-        roles: ["SCHOOL_ADMIN", "PRINCIPAL", "TEACHER", "ACCOUNTANT", "LIBRARIAN"],
+        roles: ["SCHOOL_ADMIN", "PRINCIPAL", "TEACHER", "ACCOUNTANT", "LIBRARIAN", "TRANSPORT_MANAGER"],
       },
       {
         name: "Staff",
@@ -145,7 +145,7 @@ export const navigationConfig = [
         name: "Communication",
         href: "/communication/notices",
         icon: MegaphoneIcon,
-        roles: ["SCHOOL_ADMIN", "PRINCIPAL", "TEACHER", "STUDENT"],
+        roles: ["SCHOOL_ADMIN", "PRINCIPAL", "TEACHER", "STUDENT", "PARENT"],
         subItems: [
           { name: "Notice Board", href: "/communication/notices" },
           { name: "Events", href: "/communication/events" },
@@ -207,6 +207,8 @@ export const navigationConfig = [
     items: [
       { name: "My Profile", href: "/student/profile", icon: UserCircleIcon, roles: ["STUDENT"] },
       { name: "My Grades", href: "/student/grades", icon: AcademicCapIcon, roles: ["STUDENT"] },
+      { name: "Attendance", href: "/student/attendance", icon: CalendarIcon, roles: ["STUDENT"] },
+      { name: "Timetable", href: "/timetable/view", icon: DocumentTextIcon, roles: ["STUDENT"] },
       { name: "My Fees", href: "/student/fees", icon: ChartBarIcon, roles: ["STUDENT"] },
       { name: "Assignments", href: "/student/assignments", icon: ClipboardDocumentListIcon, roles: ["STUDENT"] },
       { name: "Achievements", href: "/student/achievements", icon: TrophyIcon, roles: ["STUDENT"] },
@@ -228,6 +230,7 @@ export const navigationConfig = [
         ],
       },
       { name: "Report Cards", href: "/parent/grades", icon: AcademicCapIcon, roles: ["PARENT"] },
+      { name: "Timetable", href: "/parent/timetable", icon: DocumentTextIcon, roles: ["PARENT"] },
       { name: "Assignments", href: "/parent/assignments", icon: ClipboardDocumentListIcon, roles: ["PARENT"] },
       {
         name: "Privacy & Consent",
