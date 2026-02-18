@@ -203,7 +203,8 @@ class StaffMemberListSerializer(serializers.ModelSerializer):
             'employment_type',
             'employment_status',
             'phone_number',
-            'email'
+            'email',
+            'subjects_taught',
         ]
 
     def get_full_name(self, obj):

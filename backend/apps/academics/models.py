@@ -94,6 +94,7 @@ class Subject(SoftDeleteModel):
     ]
 
     CLASS_GROUP_CHOICES = [
+        ('PRE_PRIMARY', 'Pre-Primary (LKG/UKG/Nursery)'),
         ('PRIMARY', 'Primary (Class 1-5)'),
         ('MIDDLE', 'Middle (Class 6-8)'),
         ('SECONDARY', 'Secondary (Class 9-10)'),
@@ -183,15 +184,15 @@ class Class(SoftDeleteModel):
     """
     name = models.CharField(
         max_length=50,
-        help_text='Class name: 1, 2, 3, ..., 10, 11, 12'
+        help_text='Class name: LKG, UKG, 1, 2, ..., 12'
     )
     display_name = models.CharField(
         max_length=100,
-        help_text='Display name: Class 1, Grade 1, etc.'
+        help_text='Display name: Class 1, Grade 1, LKG, etc.'
     )
     class_order = models.IntegerField(
         unique=True,
-        help_text='Order of class: 1, 2, 3, ..., 12'
+        help_text='Order of class: -2=LKG, -1=UKG, 1-12 for numbered classes'
     )
 
     # Board Configuration
@@ -199,6 +200,15 @@ class Class(SoftDeleteModel):
         Board,
         on_delete=models.CASCADE,
         related_name='classes'
+    )
+
+    # Group Classification (auto-set on save based on name/class_order)
+    class_group = models.CharField(
+        max_length=20,
+        choices=Subject.CLASS_GROUP_CHOICES,
+        blank=True,
+        db_index=True,
+        help_text='Auto-set: PRE_PRIMARY for LKG/UKG, PRIMARY for 1-5, MIDDLE for 6-8, SECONDARY for 9-10, SENIOR_SECONDARY for 11-12'
     )
 
     # Metadata
@@ -213,6 +223,46 @@ class Class(SoftDeleteModel):
 
     def __str__(self):
         return f"{self.display_name} ({self.board.board_code})"
+
+    @classmethod
+    def resolve_class_group(cls, name, class_order):
+        """
+        Determine the class group from the class name and order.
+        Name-based detection takes precedence over class_order.
+        Supports: 'LKG', 'UKG', 'Class 1', 'Class 12', '1', '12', 'Grade 5', etc.
+        """
+        import re
+        name_upper = name.upper().strip()
+        # Pre-primary by keyword
+        if any(kw in name_upper for kw in ('LKG', 'UKG', 'NURSERY', 'KG',
+                                            'PRE-PRIMARY', 'PREPRIMARY', 'PLAYGROUP')):
+            return 'PRE_PRIMARY'
+        # Extract class number from name (e.g. "Class 1" → 1, "12" → 12)
+        m = re.search(r'\b(\d{1,2})\b', name)
+        if m:
+            num = int(m.group(1))
+            if num <= 5:
+                return 'PRIMARY'
+            if num <= 8:
+                return 'MIDDLE'
+            if num <= 10:
+                return 'SECONDARY'
+            return 'SENIOR_SECONDARY'
+        # Fallback: use class_order if name has no number
+        if class_order <= 2:
+            return 'PRE_PRIMARY'
+        if class_order <= 7:
+            return 'PRIMARY'
+        if class_order <= 10:
+            return 'MIDDLE'
+        if class_order <= 12:
+            return 'SECONDARY'
+        return 'SENIOR_SECONDARY'
+
+    def save(self, *args, **kwargs):
+        # Auto-set class_group on every save
+        self.class_group = self.resolve_class_group(self.name, self.class_order)
+        super().save(*args, **kwargs)
 
 
 class Section(SoftDeleteModel):

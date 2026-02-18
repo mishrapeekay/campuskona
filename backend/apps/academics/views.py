@@ -159,7 +159,17 @@ class SubjectViewSet(viewsets.ModelViewSet):
     ordering = ['name']
 
     def get_queryset(self):
-        return Subject.objects.filter(is_deleted=False).select_related('board')
+        qs = Subject.objects.filter(is_deleted=False).select_related('board')
+        # Filter by class group when a specific class is requested
+        class_id = self.request.query_params.get('class_id')
+        if class_id:
+            try:
+                cls_obj = Class.objects.get(id=class_id, is_deleted=False)
+                if cls_obj.class_group:
+                    qs = qs.filter(class_group=cls_obj.class_group)
+            except Class.DoesNotExist:
+                pass
+        return qs
 
     def perform_create(self, serializer):
         """Create subject with audit log"""

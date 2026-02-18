@@ -44,7 +44,7 @@ from .serializers import (
     TimetableGenerationRunProgressSerializer,
     GenerationRunTriggerSerializer,
 )
-from apps.academics.models import Class, Section, AcademicYear
+from apps.academics.models import Class, Section, AcademicYear, Subject
 from apps.authentication.permissions import HasFeature
 
 
@@ -206,9 +206,22 @@ class ClassTimetableViewSet(viewsets.ModelViewSet):
         
         created_count = 0
         errors = []
-        
+        warnings = []
+
         for entry_data in timetable_data:
             try:
+                # Soft validation: warn if subject class_group doesn't match class's group
+                subject_id = entry_data.get('subject_id')
+                if subject_id and class_obj.class_group:
+                    subj = Subject.objects.filter(id=subject_id, is_deleted=False).first()
+                    if subj and subj.class_group and subj.class_group != class_obj.class_group:
+                        warnings.append(
+                            f"Subject '{subj.name}' is classified as "
+                            f"'{subj.get_class_group_display()}' but assigned to "
+                            f"'{class_obj.display_name}' ({class_obj.get_class_group_display() if hasattr(class_obj, 'get_class_group_display') else class_obj.class_group}). "
+                            f"Saved anyway — verify this is intentional."
+                        )
+
                 entry, created = ClassTimetable.objects.update_or_create(
                     academic_year=academic_year,
                     class_obj=class_obj,
@@ -216,7 +229,7 @@ class ClassTimetableViewSet(viewsets.ModelViewSet):
                     day_of_week=entry_data['day_of_week'],
                     time_slot_id=entry_data['time_slot_id'],
                     defaults={
-                        'subject_id': entry_data.get('subject_id'),
+                        'subject_id': subject_id,
                         'teacher_id': entry_data.get('teacher_id'),
                         'room_number': entry_data.get('room_number', ''),
                         'is_active': True
@@ -229,10 +242,11 @@ class ClassTimetableViewSet(viewsets.ModelViewSet):
                     'entry': entry_data,
                     'error': str(e)
                 })
-        
+
         return Response({
             'message': 'Bulk creation completed',
             'created': created_count,
+            'warnings': warnings,
             'errors': errors
         }, status=status.HTTP_201_CREATED if created_count > 0 else status.HTTP_400_BAD_REQUEST)
 

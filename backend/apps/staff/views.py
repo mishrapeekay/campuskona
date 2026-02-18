@@ -45,9 +45,12 @@ class StaffMemberViewSet(viewsets.ModelViewSet):
     ordering = ['-joining_date']
 
     def get_queryset(self):
-        """Filter out soft-deleted staff"""
-        print(f"DEBUG STAFF PARAMS: {self.request.query_params}")
+        """Filter out soft-deleted staff, with optional subject filtering for timetable."""
         queryset = StaffMember.objects.filter(is_deleted=False)
+        # Filter teachers by subject they teach (used by timetable cascade dropdown)
+        subject_id = self.request.query_params.get('subject_id')
+        if subject_id:
+            queryset = queryset.filter(subjects_taught__contains=[str(subject_id)])
         return queryset
 
     def get_serializer_class(self):
