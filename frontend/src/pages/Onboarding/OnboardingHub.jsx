@@ -8,7 +8,7 @@ import AnimatedPage from '@/ui/motion/AnimatedPage';
 import {
     Download, Upload, CheckCircle2, XCircle, AlertTriangle,
     ChevronDown, ChevronUp, ExternalLink, Loader2, FileSpreadsheet,
-    Building2, Users, UserCheck, DollarSign, Calendar, Shield, TrendingUp,
+    Building2, Users, UserCheck, IndianRupee, Calendar, Shield, TrendingUp,
     ArrowRight,
 } from 'lucide-react';
 import {
@@ -535,7 +535,7 @@ const OnboardingHub = () => {
                     {/* Step 3: Fee Structure */}
                     <StepCard
                         number="3"
-                        icon={DollarSign}
+                        icon={IndianRupee}
                         title="Fee Structure"
                         description="Define fee categories and amounts per class"
                         statusKey="fee_structure"
