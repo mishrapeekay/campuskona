@@ -55,43 +55,42 @@ const DPDPDashboard = () => {
         }
     };
 
-    // Workstream I: Document download handlers
-    const handleDownloadDPA = () => {
-        const link = document.createElement('a');
-        link.href = `${apiClient.defaults?.baseURL || '/api/v1'}/privacy/generate-dpa/`;
-        link.setAttribute('download', 'CampusKona_DPA.pdf');
-        document.body.appendChild(link); link.click(); document.body.removeChild(link);
-        toast.success('Downloading Data Processing Agreement...');
-    };
-
-    const handleDownloadPrivacyNotice = () => {
-        const link = document.createElement('a');
-        link.href = `${apiClient.defaults?.baseURL || '/api/v1'}/privacy/generate-privacy-notice/`;
-        link.setAttribute('download', 'CampusKona_PrivacyNotice.pdf');
-        document.body.appendChild(link); link.click(); document.body.removeChild(link);
-        toast.success('Downloading Privacy Notice...');
-    };
-
-    const handleDownloadCertificate = async () => {
+    // Workstream I: Document download helpers
+    const downloadPDF = async (path, filename, errorMsg) => {
         try {
-            const response = await fetch('/api/v1/privacy/compliance-certificate/', {
+            const response = await fetch(`/api/v1${path}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
             });
             if (!response.ok) {
-                const data = await response.json();
-                toast.error(data.error || 'Certificate not available. Ensure 80%+ consent rate.');
+                const data = await response.json().catch(() => ({}));
+                toast.error(data.error || errorMsg);
                 return;
             }
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.href = url; link.setAttribute('download', 'CampusKona_Compliance_Certificate.pdf');
+            link.href = url;
+            link.setAttribute('download', filename);
             document.body.appendChild(link); link.click();
             window.URL.revokeObjectURL(url); document.body.removeChild(link);
-            toast.success('Compliance Certificate downloaded!');
         } catch (err) {
-            toast.error('Failed to download certificate');
+            toast.error(errorMsg);
         }
+    };
+
+    const handleDownloadDPA = () => {
+        toast.info('Preparing Data Processing Agreement...');
+        downloadPDF('/privacy/generate-dpa/', 'CampusKona_DPA.pdf', 'Failed to download DPA');
+    };
+
+    const handleDownloadPrivacyNotice = () => {
+        toast.info('Preparing Privacy Notice...');
+        downloadPDF('/privacy/generate-privacy-notice/', 'CampusKona_PrivacyNotice.pdf', 'Failed to download Privacy Notice');
+    };
+
+    const handleDownloadCertificate = () => {
+        toast.info('Preparing Compliance Certificate...');
+        downloadPDF('/privacy/compliance-certificate/', 'CampusKona_Compliance_Certificate.pdf', 'Certificate not available. Ensure 80%+ consent rate.');
     };
 
     const handleViewSection = async (sectionId) => {

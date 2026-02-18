@@ -107,6 +107,8 @@ export const navigationConfig = [
         subItems: [
           { name: "Mark Entry", href: "/examinations/mark-entry" },
           { name: "Results", href: "/examinations/results" },
+          { name: "Report Cards", href: "/examinations/report-cards" },
+          { name: "Question Bank", href: "/examinations/question-bank" },
         ],
       },
     ],
@@ -206,6 +208,8 @@ export const navigationConfig = [
       { name: "My Profile", href: "/student/profile", icon: UserCircleIcon, roles: ["STUDENT"] },
       { name: "My Grades", href: "/student/grades", icon: AcademicCapIcon, roles: ["STUDENT"] },
       { name: "My Fees", href: "/student/fees", icon: ChartBarIcon, roles: ["STUDENT"] },
+      { name: "Assignments", href: "/student/assignments", icon: ClipboardDocumentListIcon, roles: ["STUDENT"] },
+      { name: "Achievements", href: "/student/achievements", icon: TrophyIcon, roles: ["STUDENT"] },
       { name: "Library", href: "/student/library", icon: BookOpenIcon, roles: ["STUDENT"] },
     ],
   },
@@ -224,6 +228,7 @@ export const navigationConfig = [
         ],
       },
       { name: "Report Cards", href: "/parent/grades", icon: AcademicCapIcon, roles: ["PARENT"] },
+      { name: "Assignments", href: "/parent/assignments", icon: ClipboardDocumentListIcon, roles: ["PARENT"] },
       {
         name: "Privacy & Consent",
         href: "/parent/consent",

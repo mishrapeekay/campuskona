@@ -35,7 +35,6 @@ import {
     Plus,
     Download,
     Upload,
-    Zap,
     FileSpreadsheet,
     FileText,
     Eye,

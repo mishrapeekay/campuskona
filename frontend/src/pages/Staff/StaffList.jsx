@@ -27,6 +27,12 @@ import {
     DialogDescription,
     DialogFooter,
 } from '@/ui/primitives/dialog';
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+} from '@/ui/primitives/dropdown-menu';
 import AnimatedPage from '@/ui/motion/AnimatedPage';
 import { Skeleton } from '@/ui/primitives/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/primitives/avatar';
@@ -52,8 +58,11 @@ import {
     Check,
     X,
     AlertTriangle,
-    Loader2
+    Loader2,
+    FileSpreadsheet,
+    FileText,
 } from 'lucide-react';
+import { exportStaff } from '../../utils/export';
 
 const StaffList = () => {
     const dispatch = useDispatch();
@@ -158,6 +167,15 @@ const StaffList = () => {
         }
     };
 
+    const handleExport = (format) => {
+        if (!staff || staff.length === 0) {
+            showToast.warning('No staff to export');
+            return;
+        }
+        exportStaff(staff, format);
+        showToast.success(`Exporting to ${format.toUpperCase()}...`);
+    };
+
     const getStatusVariant = (status) => {
         switch (status) {
             case 'ACTIVE': return 'success';
@@ -193,6 +211,24 @@ const StaffList = () => {
                                 <Building2 className="w-4 h-4 mr-2" />
                                 Departments
                             </Button>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline">
+                                        <Download className="w-4 h-4 mr-2" />
+                                        Export
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem onClick={() => handleExport('excel')}>
+                                        <FileSpreadsheet className="mr-2 h-4 w-4" />
+                                        Excel
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleExport('pdf')}>
+                                        <FileText className="mr-2 h-4 w-4" />
+                                        PDF
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                             <Button variant="outline" onClick={() => navigate('/staff/bulk-upload')}>
                                 <Upload className="w-4 h-4 mr-2" />
                                 Bulk Upload
