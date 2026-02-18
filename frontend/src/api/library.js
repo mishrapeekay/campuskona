@@ -12,6 +12,7 @@ export const deleteBook = (id) => client.delete(`${BASE_URL}/books/${id}/`);
 export const getIssues = (params) => client.get(`${BASE_URL}/issues/`, { params });
 export const issueBook = (bookId, studentId) => client.post(`${BASE_URL}/books/${bookId}/issue/`, { student: studentId });
 export const returnBook = (issueId) => client.post(`${BASE_URL}/issues/${issueId}/return_book/`);
+export const markFinePaid = (issueId) => client.patch(`${BASE_URL}/issues/${issueId}/`, { fine_amount: 0, remarks: 'Fine collected and cleared' });
 
 // Metadata
 export const getDashboardStats = () => client.get(`${BASE_URL}/issues/dashboard_stats/`);

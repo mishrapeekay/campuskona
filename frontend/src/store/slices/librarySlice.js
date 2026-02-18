@@ -40,6 +40,16 @@ export const issueBookThunk = createAsyncThunk('library/issueBook', async ({ boo
 export const returnBookThunk = createAsyncThunk('library/returnBook', async (issueId, { rejectWithValue }) => {
     try {
         const response = await libraryAPI.returnBook(issueId);
+        // Backend returns { success, data, message, fine_amount }
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data);
+    }
+});
+
+export const markFinePaidThunk = createAsyncThunk('library/markFinePaid', async (issueId, { rejectWithValue }) => {
+    try {
+        const response = await libraryAPI.markFinePaid(issueId);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response?.data);
@@ -87,21 +97,35 @@ const librarySlice = createSlice({
                 state.books.loading = false;
                 state.error = action.payload || 'Failed to fetch books';
             })
+            .addCase(fetchIssues.pending, (state) => { state.issues.loading = true; })
             .addCase(fetchIssues.fulfilled, (state, action) => {
                 state.issues.data = action.payload.results || action.payload;
                 state.issues.loading = false;
             })
+            .addCase(fetchIssues.rejected, (state) => { state.issues.loading = false; })
             .addCase(createBook.fulfilled, (state, action) => {
                 state.books.data.push(action.payload);
             })
             .addCase(issueBookThunk.fulfilled, (state, action) => {
-                // We'll just refresh list or push if it returns full object
-                state.issues.data.push(action.payload);
+                state.issues.data.unshift(action.payload);
             })
             .addCase(returnBookThunk.fulfilled, (state, action) => {
-                const index = state.issues.data.findIndex(i => i.id === action.payload.id);
-                if (index !== -1) {
-                    state.issues.data[index] = action.payload;
+                // payload is { success, data, message, fine_amount }
+                const returned = action.payload?.data || action.payload;
+                if (returned?.id) {
+                    const index = state.issues.data.findIndex(i => i.id === returned.id);
+                    if (index !== -1) {
+                        state.issues.data[index] = returned;
+                    }
+                }
+            })
+            .addCase(markFinePaidThunk.fulfilled, (state, action) => {
+                const updated = action.payload;
+                if (updated?.id) {
+                    const index = state.issues.data.findIndex(i => i.id === updated.id);
+                    if (index !== -1) {
+                        state.issues.data[index] = updated;
+                    }
                 }
             })
             .addCase(fetchAuthors.fulfilled, (state, action) => {
