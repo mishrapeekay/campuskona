@@ -103,6 +103,9 @@ import PayoutHistory from './pages/Partners/PayoutHistory';
 import InvestorDashboard from './pages/Analytics/InvestorDashboard';
 import GrowthMetrics from './pages/Analytics/GrowthMetrics';
 
+// Onboarding Hub
+import OnboardingHub from './pages/Onboarding/OnboardingHub';
+
 // Settings Page
 import SettingsPage from './pages/Common/SettingsPage';
 
@@ -292,6 +295,9 @@ function App() {
           {/* Analytics / Investor Routes */}
           <Route path="/analytics/investor" element={<ProtectedRoute><InvestorDashboard /></ProtectedRoute>} />
           <Route path="/analytics/growth" element={<ProtectedRoute><GrowthMetrics /></ProtectedRoute>} />
+
+          {/* Onboarding Hub */}
+          <Route path="/onboarding" element={<ProtectedRoute><OnboardingHub /></ProtectedRoute>} />
 
           {/* Settings Route */}
           <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />

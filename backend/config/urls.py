@@ -57,6 +57,7 @@ urlpatterns = [
     path('api/v1/ai-questions/', include('apps.ai_questions.urls')),
     path('api/v1/houses/', include('apps.houses.urls')),
     path('api/v1/activities/', include('apps.activities.urls')),
+    path('api/v1/onboarding/', include('apps.onboarding.urls')),
 
     # Mobile BFF
     path('api/mobile/v1/', include('apps.mobile_bff.urls')),

@@ -77,6 +77,7 @@ TENANT_APPS = (
     'apps.ai_questions',
     'apps.houses',
     'apps.activities',
+    'apps.onboarding',
 )
 
 INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]

@@ -309,6 +309,7 @@ export const navigationConfig = [
   {
     section: "System",
     items: [
+      { name: "School Setup", href: "/onboarding", icon: BoltIcon, roles: ["SCHOOL_ADMIN"] },
       { name: "Settings", href: "/settings", icon: CogIcon, roles: ["*"] },
     ],
   },
