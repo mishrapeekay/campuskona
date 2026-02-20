@@ -61,7 +61,7 @@ class MSG91Service:
             logger.error("SMS send failed to %s: %s", phone, str(e))
             return {'success': False, 'error': str(e)}
 
-    def send_otp(self, phone: str) -> dict:
+    def send_otp(self, phone: str, otp: str = None) -> dict:
         """Send OTP via MSG91 OTP API."""
         if not self.auth_key:
             logger.warning("MSG91_AUTH_KEY not configured, skipping OTP to %s", phone)
@@ -73,6 +73,9 @@ class MSG91Service:
             'mobile': phone,
             'template_id': self.otp_template_id,
         }
+        if otp:
+            params['otp'] = otp
+
         try:
             response = requests.get(
                 "https://api.msg91.com/api/v5/otp",

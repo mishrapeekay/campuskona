@@ -59,6 +59,24 @@ const AppNavigator: React.FC = () => {
     checkFirstLaunch();
   }, []);
 
+  // Sync selectedTenant to AsyncStorage for ApiClient (standalone service)
+  useEffect(() => {
+    const syncTenant = async () => {
+      if (selectedTenant) {
+        await AsyncStorage.setItem(STORAGE_KEYS.SELECTED_TENANT, JSON.stringify(selectedTenant));
+      } else {
+        await AsyncStorage.removeItem(STORAGE_KEYS.SELECTED_TENANT);
+      }
+
+      if (isSuperAdminMode) {
+        await AsyncStorage.setItem(STORAGE_KEYS.SUPER_ADMIN_MODE, 'true');
+      } else {
+        await AsyncStorage.removeItem(STORAGE_KEYS.SUPER_ADMIN_MODE);
+      }
+    };
+    syncTenant();
+  }, [selectedTenant, isSuperAdminMode]);
+
   const checkFirstLaunch = async () => {
     try {
       const hasLaunched = await AsyncStorage.getItem('@app_has_launched');

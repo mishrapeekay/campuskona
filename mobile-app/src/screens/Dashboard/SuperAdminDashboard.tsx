@@ -59,12 +59,12 @@ const SuperAdminDashboard: React.FC = () => {
       const apiStats = await tenantService.getDashboardStats();
 
       setStats({
-        total_tenants:   apiStats.total_schools    ?? 12,
-        active_tenants:  apiStats.active_schools   ?? 10,
-        total_users:     apiStats.total_users      ?? 4500,
-        total_students:  apiStats.total_students   ?? 3200,
-        monthly_revenue: apiStats.monthly_revenue  ?? 1250000,
-        system_health:   (apiStats.system_health?.toLowerCase() as any) ?? 'healthy',
+        total_tenants: apiStats.total_schools ?? 0,
+        active_tenants: apiStats.active_schools ?? 0,
+        total_users: apiStats.total_users ?? 0,
+        total_students: apiStats.total_students ?? 0,
+        monthly_revenue: apiStats.monthly_revenue ?? 0,
+        system_health: (apiStats.system_health?.toLowerCase() as any) ?? 'healthy',
       });
 
     } catch (error) {
@@ -145,30 +145,28 @@ const SuperAdminDashboard: React.FC = () => {
         {/* Core Metrics Grid */}
         <Text className="text-xl font-black text-slate-900 dark:text-slate-100 mb-4 px-1">Core Metrics</Text>
         <View className="flex-row flex-wrap justify-between gap-y-4 mb-8">
-          <StatBox icon="domain"         label="Total Schools"  value={stats.total_tenants}   color="bg-indigo-500"  delay={300} />
-          <StatBox icon="office-building" label="Active Nodes"   value={stats.active_tenants}  color="bg-emerald-500" delay={400} />
-          <StatBox icon="account-group"  label="Total Users"    value={stats.total_users}      color="bg-blue-500"    delay={500} />
-          <StatBox icon="school"         label="Students"       value={stats.total_students}   color="bg-purple-500"  delay={600} />
+          <StatBox icon="domain" label="Total Schools" value={stats.total_tenants} color="bg-indigo-500" delay={300} />
+          <StatBox icon="office-building" label="Active Nodes" value={stats.active_tenants} color="bg-emerald-500" delay={400} />
+          <StatBox icon="account-group" label="Total Users" value={stats.total_users} color="bg-blue-500" delay={500} />
+          <StatBox icon="school" label="Students" value={stats.total_students} color="bg-purple-500" delay={600} />
         </View>
 
         {/* Platform Controls */}
         <Text className="text-xl font-black text-slate-900 dark:text-slate-100 mb-4 px-1">Platform Control</Text>
         <Card className="bg-white dark:bg-slate-900 mb-8 overflow-hidden border border-slate-100 dark:border-slate-800">
-          <ActionTile icon="plus-circle"          title="Provision New School"  color="#10b981" onPress={() => goToTenants('TenantSetupWizard')} />
-          <ActionTile icon="office-building-cog"  title="Manage Tenancies"     color="#6366f1" onPress={() => goToTenants('TenantManagement')} />
-          <ActionTile icon="chart-line"           title="Platform Analytics"   color="#f59e0b" onPress={() => goToTenants('PlatformAnalytics')} />
-          <ActionTile icon="file-document-outline" title="System Audit Logs"   color="#64748b" onPress={() => goToTenants('AuditLogs')} />
-          <ActionTile icon="server-network"       title="Platform Dashboard"   color="#3b82f6" onPress={() => goToTenants('PlatformDashboard')} />
-          <ActionTile icon="cog"                  title="Platform Settings"    color="#8b5cf6" onPress={() => goToTenants('PlatformSettings')} isLast />
+          <ActionTile icon="plus-circle" title="Provision New School" color="#10b981" onPress={() => goToTenants('TenantSetupWizard')} />
+          <ActionTile icon="office-building-cog" title="Manage Tenancies" color="#6366f1" onPress={() => goToTenants('TenantManagement')} />
+          <ActionTile icon="chart-line" title="Platform Analytics" color="#f59e0b" onPress={() => goToTenants('PlatformAnalytics')} />
+          <ActionTile icon="file-document-outline" title="System Audit Logs" color="#64748b" onPress={() => goToTenants('AuditLogs')} />
+          <ActionTile icon="server-network" title="Platform Dashboard" color="#3b82f6" onPress={() => goToTenants('PlatformDashboard')} />
+          <ActionTile icon="cog" title="Platform Settings" color="#8b5cf6" onPress={() => goToTenants('PlatformSettings')} isLast />
         </Card>
 
         {/* Global Activity Feed */}
         <Text className="text-xl font-black text-slate-900 dark:text-slate-100 mb-4 px-1">Global Activity</Text>
-        <Card className="bg-white dark:bg-slate-900 p-2 border border-slate-100 dark:border-slate-800">
-          <ActivityRow icon="domain-plus"          title="New Tenant Onboarded"   subtitle="The Himalayan International School" time="2h ago"  color="#10b981" />
-          <ActivityRow icon="account-multiple-plus" title="Mass User Import"       subtitle="St. Xavier's Academy (150 users)"  time="5h ago"  color="#3b82f6" />
-          <ActivityRow icon="shield-alert"          title="Security Patch Applied" subtitle="Production Hotfix 2.4.1"           time="8h ago"  color="#ef4444" />
-          <ActivityRow icon="cash-check"            title="Revenue Settlement"     subtitle="Node-04 Monthly Payout Complete"   time="1d ago"  color="#f59e0b" isLast />
+        <Card className="bg-white dark:bg-slate-900 p-8 border border-slate-100 dark:border-slate-800 items-center justify-center">
+          <Icon name="history" size={40} color="#cbd5e1" />
+          <Text className="text-slate-400 font-bold mt-4 uppercase tracking-widest text-xs">No global activity recorded today</Text>
         </Card>
       </ScrollView>
     </ScreenWrapper>

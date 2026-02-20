@@ -41,7 +41,9 @@ class ApiClient {
             if (tenantData) {
               const tenant = JSON.parse(tenantData);
               config.headers['X-Tenant-Subdomain'] = tenant.subdomain;
-              console.log(`🏫 API Request to tenant: ${tenant.subdomain} (${tenant.school_name})`);
+              if (__DEV__) {
+                console.log(`🏫 API Request to tenant: ${tenant.subdomain} (${tenant.school_name})`);
+              }
             }
           }
         }
@@ -59,10 +61,10 @@ class ApiClient {
         return response;
       },
       async (error: AxiosError) => {
-        const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
+        const originalRequest = error.config as any;
 
         // Handle 401 Unauthorized - Token refresh
-        if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url?.endsWith('/login/')) {
+        if (error.response?.status === 401 && !originalRequest._retry) {
           if (this.isRefreshing) {
             return new Promise((resolve, reject) => {
               this.failedQueue.push({ resolve, reject });
@@ -83,40 +85,38 @@ class ApiClient {
 
           try {
             const refreshToken = await secureStorage.getRefreshToken();
+
             if (!refreshToken) {
-              // No refresh token - user needs to login again
-              await this.handleLogout();
-              this.isRefreshing = false;
-              return Promise.reject({
-                message: 'Session expired. Please login again.',
-                status: 401,
-              });
+              throw new Error('No refresh token');
             }
 
+            // Call refresh endpoint directly using axios to avoid interceptors
             const response = await axios.post(
-              `${API_CONFIG.BASE_URL}/auth/refresh/`,
-              { refresh: refreshToken },
-              { headers: API_CONFIG.HEADERS }
+              `${API_CONFIG.BASE_URL}/auth/refresh`,
+              { refresh_token: refreshToken },
+              {
+                headers: { ...API_CONFIG.HEADERS }
+              }
             );
 
-            const { access } = response.data;
-            await secureStorage.setTokens(access, refreshToken);
+            const { access_token, refresh_token: new_refresh_token } = response.data.data;
 
-            // Process failed queue
-            this.processQueue(null, access);
+            await secureStorage.setTokens(access_token, new_refresh_token);
+
+            this.processQueue(null, access_token);
 
             if (originalRequest.headers) {
-              originalRequest.headers.Authorization = `Bearer ${access}`;
+              originalRequest.headers.Authorization = `Bearer ${access_token}`;
             }
-
             return this.instance(originalRequest);
           } catch (refreshError) {
             this.processQueue(refreshError, null);
-            await this.handleLogout();
-            return Promise.reject({
-              message: 'Session expired. Please login again.',
-              status: 401,
-            });
+            await secureStorage.clearTokens();
+            // Trigger logout action in Redux
+            if (this.onLogout) {
+              this.onLogout();
+            }
+            return Promise.reject(refreshError);
           } finally {
             this.isRefreshing = false;
           }

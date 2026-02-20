@@ -13,6 +13,7 @@ import { useAppSelector } from '@/store/hooks';
 import ScreenWrapper from '@/components/layout/ScreenWrapper';
 import Header from '@/components/layout/Header';
 import { Card, Badge } from '@/components/ui';
+import { COLORS } from '@/constants';
 
 interface FinancialStats {
   daily_collection: number;
@@ -26,19 +27,26 @@ interface FinancialStats {
 const AccountantDashboard: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const [stats, setStats] = useState<FinancialStats>({
-    daily_collection: 125000,
-    pending_payments: 45,
-    total_outstanding: 2350000,
-    payments_today: 28,
-    monthly_target: 5000000,
-    monthly_collected: 3200000,
+    daily_collection: 0,
+    pending_payments: 0,
+    total_outstanding: 0,
+    payments_today: 0,
+    monthly_target: 1, // Avoid division by zero
+    monthly_collected: 0,
   });
   const [refreshing, setRefreshing] = useState(false);
-  const [userName, setUserName] = useState<string>('Accountant');
+  const [userName, setUserName] = useState<string>(user?.first_name || 'Accountant');
 
   const loadDashboardData = async () => {
     try {
-      if (user?.first_name) setUserName(user.first_name);
+      // Use fee service to get actual counts
+      const { feeService } = require('@/services/api');
+      const feesRes = await feeService.getStudentFees({ status: 'PENDING', page_size: 1 });
+
+      setStats(prev => ({
+        ...prev,
+        pending_payments: feesRes.count || 0,
+      }));
     } catch (error) {
       console.error('Error loading accountant dashboard:', error);
     }
@@ -125,11 +133,9 @@ const AccountantDashboard: React.FC = () => {
 
         {/* Recent Ledger Entries */}
         <Text className="text-xl font-black text-slate-900 dark:text-slate-100 mb-4 px-1">Recent Ledger</Text>
-        <Card className="bg-white dark:bg-slate-900 p-2 border border-slate-100 dark:border-slate-800">
-          <LedgerRow name="Rajesh Kumar" details="Class 10-A • Tuition Fee" amount="+₹12,500" time="10:30 AM" color="text-emerald-500" />
-          <LedgerRow name="Priya Sharma" details="Class 8-B • Library Fine" amount="+₹250" time="09:15 AM" color="text-emerald-500" />
-          <LedgerRow name="HDFC Bank" details="Online Portal Settlement" amount="Syncing" time="Yesterday" color="text-amber-500" />
-          <LedgerRow name="Staff Payroll" details="24 Faculty Members" amount="-₹8.4L" time="Yesterday" color="text-rose-500" isLast />
+        <Card className="bg-white dark:bg-slate-900 p-8 border border-slate-100 dark:border-slate-800 items-center justify-center">
+          <Icon name="receipt" size={48} color={COLORS.gray200} />
+          <Text className="text-slate-400 font-bold mt-4 uppercase tracking-[2px] text-xs">No transactions recorded today</Text>
         </Card>
       </ScrollView>
     </ScreenWrapper>

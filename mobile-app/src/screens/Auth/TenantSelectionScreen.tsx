@@ -4,11 +4,12 @@ import { useAppDispatch } from '@/store/hooks';
 import { setSelectedTenant, setSuperAdminMode } from '@/store/slices/tenantSlice';
 import { fetchBranding } from '@/store/slices/brandingSlice';
 import { School } from '@/types/models';
-import { COLORS, API_CONFIG } from '@/constants';
+import { COLORS, API_CONFIG, STORAGE_KEYS } from '@/constants';
 import ScreenWrapper from '@/components/layout/ScreenWrapper';
 import { Card, SearchBar, Button, EmptyState } from '@/components/ui';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated, { FadeInUp, FadeIn, FadeInDown, Layout } from 'react-native-reanimated';
 
 const TenantSelectionScreen: React.FC = () => {
@@ -56,9 +57,17 @@ const TenantSelectionScreen: React.FC = () => {
     }
   }, [searchQuery, schools]);
 
-  const handleSelectSchool = (school: School) => {
-    dispatch(setSelectedTenant(school));
-    dispatch(fetchBranding(school.subdomain));
+  const handleSelectSchool = async (school: School) => {
+    try {
+      // Persist for ApiClient (which reads directly from AsyncStorage)
+      await AsyncStorage.setItem(STORAGE_KEYS.SELECTED_TENANT, JSON.stringify(school));
+
+      // Update Redux state
+      dispatch(setSelectedTenant(school));
+      dispatch(fetchBranding(school.subdomain));
+    } catch (err) {
+      console.error('Error saving tenant:', err);
+    }
   };
 
   const handleSuperAdminAccess = () => {

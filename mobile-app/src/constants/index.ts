@@ -2,12 +2,12 @@ import { Dimensions, Platform } from 'react-native';
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: __DEV__ ? 'http://10.0.2.2:8000/api/v1' : 'https://campuskona.com/api/v1',
+  BASE_URL: __DEV__ ? 'http://10.0.2.2:8000/api/v1' : 'https://www.campuskona.com/api/v1',
   TIMEOUT: 30000,
   HEADERS: {
     'Content-Type': 'application/json',
   },
-  RAZORPAY_KEY_ID: 'rzp_test_change_this', // Should be fetched from backend config
+  RAZORPAY_KEY_ID: 'rzp_test_change_this', // TODO: Update with production key from backend or env
 };
 
 

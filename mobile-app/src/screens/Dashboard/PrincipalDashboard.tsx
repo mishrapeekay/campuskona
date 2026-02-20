@@ -33,29 +33,33 @@ const PrincipalDashboard: React.FC = () => {
     total_staff: 0,
     total_classes: 0,
     pending_approvals: 0,
-    academic_year: '2025-26',
-    board: 'CBSE',
-    grading_system: 'GPA',
+    academic_year: '...',
+    board: '...',
+    grading_system: '...',
   });
   const [refreshing, setRefreshing] = useState(false);
-  const [userName, setUserName] = useState<string>('Principal');
+  const [userName, setUserName] = useState<string>(user?.first_name || 'Principal');
 
   const loadDashboardData = async () => {
     try {
-      if (user?.first_name) setUserName(user.first_name);
+      const { staffService, admissionsService } = require('@/services/api');
 
-      const [studentsRes, classesRes] = await Promise.all([
+      const [studentsRes, classesRes, staffRes, admissionsRes] = await Promise.all([
         studentService.getStudents({ page_size: 1 }),
         academicService.getClasses({ page_size: 1 }),
+        staffService.getStaffMembers({ page_size: 1 }),
+        admissionsService.getApplications({ status: 'PENDING', page_size: 1 }),
       ]);
 
-      setStats(prev => ({
-        ...prev,
-        total_students: studentsRes.count || 850,
-        total_staff: 45,
-        total_classes: classesRes.count || 28,
-        pending_approvals: 12,
-      }));
+      setStats({
+        total_students: studentsRes.count || 0,
+        total_staff: staffRes.count || 0,
+        total_classes: classesRes.count || 0,
+        pending_approvals: admissionsRes.count || 0,
+        academic_year: '2024-25', // Should come from a settings API eventually
+        board: 'N/A',
+        grading_system: 'N/A',
+      });
 
     } catch (error) {
       console.error('Error loading principal dashboard:', error);
@@ -159,9 +163,10 @@ const PrincipalDashboard: React.FC = () => {
         {/* Recent Activity */}
         <Text className="text-lg font-black text-slate-900 dark:text-slate-100 mb-4 px-1 uppercase tracking-widest text-[10px] text-slate-400">Recent Activity</Text>
         <Card className="bg-white dark:bg-slate-900 p-2 border border-slate-100 dark:border-slate-800 mb-8">
-          <UpdateRow icon="plus-circle" title="15 New Admissions" subtitle="Awaiting administrative approval" time="10:30 AM" color="text-emerald-500" />
-          <UpdateRow icon="calendar-check" title="Exam Schedule Live" subtitle="Term 2 finals now visible to students" time="Yesterday" color="text-indigo-500" />
-          <UpdateRow icon="alert-decagram" title="3 Leave Requests" subtitle="Pending review for primary faculty" time="2 days ago" color="text-amber-500" isLast />
+          <View className="items-center py-6">
+            <Icon name="timer-sand" size={32} color={COLORS.gray300} />
+            <Text className="text-slate-400 text-xs font-bold mt-2 uppercase">No new activity today</Text>
+          </View>
         </Card>
       </ScrollView>
     </ScreenWrapper>

@@ -584,13 +584,16 @@ class OTPRequestView(APIView):
 
         from apps.authentication.models import OTPToken
         token_obj, otp = OTPToken.create_for_phone(phone_e164)
+        logger.info("OTP generated for %s: %s (session_id: %s)", phone_e164, otp, token_obj.session_id)
 
         # Send OTP via MSG91 (graceful degradation if not configured)
-        try:
-            from apps.communication.services.sms_service import sms_service
-            sms_service.send_otp(phone_e164)
-        except Exception as e:
-            logger.warning("OTP SMS not sent (MSG91 may not be configured): %s", str(e))
+        from apps.communication.services.sms_service import sms_service
+        sms_res = sms_service.send_otp(phone_e164, otp=otp)
+        
+        if not sms_res.get('success'):
+            logger.error("OTP SMS failed for %s: %s", phone_e164, sms_res.get('error'))
+            # Even if SMS fails, we return session_id so user can try again or check logs
+            # In a highly strict system, we might return an error here.
 
         return Response({
             'session_id': str(token_obj.session_id),
@@ -626,11 +629,12 @@ class OTPVerifyView(APIView):
             remaining = max(0, 3 - token_obj.attempts)
             return Response({'error': f'Invalid OTP. {remaining} attempts remaining.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Find user by phone
+        # Find user by phone (try multiple fields)
         user = None
         for field in ['phone', 'mobile', 'phone_number']:
             try:
-                user = User.objects.get(**{field: phone[-10:]})
+                # Use endswith to match last 10 digits regardless of prefix (+91, 0, etc)
+                user = User.objects.get(**{f"{field}__endswith": phone[-10:]})
                 break
             except (User.DoesNotExist, Exception):
                 continue
@@ -638,7 +642,7 @@ class OTPVerifyView(APIView):
         if not user:
             try:
                 from apps.students.models import Student
-                student = Student.objects.get(phone_number=phone[-10:])
+                student = Student.objects.get(phone_number__endswith=phone[-10:])
                 user = student.user
             except Exception:
                 pass

@@ -13,6 +13,7 @@ interface SearchBarProps {
   onChangeText: (text: string) => void;
   onClear?: () => void;
   className?: string;
+  placeholderTextColor?: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -20,7 +21,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
   value,
   onChangeText,
   onClear,
-  className
+  className,
+  placeholderTextColor,
 }) => {
   return (
     <View
@@ -34,7 +36,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
-        placeholderTextColor={COLORS.gray400}
+        placeholderTextColor={placeholderTextColor || COLORS.gray400}
         autoCapitalize="none"
         autoCorrect={false}
       />

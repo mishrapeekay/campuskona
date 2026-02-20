@@ -38,9 +38,10 @@ const TeacherDashboard = () => {
         const fetchTT = async () => {
             try {
                 const res = await getMyTimetable();
-                setTimetable(res.data || []);
+                setTimetable(Array.isArray(res.data) ? res.data : []);
             } catch (err) {
                 console.error('Failed to fetch timetable:', err);
+                setTimetable([]);
             } finally {
                 setTimetableLoading(false);
             }
@@ -49,13 +50,16 @@ const TeacherDashboard = () => {
     }, [dispatch]);
 
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
-    const todaySchedule = timetable
-        .filter(e => e.day_of_week === today || e.day === today)
-        .sort((a, b) => (a.start_time || a.time_slot?.start_time || '').localeCompare(b.start_time || b.time_slot?.start_time || ''));
+    const todaySchedule = Array.isArray(timetable)
+        ? timetable
+            .filter(e => e && (e.day_of_week === today || e.day === today))
+            .sort((a, b) => (a.start_time || a.time_slot?.start_time || '').localeCompare(b.start_time || b.time_slot?.start_time || ''))
+        : [];
 
     const now = new Date();
     const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     const isCurrentPeriod = (entry) => {
+        if (!entry) return false;
         const s = entry.start_time || entry.time_slot?.start_time;
         const e = entry.end_time || entry.time_slot?.end_time;
         return s && e && currentTime >= s && currentTime <= e;
@@ -64,13 +68,13 @@ const TeacherDashboard = () => {
     const sd = teacherStats || { total_students: 0, attendance_marked: false, today_classes_count: todaySchedule.length, assigned_class: null };
 
     const stats = [
-        { name: "Today's Classes", value: sd.today_classes_count?.toString() || todaySchedule.length.toString(), trendVal: 'View Timetable', trend: 'neutral', icon: ClockIcon, onClick: () => navigate('/timetable/view') },
-        { name: 'My Students', value: sd.total_students?.toString() || '0', trendVal: sd.assigned_class || 'View Students', trend: 'neutral', icon: UserGroupIcon, onClick: () => navigate('/students') },
+        { name: "Today's Classes", value: String(sd.today_classes_count ?? todaySchedule.length), trendVal: 'View Timetable', trend: 'neutral', icon: ClockIcon, onClick: () => navigate('/timetable/view') },
+        { name: 'My Students', value: String(sd.total_students ?? '0'), trendVal: typeof sd.assigned_class === 'string' ? sd.assigned_class : 'View Students', trend: 'neutral', icon: UserGroupIcon, onClick: () => navigate('/students') },
         { name: 'Attendance', value: sd.attendance_marked ? 'Done' : 'Pending', trendVal: sd.attendance_marked ? 'All marked' : 'Mark Now', trend: sd.attendance_marked ? 'up' : 'down', icon: sd.attendance_marked ? CheckCircleIcon : ExclamationTriangleIcon, onClick: () => navigate('/attendance/mark') },
-        { name: 'Notices', value: notices.data?.filter(n => !n.is_read).length?.toString() || '0', trendVal: 'View All', trend: 'neutral', icon: MegaphoneIcon, onClick: () => navigate('/communication/notices') },
+        { name: 'Notices', value: String(Array.isArray(notices.data) ? notices.data.filter(n => !n.is_read).length : '0'), trendVal: 'View All', trend: 'neutral', icon: MegaphoneIcon, onClick: () => navigate('/communication/notices') },
     ];
 
-    const loadingState = commLoading || statsLoading;
+    const loadingState = (notices.loading || events.loading || statsLoading) && timetableLoading;
 
     if (loadingState && timetableLoading) {
         return (
@@ -186,13 +190,13 @@ const TeacherDashboard = () => {
                                                 </div>
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex items-center gap-2">
-                                                        <p className={`text-sm font-medium ${isCurrent ? 'text-primary' : 'text-foreground'}`}>{entry.subject?.name || entry.subject_name || 'Subject'}</p>
+                                                        <p className={`text-sm font-medium ${isCurrent ? 'text-primary' : 'text-foreground'}`}>{String(entry.subject_name || entry.subject?.name || 'Subject')}</p>
                                                         {isCurrent && <Badge className="text-[10px]">Now</Badge>}
                                                     </div>
                                                     <p className="text-xs text-muted-foreground">
-                                                        {entry.section?.class_info?.name || entry.class_name || 'Class'}
-                                                        {entry.section?.name && ` - ${entry.section.name}`}
-                                                        {entry.room && ` | ${entry.room.name || entry.room}`}
+                                                        {String(entry.class_name || entry.section?.class_info?.name || 'Class')}
+                                                        {entry.section_name && ` - ${entry.section_name}`}
+                                                        {entry.room_number && ` | ${entry.room_number}`}
                                                     </p>
                                                 </div>
                                                 <Badge variant="secondary" className="text-[10px]">P{entry.period || idx + 1}</Badge>
@@ -208,27 +212,33 @@ const TeacherDashboard = () => {
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle>Upcoming Events</CardTitle>
-                            <button onClick={() => navigate('/communication/events')} className="text-xs text-primary hover:underline">View all</button>
+                            <button onClick={() => navigate('/communication/events')} className="text-xs text-primary font-bold hover:underline">View all</button>
                         </CardHeader>
                         <CardContent>
-                            {events.data?.length === 0 ? (
+                            {!Array.isArray(events.data) || events.data.length === 0 ? (
                                 <div className="text-center py-8">
                                     <CalendarIcon className="h-12 w-12 mx-auto mb-2 text-muted-foreground/30" />
                                     <p className="text-sm text-muted-foreground">No upcoming events.</p>
                                 </div>
                             ) : (
                                 <div className="space-y-3">
-                                    {events.data?.slice(0, 5).map(ev => (
+                                    {events.data.slice(0, 5).map(ev => (
                                         <div key={ev.id} className="flex items-center gap-3 rounded-xl bg-muted/30 p-3">
                                             <div className="shrink-0 w-12 text-center">
-                                                <div className="text-[10px] font-bold text-destructive uppercase">{new Date(ev.start_date).toLocaleString('default', { month: 'short' })}</div>
-                                                <div className="text-lg font-bold text-foreground">{new Date(ev.start_date).getDate()}</div>
+                                                <div className="text-[10px] font-bold text-destructive uppercase">
+                                                    {ev.start_date ? new Date(ev.start_date).toLocaleString('default', { month: 'short' }) : ''}
+                                                </div>
+                                                <div className="text-lg font-bold text-foreground">
+                                                    {ev.start_date ? new Date(ev.start_date).getDate() : ''}
+                                                </div>
                                             </div>
                                             <div className="min-w-0 flex-1">
-                                                <p className="text-sm font-medium text-foreground">{ev.title}</p>
-                                                <p className="text-xs text-muted-foreground">{new Date(ev.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                                <p className="text-sm font-medium text-foreground">{String(ev.title || '')}</p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {ev.start_date ? new Date(ev.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
+                                                </p>
                                             </div>
-                                            {ev.event_type && <Badge variant="secondary">{ev.event_type}</Badge>}
+                                            {ev.event_type && <Badge variant="secondary">{String(ev.event_type)}</Badge>}
                                         </div>
                                     ))}
                                 </div>
@@ -273,17 +283,17 @@ const TeacherDashboard = () => {
                 <Card>
                     <CardHeader><CardTitle>Recent Notices</CardTitle></CardHeader>
                     <CardContent>
-                        {notices.data?.length === 0 ? (
+                        {!Array.isArray(notices.data) || notices.data.length === 0 ? (
                             <p className="text-center py-4 text-sm text-muted-foreground">No recent notices.</p>
                         ) : (
                             <div className="space-y-2">
-                                {notices.data?.slice(0, 3).map(n => (
+                                {notices.data.slice(0, 3).map(n => (
                                     <div key={n.id} onClick={() => navigate('/communication/notices')} className="flex items-start gap-3 rounded-lg bg-muted/30 p-3 cursor-pointer hover:bg-muted/50 transition-colors">
                                         <div className="min-w-0 flex-1">
-                                            <p className="text-sm font-medium text-foreground">{n.title}</p>
-                                            <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{n.content}</p>
+                                            <p className="text-sm font-medium text-foreground">{String(n.title || '')}</p>
+                                            <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{String(n.content || '')}</p>
                                         </div>
-                                        <span className="shrink-0 text-xs text-muted-foreground">{new Date(n.created_at).toLocaleDateString()}</span>
+                                        <span className="shrink-0 text-xs text-muted-foreground">{n.created_at ? new Date(n.created_at).toLocaleDateString() : ''}</span>
                                     </div>
                                 ))}
                             </div>

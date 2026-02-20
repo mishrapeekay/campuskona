@@ -13,6 +13,7 @@ import { useAppSelector } from '@/store/hooks';
 import ScreenWrapper from '@/components/layout/ScreenWrapper';
 import Header from '@/components/layout/Header';
 import { Card, Badge } from '@/components/ui';
+import { COLORS } from '@/constants';
 
 interface TransportStats {
   active_routes: number;
@@ -26,21 +27,29 @@ interface TransportStats {
 const TransportManagerDashboard: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const [stats, setStats] = useState<TransportStats>({
-    active_routes: 12,
-    total_vehicles: 15,
-    vehicles_on_duty: 12,
-    students_using_transport: 420,
-    todays_trips: 24,
-    maintenance_due: 3,
+    active_routes: 0,
+    total_vehicles: 0,
+    vehicles_on_duty: 0,
+    students_using_transport: 0,
+    todays_trips: 0,
+    maintenance_due: 0,
   });
   const [refreshing, setRefreshing] = useState(false);
-  const [userName, setUserName] = useState<string>('Transport Manager');
+  const [userName, setUserName] = useState<string>(user?.first_name || 'Transport Manager');
 
   const loadDashboardData = async () => {
     try {
-      if (user?.first_name) setUserName(user.first_name);
+      const { transportService } = require('@/services/api');
+      const routesRes = await transportService.getRoutes({ page_size: 1 });
+      const vehiclesRes = await transportService.getVehicles({ page_size: 1 });
+
+      setStats(prev => ({
+        ...prev,
+        active_routes: routesRes.count || 0,
+        total_vehicles: vehiclesRes.count || 0,
+      }));
     } catch (error) {
-      console.error('Error loading transport manager dashboard:', error);
+      console.error('Error loading transport dashboard:', error);
     }
   };
 
@@ -66,7 +75,7 @@ const TransportManagerDashboard: React.FC = () => {
         {/* Manager Header */}
         <Animated.View entering={FadeInUp.duration(600)} className="mb-6">
           <Text className="text-3xl font-black text-slate-900 dark:text-slate-100">Welcome, {userName}</Text>
-          <Text className="text-slate-500 font-medium text-sm mt-1">{stats.vehicles_on_duty} of {stats.total_vehicles} vehicles are currently on duty</Text>
+          <Text className="text-slate-500 font-medium text-sm mt-1">{stats.vehicles_on_duty} of {stats.total_vehicles} vehicles currently trackable</Text>
         </Animated.View>
 
         {/* Live Operations Banner */}

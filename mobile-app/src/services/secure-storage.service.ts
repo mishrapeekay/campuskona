@@ -3,11 +3,43 @@ import * as Keychain from 'react-native-keychain';
 import { STORAGE_KEYS } from '@/constants';
 
 class SecureStorageService {
+    private accessTokenCache: string | null = null;
+    private refreshTokenCache: string | null = null;
+    private isCacheLoaded: boolean = false;
+
+    /**
+     * Load tokens from storage into memory cache
+     */
+    private async loadFromStorage(): Promise<void> {
+        try {
+            const credentials = await Keychain.getGenericPassword({ service: 'auth_service' });
+            if (credentials && credentials.password) {
+                const tokens = JSON.parse(credentials.password);
+                this.accessTokenCache = tokens.accessToken || null;
+                this.refreshTokenCache = tokens.refreshToken || null;
+            } else {
+                this.accessTokenCache = null;
+                this.refreshTokenCache = null;
+            }
+        } catch (error) {
+            // Ignore "No entry found" errors usually implies empty storage or first run
+            this.accessTokenCache = null;
+            this.refreshTokenCache = null;
+        } finally {
+            this.isCacheLoaded = true;
+        }
+    }
+
     /**
      * Set authentication tokens securely
      */
     async setTokens(accessToken: string, refreshToken: string): Promise<boolean> {
         try {
+            // Update memory cache
+            this.accessTokenCache = accessToken;
+            this.refreshTokenCache = refreshToken;
+            this.isCacheLoaded = true;
+
             // We store both tokens as a JSON string in the password field
             // The username can be a fixed identifier
             const tokens = JSON.stringify({ accessToken, refreshToken });
@@ -26,34 +58,20 @@ class SecureStorageService {
      * Get access token
      */
     async getAccessToken(): Promise<string | null> {
-        try {
-            const credentials = await Keychain.getGenericPassword({ service: 'auth_service' });
-            if (credentials && credentials.password) {
-                const tokens = JSON.parse(credentials.password);
-                return tokens.accessToken;
-            }
-            return null;
-        } catch (error) {
-            console.error('SecureStorage: Error getting access token', error);
-            return null;
+        if (!this.isCacheLoaded) {
+            await this.loadFromStorage();
         }
+        return this.accessTokenCache;
     }
 
     /**
      * Get refresh token
      */
     async getRefreshToken(): Promise<string | null> {
-        try {
-            const credentials = await Keychain.getGenericPassword({ service: 'auth_service' });
-            if (credentials && credentials.password) {
-                const tokens = JSON.parse(credentials.password);
-                return tokens.refreshToken;
-            }
-            return null;
-        } catch (error) {
-            console.error('SecureStorage: Error getting refresh token', error);
-            return null;
+        if (!this.isCacheLoaded) {
+            await this.loadFromStorage();
         }
+        return this.refreshTokenCache;
     }
 
     /**
@@ -61,6 +79,11 @@ class SecureStorageService {
      */
     async clearTokens(): Promise<boolean> {
         try {
+            // Clear cache
+            this.accessTokenCache = null;
+            this.refreshTokenCache = null;
+            this.isCacheLoaded = true;
+
             await Keychain.resetGenericPassword({ service: 'auth_service' });
             return true;
         } catch (error) {

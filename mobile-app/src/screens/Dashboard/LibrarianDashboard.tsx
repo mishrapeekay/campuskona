@@ -13,6 +13,7 @@ import { useAppSelector } from '@/store/hooks';
 import ScreenWrapper from '@/components/layout/ScreenWrapper';
 import Header from '@/components/layout/Header';
 import { Card, Badge } from '@/components/ui';
+import { COLORS } from '@/constants';
 
 interface LibraryStats {
   books_issued_today: number;
@@ -26,19 +27,24 @@ interface LibraryStats {
 const LibrarianDashboard: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const [stats, setStats] = useState<LibraryStats>({
-    books_issued_today: 15,
-    overdue_books: 23,
-    total_books: 3500,
-    available_books: 2890,
-    books_returned_today: 12,
-    pending_reservations: 8,
+    books_issued_today: 0,
+    overdue_books: 0,
+    total_books: 0,
+    available_books: 0,
+    books_returned_today: 0,
+    pending_reservations: 0,
   });
   const [refreshing, setRefreshing] = useState(false);
-  const [userName, setUserName] = useState<string>('Librarian');
+  const [userName, setUserName] = useState<string>(user?.first_name || 'Librarian');
 
   const loadDashboardData = async () => {
     try {
-      if (user?.first_name) setUserName(user.first_name);
+      const { libraryService } = require('@/services/api');
+      const libraryRes = await libraryService.getBooks({ page_size: 1 });
+      setStats(prev => ({
+        ...prev,
+        total_books: libraryRes.count || 0,
+      }));
     } catch (error) {
       console.error('Error loading librarian dashboard:', error);
     }
@@ -134,11 +140,9 @@ const LibrarianDashboard: React.FC = () => {
 
         {/* Recent Circulation */}
         <Text className="text-xl font-black text-slate-900 dark:text-slate-100 mb-4 px-1">Recent Circulation</Text>
-        <Card className="bg-white dark:bg-slate-900 p-2 border border-slate-100 dark:border-slate-800">
-          <ActivityRow icon="book-arrow-up" title="Book Issued" subtitle="To Kill a Mockingbird • Priya S." time="15m ago" color="text-emerald-500" />
-          <ActivityRow icon="book-arrow-down" title="Book Returned" subtitle="1984 • Rahul K." time="1h ago" color="text-blue-500" />
-          <ActivityRow icon="book-clock" title="New Reservation" subtitle="Harry Potter • Amit P." time="2h ago" color="text-amber-500" />
-          <ActivityRow icon="plus-box" title="Catalog Updated" subtitle="24 New Science journals" time="Yesterday" color="text-indigo-500" isLast />
+        <Card className="bg-white dark:bg-slate-900 p-8 border border-slate-100 dark:border-slate-800 items-center justify-center">
+          <Icon name="book-clock" size={40} color={COLORS.gray200} />
+          <Text className="text-slate-400 font-bold mt-4 uppercase tracking-widest text-xs">No activity recorded today</Text>
         </Card>
       </ScrollView>
     </ScreenWrapper>

@@ -9,6 +9,7 @@ import {
 import { LoginResponse, User, Role, Permission } from '@/types/models';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '@/constants';
+import { secureStorage } from '@/services/secure-storage.service';
 
 class AuthService {
   /**
@@ -21,9 +22,8 @@ class AuthService {
 
     const response = await apiClient.post<LoginResponse>('/auth/login/', payload);
 
-    // Store tokens
-    await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.access);
-    await AsyncStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, response.refresh);
+    // Store tokens SECURELY
+    await secureStorage.setTokens(response.access, response.refresh);
 
     // Store user data
     await AsyncStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(response.user));
@@ -63,9 +63,8 @@ class AuthService {
   async register(userData: RegisterRequest): Promise<LoginResponse> {
     const response = await apiClient.post<LoginResponse>('/auth/register/', userData);
 
-    // Store tokens
-    await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.access);
-    await AsyncStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, response.refresh);
+    // Store tokens SECURELY
+    await secureStorage.setTokens(response.access, response.refresh);
 
     // Store user data
     await AsyncStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(response.user));
@@ -98,7 +97,7 @@ class AuthService {
     }
 
     try {
-      const refreshToken = await AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+      const refreshToken = await secureStorage.getRefreshToken();
       if (refreshToken) {
         await apiClient.post('/auth/logout/', { refresh: refreshToken });
       }
@@ -106,28 +105,34 @@ class AuthService {
       console.error('Logout error:', error);
     } finally {
       // Clear all stored data
+      await secureStorage.clearTokens();
       await AsyncStorage.multiRemove([
-        STORAGE_KEYS.ACCESS_TOKEN,
-        STORAGE_KEYS.REFRESH_TOKEN,
         STORAGE_KEYS.USER_DATA,
+        STORAGE_KEYS.ACCESS_TOKEN, // Clean up legacy keys if they exist
+        STORAGE_KEYS.REFRESH_TOKEN // Clean up legacy keys if they exist
       ]);
     }
   }
 
   /**
    * Refresh access token
+   * Note: The client interceptor usually handles this, but explicit calls need this too.
    */
   async refreshToken(token?: string): Promise<string> {
-    const refreshToken = token || await AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+    const refreshToken = token || await secureStorage.getRefreshToken();
     if (!refreshToken) {
       throw new Error('Session expired. Please login again.');
     }
 
-    const response = await apiClient.post<{ access: string }>('/auth/refresh/', {
+    const response = await apiClient.post<{ access: string; refresh?: string }>('/auth/refresh/', {
       refresh: refreshToken,
     });
 
-    await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.access);
+    // Determine the new refresh token (use existing if not returned)
+    const newRefresh = response.refresh || refreshToken;
+
+    // Update secure storage
+    await secureStorage.setTokens(response.access, newRefresh);
 
     return response.access;
   }

@@ -138,7 +138,7 @@ const PaymentGatewayScreen: React.FC = () => {
         description: `Fee Payment: ${feeItem.fee_type}`,
         image: 'https://i.imgur.com/3g7nmJC.png', // Replace with school logo
         currency: 'INR',
-        key: API_CONFIG.RAZORPAY_KEY_ID,
+        key: order.key_id || API_CONFIG.RAZORPAY_KEY_ID,
         amount: order.amount,
         name: 'School Management System',
         order_id: order.id,
