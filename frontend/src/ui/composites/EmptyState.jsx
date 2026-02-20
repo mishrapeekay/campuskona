@@ -1,3 +1,4 @@
+import React from "react";
 import { cn } from "@/ui/lib/utils";
 import { Button } from "@/ui/primitives/button";
 import { InboxIcon } from "lucide-react";
@@ -28,7 +29,11 @@ export default function EmptyState({
       )}
     >
       <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-muted mb-4">
-        {icon || <InboxIcon className="h-8 w-8 text-muted-foreground" />}
+        {icon
+          ? (React.isValidElement(icon)
+            ? icon
+            : React.createElement(icon, { className: "h-8 w-8 text-muted-foreground" }))
+          : <InboxIcon className="h-8 w-8 text-muted-foreground" />}
       </div>
       <h3 className="text-lg font-semibold">{title}</h3>
       {description && (

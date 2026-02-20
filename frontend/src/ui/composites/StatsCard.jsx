@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpIcon, ArrowDownIcon, MinusIcon } from "lucide-react";
 import { cn } from "@/ui/lib/utils";
@@ -64,9 +65,11 @@ export default function StatsCard({
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
           {icon && (
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              {typeof icon === 'function'
-                ? (() => { const Icon = icon; return <Icon className="h-5 w-5" />; })()
-                : icon}
+              {React.isValidElement(icon) ? (
+                icon
+              ) : (
+                React.createElement(icon, { className: "h-5 w-5" })
+              )}
             </div>
           )}
         </div>
