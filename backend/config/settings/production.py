@@ -68,13 +68,16 @@ MIDDLEWARE = [
     'apps.core.middleware.TenantPrometheusAfterMiddleware',
 ]
 
-CSP_DEFAULT_SRC = ("'self'",)
-CSP_SCRIPT_SRC = ("'self'",)
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")  # unsafe-inline needed for some UI libs
-CSP_IMG_SRC = ("'self'", "data:", "blob:")
-CSP_FONT_SRC = ("'self'",)
-CSP_CONNECT_SRC = ("'self'",)
-CSP_FRAME_ANCESTORS = ("'none'",)
+CSP_DEFAULT_SRC = ("'self'", "https:")
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", "https:")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https:")  # unsafe-inline needed for some UI libs
+CSP_IMG_SRC = ("'self'", "data:", "blob:", "https:")
+CSP_FONT_SRC = ("'self'", "data:", "https:")
+CSP_CONNECT_SRC = ("'self'", "https:")
+CSP_FRAME_ANCESTORS = ("'self'",)
+
+# Override X_FRAME_OPTIONS from base.py to allow admin popups
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Database - Must be configured via environment variables
 DATABASES['default'] = {
