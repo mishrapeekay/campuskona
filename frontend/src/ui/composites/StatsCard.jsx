@@ -75,21 +75,23 @@ export default function StatsCard({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1 }}
         >
-          <p className="mt-2 text-2xl font-bold tracking-tight">{value}</p>
+          <p className="mt-2 text-2xl font-bold tracking-tight">
+            {typeof value === 'object' && value !== null && value.$$typeof ? value : String(value ?? '')}
+          </p>
+          {(description || trendValue) && (
+            <div className="mt-2 flex items-center gap-2">
+              {trendValue && (
+                <span className={cn("flex items-center gap-0.5 font-medium", trendColors[trend])}>
+                  <TrendIcon className="h-3 w-3" />
+                  {typeof trendValue === 'object' && trendValue !== null && trendValue.$$typeof ? trendValue : String(trendValue ?? '')}
+                </span>
+              )}
+              {description && (
+                <span className="text-muted-foreground">{String(description ?? '')}</span>
+              )}
+            </div>
+          )}
         </motion.div>
-        {(description || trendValue) && (
-          <div className="mt-1 flex items-center gap-1.5 text-xs">
-            {trendValue && (
-              <span className={cn("flex items-center gap-0.5 font-medium", trendColors[trend])}>
-                <TrendIcon className="h-3 w-3" />
-                {trendValue}
-              </span>
-            )}
-            {description && (
-              <span className="text-muted-foreground">{description}</span>
-            )}
-          </div>
-        )}
       </CardContent>
     </Card>
   );
